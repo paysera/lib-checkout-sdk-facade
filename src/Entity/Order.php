@@ -1,0 +1,136 @@
+<?php
+
+namespace Paysera\CheckoutSdk\Entity;
+
+class Order
+{
+    private int $orderId;
+    private string $currency;
+    private float $amount;
+    private ?string $paymentFirstName = null;
+    private ?string $paymentLastName = null;
+    private ?string $paymentEmail = null;
+    private ?string $paymentStreet = null;
+    private ?string $paymentCity = null;
+    private ?string $paymentState = null;
+    private ?string $paymentZip = null;
+    private ?string $paymentCountryCode = null;
+
+    public function __construct(int $orderId, float $amount, string $currency)
+    {
+        $this->orderId = $orderId;
+        $this->amount = $amount;
+        $this->currency = strtoupper($currency);
+    }
+
+    public function getOrderId(): int
+    {
+        return $this->orderId;
+    }
+
+    public function getAmount(): ?float
+    {
+        return $this->amount;
+    }
+
+    public function getCurrency(): ?string
+    {
+        return $this->currency;
+    }
+
+    public function getPaymentFirstName(): ?string
+    {
+        return $this->paymentFirstName;
+    }
+
+    public function setPaymentFirstName(string $paymentFirstName): self
+    {
+        $this->paymentFirstName = $paymentFirstName;
+
+        return $this;
+    }
+
+    public function getPaymentLastName(): ?string
+    {
+        return $this->paymentLastName;
+    }
+
+    public function setPaymentLastName(string $paymentLastName): self
+    {
+        $this->paymentLastName = $paymentLastName;
+
+        return $this;
+    }
+
+    public function getPaymentEmail(): ?string
+    {
+        return $this->paymentEmail;
+    }
+
+    public function setPaymentEmail(string $paymentEmail): self
+    {
+        $this->paymentEmail = $paymentEmail;
+
+        return $this;
+    }
+
+    public function getPaymentStreet(): ?string
+    {
+        return $this->paymentStreet;
+    }
+
+    public function setPaymentStreet(string $paymentStreet): self
+    {
+        $this->paymentStreet = $paymentStreet;
+
+        return $this;
+    }
+
+    public function getPaymentCity(): ?string
+    {
+        return $this->paymentCity;
+    }
+
+    public function setPaymentCity(string $paymentCity): self
+    {
+        $this->paymentCity = $paymentCity;
+
+        return $this;
+    }
+
+    public function getPaymentState(): ?string
+    {
+        return $this->paymentState;
+    }
+
+    public function setPaymentState(string $paymentState): self
+    {
+        $this->paymentState = $paymentState;
+
+        return $this;
+    }
+
+    public function getPaymentZip(): ?string
+    {
+        return $this->paymentZip;
+    }
+
+    public function setPaymentZip(string $paymentZip): self
+    {
+        $this->paymentZip = $paymentZip;
+
+        return $this;
+    }
+
+    public function getPaymentCountryCode(): ?string
+    {
+        return $this->paymentCountryCode;
+    }
+
+    public function setPaymentCountryCode(string $paymentCountryCode): self
+    {
+        $this->paymentCountryCode = $paymentCountryCode;
+
+        return $this;
+    }
+}
