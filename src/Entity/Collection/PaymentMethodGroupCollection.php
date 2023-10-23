@@ -21,13 +21,13 @@ class PaymentMethodGroupCollection extends Collection
         $this->appendToCollection($value);
     }
 
-    public function set($key, PaymentMethodGroup $value): void
-    {
-        $this->setToCollection($key, $value);
-    }
-
-    public function current(): PaymentMethodGroup
+    public function current(): ?PaymentMethodGroup
     {
         return parent::current();
+    }
+
+    protected function getItemType(): string
+    {
+        return PaymentMethodGroup::class;
     }
 }

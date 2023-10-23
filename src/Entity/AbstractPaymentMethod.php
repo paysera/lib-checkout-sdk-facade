@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Paysera\CheckoutSdk\Entity;
 
 use Paysera\CheckoutSdk\Entity\Collection\TranslationCollection;

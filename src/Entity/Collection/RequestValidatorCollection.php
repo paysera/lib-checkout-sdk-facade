@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Paysera\CheckoutSdk\Entity\Collection;
 
 use Paysera\CheckoutSdk\Entity\RequestInterface;
@@ -33,8 +35,13 @@ class RequestValidatorCollection extends Collection implements RequestValidatorI
         }
     }
 
-    public function current(): RequestValidatorInterface
+    public function current(): ?RequestValidatorInterface
     {
         return parent::current();
+    }
+
+    protected function getItemType(): string
+    {
+        return RequestValidatorInterface::class;
     }
 }

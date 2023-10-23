@@ -18,7 +18,9 @@ class TranslationCollection extends Collection
 
     public function getByLanguage(string $language): ?Translation
     {
-        return $this->getByGetter($language, 'getLanguage');
+        return $this->filter(
+            static fn(Translation $translation) => $translation->getLanguage() === $language
+        )->current();
     }
 
     public function append(Translation $value): void
@@ -26,13 +28,13 @@ class TranslationCollection extends Collection
         $this->appendToCollection($value);
     }
 
-    public function set($key, Translation $value): void
-    {
-        $this->setToCollection($key, $value);
-    }
-
-    public function current(): Translation
+    public function current(): ?Translation
     {
         return parent::current();
+    }
+
+    protected function getItemType(): string
+    {
+        return Translation::class;
     }
 }

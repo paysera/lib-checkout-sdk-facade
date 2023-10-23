@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Paysera\CheckoutSdk\Entity;
 
-final class PaymentRedirectRequest implements RequestInterface
+class PaymentRedirectRequest implements RequestInterface
 {
     private int $projectId;
     private string $projectPassword;

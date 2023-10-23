@@ -18,7 +18,21 @@ class PaymentMethodCountryCollection extends Collection
 
     public function getByCode(string $code): ?PaymentMethodCountry
     {
-        return $this->getByGetter($code, 'getCode');
+        return $this->filter(
+            static fn(PaymentMethodCountry $paymentMethodCountry) => $paymentMethodCountry->getCode() === $code
+        )->current();
+    }
+
+    public function filterByCountryCodes(array $selectedCountries): self
+    {
+        $selectedCountriesLowercase = array_map('strtolower', $selectedCountries);
+        return $this->filter(
+            static fn(PaymentMethodCountry $country) => in_array(
+                strtolower($country->getCode()),
+                $selectedCountriesLowercase,
+                true
+            )
+        );
     }
 
     public function append(PaymentMethodCountry $value): void
@@ -26,13 +40,13 @@ class PaymentMethodCountryCollection extends Collection
         $this->appendToCollection($value);
     }
 
-    public function set($key, PaymentMethodCountry $value): void
-    {
-        $this->setToCollection($key, $value);
-    }
-
-    public function current(): PaymentMethodCountry
+    public function current(): ?PaymentMethodCountry
     {
         return parent::current();
+    }
+
+    protected function getItemType(): string
+    {
+        return PaymentMethodCountry::class;
     }
 }

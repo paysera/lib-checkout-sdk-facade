@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Paysera\CheckoutSdk\Provider\WebToPay\Adapter;
 
 use Paysera\CheckoutSdk\Entity\Order;
@@ -18,7 +20,6 @@ class PaymentValidationResponseAdapter
             'requestid' => 'requestId',
             'name' => 'name',
             'surename' => 'sureName',
-            'payamount' => 'paymentAmount',
             'paycurrency' => 'paymentCurrency',
             'account' => 'account',
             'type' => 'type',
@@ -32,8 +33,12 @@ class PaymentValidationResponseAdapter
             (int) $providerResponse['status']
         );
 
-        if (!empty($providerResponse['test'])) {
-            $paymentValidationResponse->setTest(filter_var($providerResponse['test'], FILTER_VALIDATE_BOOLEAN));
+        $paymentValidationResponse->setTest(
+            filter_var($providerResponse['test'] ?? null, FILTER_VALIDATE_BOOLEAN)
+        );
+
+        if (isset($providerResponse['payamount'])) {
+            $paymentValidationResponse->setPaymentAmount((float) $providerResponse['payamount']);
         }
 
         $this->setArrayValuesToObject($paymentValidationResponse, $providerResponse, $map);
@@ -50,6 +55,7 @@ class PaymentValidationResponseAdapter
             'p_street' => 'paymentStreet',
             'p_city' => 'paymentCity',
             'p_zip' => 'paymentZip',
+            'p_state' => 'paymentState',
             'country' => 'paymentCountryCode',
             'p_countrycode' => 'paymentCountryCode',
         ];

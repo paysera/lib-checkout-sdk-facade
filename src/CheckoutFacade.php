@@ -33,13 +33,7 @@ final class CheckoutFacade
         $paymentMethodCountries = $this->provider->getPaymentMethodCountries($request);
 
         if (!empty($request->getSelectedCountries())) {
-            $paymentMethodCountries = $paymentMethodCountries->filter(
-                static fn(PaymentMethodCountry $country) => in_array(
-                    $country->getCode(),
-                    $request->getSelectedCountries(),
-                    true
-                )
-            );
+            $paymentMethodCountries = $paymentMethodCountries->filterByCountryCodes($request->getSelectedCountries());
         }
 
         return $paymentMethodCountries;
@@ -54,6 +48,8 @@ final class CheckoutFacade
 
     public function validatePayment(PaymentValidationRequest $request): PaymentValidationResponse
     {
+        $this->requestValidator->validate($request);
+
         return $this->provider->validatePayment($request);
     }
 }

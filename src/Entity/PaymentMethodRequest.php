@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Paysera\CheckoutSdk\Entity;
 
-final class PaymentMethodRequest implements RequestInterface
+class PaymentMethodRequest implements RequestInterface
 {
     private int $projectId;
     private string $currency;

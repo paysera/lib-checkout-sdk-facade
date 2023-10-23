@@ -118,6 +118,7 @@ class WebToPayProvider implements ProviderInterface
             'p_street' => $request->getOrder()->getPaymentStreet(),
             'p_city' => $request->getOrder()->getPaymentCity(),
             'p_zip' => $request->getOrder()->getPaymentZip(),
+            'p_state' => $request->getOrder()->getPaymentState(),
             'p_countrycode' => $request->getOrder()->getPaymentCountryCode(),
             'test' => (int) $request->getTest(),
         ];

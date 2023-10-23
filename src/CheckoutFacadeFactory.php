@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Paysera\CheckoutSdk;
 
 use Paysera\CheckoutSdk\CheckoutFacade;

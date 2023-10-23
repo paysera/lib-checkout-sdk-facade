@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Paysera\CheckoutSdk\Validator;
 
 use Paysera\CheckoutSdk\Entity\PaymentRedirectRequest;
