@@ -50,16 +50,12 @@ class WebToPayProviderTest extends AbstractCase
     {
         $methodRequest = new PaymentMethodRequest(
             1,
-            'USD',
             'en',
             new Order(1, 100.0, 'USD')
         );
 
         $providerMethodCountryMock = m::mock(WebToPay_PaymentMethodCountry::class);
         $providerMethodListMock = m::mock(WebToPay_PaymentMethodList::class);
-        $providerMethodListMock->expects()
-            ->filterForAmount($methodRequest->getOrder()->getAmount(), $methodRequest->getOrder()->getCurrency())
-            ->andReturn($providerMethodListMock);
         $providerMethodListMock->expects()
             ->setDefaultLanguage($methodRequest->getLanguage())
             ->andReturn($providerMethodListMock);
@@ -69,7 +65,11 @@ class WebToPayProviderTest extends AbstractCase
 
         m::mock('overload:'. WebToPay::class)
             ->expects()
-            ->getPaymentMethodList($methodRequest->getProjectId(), $methodRequest->getCurrency())
+            ->getPaymentMethodList(
+                $methodRequest->getProjectId(),
+                $methodRequest->getOrder()->getAmount(),
+                $methodRequest->getOrder()->getCurrency()
+            )
             ->andReturn($providerMethodListMock);
 
         $paymentMethodCountry = m::mock(PaymentMethodCountry::class);
@@ -150,8 +150,8 @@ class WebToPayProviderTest extends AbstractCase
                 'WebToPayProvider method' => 'getPaymentMethodCountries',
                 'Request argument' => new PaymentMethodRequest(
                     1,
-                    'USD',
-                    'en'
+                    'en',
+                    new Order(1, 100.0, 'USD')
                 ),
                 'WebToPay static method' => 'getPaymentMethodList',
             ],

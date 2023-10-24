@@ -34,14 +34,12 @@ class WebToPayProvider implements ProviderInterface
         $countryCollection = new PaymentMethodCountryCollection();
 
         try {
-            $countryList = WebToPay::getPaymentMethodList($request->getProjectId(), $request->getCurrency());
+            $countryList = WebToPay::getPaymentMethodList(
+                $request->getProjectId(),
+                $request->getOrder()->getAmount(),
+                $request->getOrder()->getCurrency()
+            );
 
-            if ($request->getOrder()) {
-                $countryList = $countryList->filterForAmount(
-                    (int) $request->getOrder()->getAmount(),
-                    $request->getOrder()->getCurrency()
-                );
-            }
             $countries = $countryList->setDefaultLanguage($request->getLanguage())
                 ->getCountries();
         } catch (WebToPayException $exception) {

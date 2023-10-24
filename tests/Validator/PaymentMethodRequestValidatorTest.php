@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Paysera\CheckoutSdk\Tests\Validator;
 
 use Mockery as m;
+use Paysera\CheckoutSdk\Entity\Order;
 use Paysera\CheckoutSdk\Entity\PaymentMethodRequest;
 use Paysera\CheckoutSdk\Entity\PaymentValidationRequest;
 use Paysera\CheckoutSdk\Entity\RequestInterface;
@@ -54,7 +55,12 @@ class PaymentMethodRequestValidatorTest extends AbstractCase
     {
         return [
             'compatibleRequest' => [
-                new PaymentMethodRequest(1, 'USD', 'en', null, ['gb', 'lt']),
+                new PaymentMethodRequest(
+                    1,
+                    'en',
+                    new Order(1, 100.0, 'USD'),
+                    ['gb', 'lt']
+                ),
                 true,
                 'The entity is compatible for validation.'
             ],

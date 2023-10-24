@@ -19,7 +19,6 @@
             "homepage": "https://www.paysera.com/"
         }
     ],
-    "minimum-stability": "stable",
     "require": {
         "php": ">=7.4",
         "webtopay/libwebtopay": "^1.8"
@@ -27,5 +26,14 @@
     "require-dev": {
         "phpunit/phpunit": "^9.6",
         "mockery/mockery": "^1.6"
-    }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "prefer-stable": true,
+    "minimum-stability": "stable"
 }

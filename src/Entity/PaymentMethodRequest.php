@@ -7,20 +7,17 @@ namespace Paysera\CheckoutSdk\Entity;
 class PaymentMethodRequest implements RequestInterface
 {
     private int $projectId;
-    private string $currency;
     private string $language;
     private array $selectedCountries;
-    private ?Order $order;
+    private Order $order;
 
     public function __construct(
         int    $projectId,
-        string $currency,
         string $language,
-        Order  $order = null,
+        Order  $order,
         array  $selectedCountries = []
     ) {
         $this->projectId = $projectId;
-        $this->currency = $currency;
         $this->language = $language;
         $this->order = $order;
         $this->selectedCountries = $selectedCountries;
@@ -31,17 +28,12 @@ class PaymentMethodRequest implements RequestInterface
         return $this->projectId;
     }
 
-    public function getCurrency(): string
-    {
-        return $this->currency;
-    }
-
     public function getLanguage(): string
     {
         return $this->language;
     }
 
-    public function getOrder(): ?Order
+    public function getOrder(): Order
     {
         return $this->order;
     }
