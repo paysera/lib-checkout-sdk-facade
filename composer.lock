@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a5746ab0dc6dec50cb94fcc0f7681108",
+    "content-hash": "af2faf4d27fb337051d182aa457418a7",
     "packages": [
         {
             "name": "webtopay/libwebtopay",

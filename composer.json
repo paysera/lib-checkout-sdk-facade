@@ -2,7 +2,7 @@
     "name": "paysera/lib-checkout-sdk-facade",
     "description": "PHP checkout SDK facade for Paysera payment gateway integration",
     "type": "library",
-    "license": "LGPL-3.0",
+    "license": "LGPL-3.0-or-later",
     "autoload": {
         "psr-4": {
             "Paysera\\CheckoutSdk\\": "src/"
@@ -21,7 +21,7 @@
     ],
     "require": {
         "php": ">=7.4",
-        "webtopay/libwebtopay": "^1.8"
+        "webtopay/libwebtopay": "^1.9"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.6",
