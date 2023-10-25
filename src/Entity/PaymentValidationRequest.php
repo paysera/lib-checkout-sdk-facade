@@ -9,12 +9,12 @@ class PaymentValidationRequest implements RequestInterface
     private int $projectId;
     private string $projectPassword;
     private string $data;
-    private ?string $ss1 = null;
-    private ?string $ss2 = null;
-    private ?string $type = null;
-    private ?string $to = null;
-    private ?string $from = null;
-    private ?array $sms = null;
+    private ?string $ss1;
+    private ?string $ss2;
+    private ?string $type;
+    private ?string $to;
+    private ?string $from;
+    private ?array $sms;
 
     public function __construct(
         int $projectId,
@@ -24,6 +24,12 @@ class PaymentValidationRequest implements RequestInterface
         $this->projectId = $projectId;
         $this->projectPassword = $projectPassword;
         $this->data = $data;
+        $this->ss1 = null;
+        $this->ss2 = null;
+        $this->type = null;
+        $this->to = null;
+        $this->from = null;
+        $this->sms = null;
     }
 
     public function getProjectId(): int

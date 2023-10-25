@@ -11,7 +11,7 @@ use Paysera\CheckoutSdk\Provider\WebToPay\Adapter\PaymentValidationResponseAdapt
 
 class WebToPayProviderFactory
 {
-    public static function create(): WebToPayProvider
+    public function create(): WebToPayProvider
     {
         $paymentMethodAdapter = new PaymentMethodAdapter();
         $paymentMethodGroupAdapter = new PaymentMethodGroupAdapter($paymentMethodAdapter);

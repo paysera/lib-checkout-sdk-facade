@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Paysera\CheckoutSdk\Tests\Validator;
 
-use Paysera\CheckoutSdk\Exception\CheckoutIntegrationException;
+use Paysera\CheckoutSdk\Exception\BaseException;
+use Paysera\CheckoutSdk\Exception\ValidationException;
 use Paysera\CheckoutSdk\Tests\AbstractCase;
 use Paysera\CheckoutSdk\Validator\CountryCodeIso2Validator;
 
@@ -18,8 +19,8 @@ class CountryCodeIso2ValidatorTest extends AbstractCase
         $validator =  new CountryCodeIso2Validator();
 
         if ($isValid === false) {
-            $this->expectException(CheckoutIntegrationException::class);
-            $this->expectExceptionCode(CheckoutIntegrationException::E_VALIDATION);
+            $this->expectException(ValidationException::class);
+            $this->expectExceptionCode(BaseException::E_VALIDATION);
         } else {
             $this->expectNotToPerformAssertions();
         }

@@ -9,20 +9,28 @@ class Order
     private int $orderId;
     private string $currency;
     private float $amount;
-    private ?string $paymentFirstName = null;
-    private ?string $paymentLastName = null;
-    private ?string $paymentEmail = null;
-    private ?string $paymentStreet = null;
-    private ?string $paymentCity = null;
-    private ?string $paymentState = null;
-    private ?string $paymentZip = null;
-    private ?string $paymentCountryCode = null;
+    private ?string $paymentFirstName;
+    private ?string $paymentLastName;
+    private ?string $paymentEmail;
+    private ?string $paymentStreet;
+    private ?string $paymentCity;
+    private ?string $paymentState;
+    private ?string $paymentZip;
+    private ?string $paymentCountryCode;
 
     public function __construct(int $orderId, float $amount, string $currency)
     {
         $this->orderId = $orderId;
         $this->amount = $amount;
         $this->currency = strtoupper($currency);
+        $this->paymentFirstName = null;
+        $this->paymentLastName = null;
+        $this->paymentEmail = null;
+        $this->paymentStreet = null;
+        $this->paymentCity = null;
+        $this->paymentState = null;
+        $this->paymentZip = null;
+        $this->paymentCountryCode = null;
     }
 
     public function getOrderId(): int
@@ -45,7 +53,7 @@ class Order
         return $this->paymentFirstName;
     }
 
-    public function setPaymentFirstName(string $paymentFirstName): self
+    public function setPaymentFirstName(?string $paymentFirstName): self
     {
         $this->paymentFirstName = $paymentFirstName;
 
@@ -57,7 +65,7 @@ class Order
         return $this->paymentLastName;
     }
 
-    public function setPaymentLastName(string $paymentLastName): self
+    public function setPaymentLastName(?string $paymentLastName): self
     {
         $this->paymentLastName = $paymentLastName;
 
@@ -69,7 +77,7 @@ class Order
         return $this->paymentEmail;
     }
 
-    public function setPaymentEmail(string $paymentEmail): self
+    public function setPaymentEmail(?string $paymentEmail): self
     {
         $this->paymentEmail = $paymentEmail;
 
@@ -81,7 +89,7 @@ class Order
         return $this->paymentStreet;
     }
 
-    public function setPaymentStreet(string $paymentStreet): self
+    public function setPaymentStreet(?string $paymentStreet): self
     {
         $this->paymentStreet = $paymentStreet;
 
@@ -93,7 +101,7 @@ class Order
         return $this->paymentCity;
     }
 
-    public function setPaymentCity(string $paymentCity): self
+    public function setPaymentCity(?string $paymentCity): self
     {
         $this->paymentCity = $paymentCity;
 
@@ -105,7 +113,7 @@ class Order
         return $this->paymentState;
     }
 
-    public function setPaymentState(string $paymentState): self
+    public function setPaymentState(?string $paymentState): self
     {
         $this->paymentState = $paymentState;
 
@@ -117,7 +125,7 @@ class Order
         return $this->paymentZip;
     }
 
-    public function setPaymentZip(string $paymentZip): self
+    public function setPaymentZip(?string $paymentZip): self
     {
         $this->paymentZip = $paymentZip;
 
@@ -129,7 +137,7 @@ class Order
         return $this->paymentCountryCode;
     }
 
-    public function setPaymentCountryCode(string $paymentCountryCode): self
+    public function setPaymentCountryCode(?string $paymentCountryCode): self
     {
         $this->paymentCountryCode = $paymentCountryCode;
 

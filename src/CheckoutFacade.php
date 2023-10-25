@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Paysera\CheckoutSdk;
 
 use Paysera\CheckoutSdk\Entity\Collection\PaymentMethodCountryCollection;
-use Paysera\CheckoutSdk\Entity\PaymentMethodCountry;
 use Paysera\CheckoutSdk\Entity\PaymentMethodRequest;
 use Paysera\CheckoutSdk\Entity\PaymentRedirectRequest;
 use Paysera\CheckoutSdk\Entity\PaymentValidationRequest;
@@ -32,7 +31,7 @@ final class CheckoutFacade
 
         $paymentMethodCountries = $this->provider->getPaymentMethodCountries($request);
 
-        if (!empty($request->getSelectedCountries())) {
+        if (count($request->getSelectedCountries()) > 0) {
             $paymentMethodCountries = $paymentMethodCountries->filterByCountryCodes($request->getSelectedCountries());
         }
 

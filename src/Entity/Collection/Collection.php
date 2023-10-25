@@ -6,7 +6,7 @@ namespace Paysera\CheckoutSdk\Entity\Collection;
 
 use Countable;
 use Iterator;
-use Paysera\CheckoutSdk\Exception\CheckoutIntegrationException;
+use Paysera\CheckoutSdk\Exception\InvalidTypeException;
 
 abstract class Collection implements Iterator, Countable
 {
@@ -36,7 +36,7 @@ abstract class Collection implements Iterator, Countable
 
     public function next(): void
     {
-        ++$this->position;
+        $this->position++;
     }
 
     public function key(): int
@@ -56,6 +56,7 @@ abstract class Collection implements Iterator, Countable
 
     /**
      * Returns new collection instance with filtered items.
+     * @param callable $filterFunction
      */
     public function filter(callable $filterFunction): Collection
     {
@@ -66,10 +67,10 @@ abstract class Collection implements Iterator, Countable
 
     public function exchangeArray(array $array): void
     {
-        $isCompatible = array_reduce($array, fn($carry, $item) => $carry && $this->isCompatible($item), true);
+        $isCompatible = array_reduce($array, fn ($carry, $item) => $carry && $this->isCompatible($item), true);
 
         if ($isCompatible === false) {
-            CheckoutIntegrationException::throwInvalidType($this->getItemType());
+            throw new InvalidTypeException($this->getItemType());
         }
 
         $this->rewind();

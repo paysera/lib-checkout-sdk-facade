@@ -23,6 +23,7 @@ abstract class AbstractPaymentMethod
     /**
      * Sets default language for translations.
      * Returns itself for fluent interface.
+     * @param string $language
      */
     public function setDefaultLanguage(string $language): self
     {
@@ -50,6 +51,10 @@ abstract class AbstractPaymentMethod
     /**
      * Get translation from collection. Uses specified language or default one.
      * Can return the default value if any languages were not specified.
+     * @param TranslationCollection $translationCollection
+     * @param ?string $language
+     * @param string $defaultLanguage
+     * @param ?string $defaultValue
      */
     protected function translate(
         TranslationCollection $translationCollection,

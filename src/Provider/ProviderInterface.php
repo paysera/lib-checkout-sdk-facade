@@ -13,6 +13,8 @@ use Paysera\CheckoutSdk\Entity\PaymentValidationResponse;
 interface ProviderInterface
 {
     public function getPaymentMethodCountries(PaymentMethodRequest $request): PaymentMethodCountryCollection;
+
     public function redirectToPayment(PaymentRedirectRequest $request): void;
+
     public function validatePayment(PaymentValidationRequest $request): PaymentValidationResponse;
 }

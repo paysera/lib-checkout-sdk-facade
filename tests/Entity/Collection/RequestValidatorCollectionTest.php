@@ -8,7 +8,8 @@ use Mockery as m;
 use Paysera\CheckoutSdk\Entity\Collection\RequestValidatorCollection;
 use Paysera\CheckoutSdk\Entity\PaymentMethodRequest;
 use Paysera\CheckoutSdk\Entity\PaymentValidationRequest;
-use Paysera\CheckoutSdk\Exception\CheckoutIntegrationException;
+use Paysera\CheckoutSdk\Exception\BaseException;
+use Paysera\CheckoutSdk\Exception\InvalidTypeException;
 use Paysera\CheckoutSdk\Tests\AbstractCase;
 use Paysera\CheckoutSdk\Validator\CountryCodeIso2Validator;
 use Paysera\CheckoutSdk\Validator\PaymentMethodRequestValidator;
@@ -25,8 +26,8 @@ class RequestValidatorCollectionTest extends AbstractCase
         $collection = new RequestValidatorCollection();
 
         if ($isCompatible === false) {
-            $this->expectException(CheckoutIntegrationException::class);
-            $this->expectExceptionCode(CheckoutIntegrationException::E_INVALID_TYPE);
+            $this->expectException(InvalidTypeException::class);
+            $this->expectExceptionCode(BaseException::E_INVALID_TYPE);
         }
 
         $collection->exchangeArray([m::mock($class)]);

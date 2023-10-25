@@ -11,13 +11,11 @@ class PaymentRedirectRequest implements RequestInterface
     private string $acceptUrl;
     private string $cancelUrl;
     private string $callbackUrl;
-    private ?string $payment = null;
-    private ?string $lang = null;
-    private ?string $country = null;
-    private ?string $paymentText = null;
-    private bool $test = false;
-    private ?string $timeLimit = null;
-
+    private ?string $payment;
+    private ?string $language;
+    private ?string $paymentText;
+    private bool $test;
+    private ?string $timeLimit;
     private Order $order;
 
     public function __construct(
@@ -34,6 +32,11 @@ class PaymentRedirectRequest implements RequestInterface
         $this->cancelUrl = $cancelUrl;
         $this->callbackUrl = $callbackUrl;
         $this->order = $order;
+        $this->payment = null;
+        $this->language = null;
+        $this->paymentText = null;
+        $this->test = false;
+        $this->timeLimit = null;
     }
 
     public function getProjectId(): int
@@ -66,33 +69,21 @@ class PaymentRedirectRequest implements RequestInterface
         return $this->payment;
     }
 
-    public function setPayment(string $payment): self
+    public function setPayment(?string $payment): self
     {
         $this->payment = strtolower($payment);
 
         return $this;
     }
 
-    public function getLang(): ?string
+    public function getLanguage(): ?string
     {
-        return $this->lang;
+        return $this->language;
     }
 
-    public function setLang(string $lang): self
+    public function setLanguage(?string $language): self
     {
-        $this->lang = $lang;
-
-        return $this;
-    }
-
-    public function getCountry(): ?string
-    {
-        return $this->country;
-    }
-
-    public function setCountry(string $country): self
-    {
-        $this->country = $country;
+        $this->language = $language;
 
         return $this;
     }
@@ -102,7 +93,7 @@ class PaymentRedirectRequest implements RequestInterface
         return $this->paymentText;
     }
 
-    public function setPaymentText(string $paymentText): self
+    public function setPaymentText(?string $paymentText): self
     {
         $this->paymentText = $paymentText;
 
@@ -114,7 +105,7 @@ class PaymentRedirectRequest implements RequestInterface
         return $this->test;
     }
 
-    public function setTest(bool $test): self
+    public function setTest(?bool $test): self
     {
         $this->test = $test;
 
@@ -126,7 +117,7 @@ class PaymentRedirectRequest implements RequestInterface
         return $this->timeLimit;
     }
 
-    public function setTimeLimit(string $timeLimit): self
+    public function setTimeLimit(?string $timeLimit): self
     {
         $this->timeLimit = $timeLimit;
 

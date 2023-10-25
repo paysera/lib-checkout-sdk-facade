@@ -19,7 +19,8 @@ class PaymentMethodCountryCollection extends Collection
     public function getByCode(string $code): ?PaymentMethodCountry
     {
         return $this->filter(
-            static fn(PaymentMethodCountry $paymentMethodCountry) => $paymentMethodCountry->getCode() === $code
+            static fn (PaymentMethodCountry $paymentMethodCountry) => $paymentMethodCountry->getCode()
+            === $code
         )->current();
     }
 
@@ -27,7 +28,7 @@ class PaymentMethodCountryCollection extends Collection
     {
         $selectedCountriesLowercase = array_map('strtolower', $selectedCountries);
         return $this->filter(
-            static fn(PaymentMethodCountry $country) => in_array(
+            static fn (PaymentMethodCountry $country) => in_array(
                 strtolower($country->getCode()),
                 $selectedCountriesLowercase,
                 true

@@ -11,7 +11,8 @@ use Paysera\CheckoutSdk\Entity\PaymentMethodRequest;
 use Paysera\CheckoutSdk\Entity\PaymentRedirectRequest;
 use Paysera\CheckoutSdk\Entity\PaymentValidationRequest;
 use Paysera\CheckoutSdk\Entity\PaymentValidationResponse;
-use Paysera\CheckoutSdk\Exception\CheckoutIntegrationException;
+use Paysera\CheckoutSdk\Exception\BaseException;
+use Paysera\CheckoutSdk\Exception\ProviderException;
 use Paysera\CheckoutSdk\Provider\WebToPay\Adapter\PaymentMethodCountryAdapter;
 use Paysera\CheckoutSdk\Provider\WebToPay\Adapter\PaymentValidationResponseAdapter;
 use Paysera\CheckoutSdk\Provider\WebToPay\WebToPayProvider;
@@ -23,8 +24,6 @@ use WebToPayException;
 
 class WebToPayProviderTest extends AbstractCase
 {
-    protected const EXCEPTION_MESSAGE = 'Some problems.';
-
     /** @var PaymentMethodCountryAdapter|null|m\MockInterface  */
     protected ?PaymentMethodCountryAdapter $paymentMethodCountryAdapterMock = null;
 
@@ -134,11 +133,11 @@ class WebToPayProviderTest extends AbstractCase
             ->shouldReceive($providerMethod)
             ->once()
             ->withAnyArgs()
-            ->andThrow(new WebToPayException(static::EXCEPTION_MESSAGE));
+            ->andThrow(new WebToPayException('Some troubles.'));
 
-        $this->expectException(CheckoutIntegrationException::class);
-        $this->expectExceptionMessage(static::EXCEPTION_MESSAGE);
-        $this->expectExceptionCode(CheckoutIntegrationException::E_PROVIDER_ISSUE);
+        $this->expectException(ProviderException::class);
+        $this->expectExceptionMessage('Provider thrown exception.');
+        $this->expectExceptionCode(BaseException::E_PROVIDER_ISSUE);
 
         $this->webToPayProvider->{$method}($request);
     }
@@ -204,8 +203,7 @@ class WebToPayProviderTest extends AbstractCase
             $orderRequest
         ))
             ->setPayment('card')
-            ->setTest(true)
-            ->setCountry('gb');
+            ->setTest(true);
 
         $providerData = [
             'projectid' => 1,

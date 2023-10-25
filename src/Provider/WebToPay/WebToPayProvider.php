@@ -9,7 +9,7 @@ use Paysera\CheckoutSdk\Entity\PaymentMethodRequest;
 use Paysera\CheckoutSdk\Entity\PaymentRedirectRequest;
 use Paysera\CheckoutSdk\Entity\PaymentValidationRequest;
 use Paysera\CheckoutSdk\Entity\PaymentValidationResponse;
-use Paysera\CheckoutSdk\Exception\CheckoutIntegrationException;
+use Paysera\CheckoutSdk\Exception\ProviderException;
 use Paysera\CheckoutSdk\Provider\ProviderInterface;
 use Paysera\CheckoutSdk\Provider\WebToPay\Adapter\PaymentMethodCountryAdapter;
 use Paysera\CheckoutSdk\Provider\WebToPay\Adapter\PaymentValidationResponseAdapter;
@@ -41,9 +41,10 @@ class WebToPayProvider implements ProviderInterface
             );
 
             $countries = $countryList->setDefaultLanguage($request->getLanguage())
-                ->getCountries();
+                ->getCountries()
+            ;
         } catch (WebToPayException $exception) {
-            CheckoutIntegrationException::throwProviderIssue($exception);
+            throw new ProviderException($exception);
         }
 
         foreach ($countries as $country) {
@@ -61,7 +62,7 @@ class WebToPayProvider implements ProviderInterface
         try {
             WebToPay::redirectToPayment($paymentData, true);
         } catch (WebToPayException $exception) {
-            CheckoutIntegrationException::throwProviderIssue($exception);
+            throw new ProviderException($exception);
         }
     }
 
@@ -78,7 +79,7 @@ class WebToPayProvider implements ProviderInterface
 
             return $this->paymentValidationResponseAdapter->convert($response);
         } catch (WebToPayException $exception) {
-            CheckoutIntegrationException::throwProviderIssue($exception);
+            throw new ProviderException($exception);
         }
     }
 
@@ -94,7 +95,7 @@ class WebToPayProvider implements ProviderInterface
             'sms' => $request->getSms(),
         ];
 
-        return array_filter($validatePaymentData, static fn($value) => $value !== null);
+        return array_filter($validatePaymentData, static fn ($value) => $value !== null);
     }
 
     protected function getRedirectPaymentDataFromRequest(PaymentRedirectRequest $request): array
@@ -109,7 +110,7 @@ class WebToPayProvider implements ProviderInterface
             'cancelurl' => $request->getCancelUrl(),
             'callbackurl' => $request->getCallbackUrl(),
             'payment' => $request->getPayment(),
-            'country' => $request->getCountry(),
+            'country' => $request->getOrder()->getPaymentCountryCode(),
             'p_firstname' => $request->getOrder()->getPaymentFirstName(),
             'p_lastname' => $request->getOrder()->getPaymentLastName(),
             'p_email' => $request->getOrder()->getPaymentEmail(),
@@ -121,6 +122,6 @@ class WebToPayProvider implements ProviderInterface
             'test' => (int) $request->getTest(),
         ];
 
-        return array_filter($paymentData, static fn($value) => $value !== null);
+        return array_filter($paymentData, static fn ($value) => $value !== null);
     }
 }

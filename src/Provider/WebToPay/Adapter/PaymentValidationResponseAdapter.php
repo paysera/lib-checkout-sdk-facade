@@ -6,78 +6,66 @@ namespace Paysera\CheckoutSdk\Provider\WebToPay\Adapter;
 
 use Paysera\CheckoutSdk\Entity\Order;
 use Paysera\CheckoutSdk\Entity\PaymentValidationResponse;
+use Paysera\CheckoutSdk\Util\TypeConverter;
 
 class PaymentValidationResponseAdapter
 {
+    protected TypeConverter $typeConverter;
+
+    public function __construct()
+    {
+        $this->typeConverter = new TypeConverter();
+    }
+
     public function convert(array $providerResponse): PaymentValidationResponse
     {
-        $map = [
-            'payment' => 'payment',
-            'version' => 'version',
-            'original_paytext' => 'originalPaymentText',
-            'paytext' => 'paymentText',
-            'country' => 'country',
-            'requestid' => 'requestId',
-            'name' => 'name',
-            'surename' => 'sureName',
-            'paycurrency' => 'paymentCurrency',
-            'account' => 'account',
-            'type' => 'type',
-        ];
-
         $order = $this->getOrderFromProviderResponse($providerResponse);
 
-        $paymentValidationResponse =  new PaymentValidationResponse(
-            (int) $providerResponse['projectid'],
+        $paymentValidationResponse = new PaymentValidationResponse(
+            $this->getProviderProperty('projectid', $providerResponse, TypeConverter::INT),
             $order,
-            (int) $providerResponse['status']
+            $this->getProviderProperty('status', $providerResponse, TypeConverter::INT),
         );
 
-        $paymentValidationResponse->setTest(
-            filter_var($providerResponse['test'] ?? null, FILTER_VALIDATE_BOOLEAN)
-        );
-
-        if (isset($providerResponse['payamount'])) {
-            $paymentValidationResponse->setPaymentAmount((float) $providerResponse['payamount']);
-        }
-
-        $this->setArrayValuesToObject($paymentValidationResponse, $providerResponse, $map);
-
-        return $paymentValidationResponse;
+        return $paymentValidationResponse->setPayment($this->getProviderProperty('payment', $providerResponse))
+            ->setPaymentText($this->getProviderProperty('paytext', $providerResponse))
+            ->setOriginalPaymentText($this->getProviderProperty('original_paytext', $providerResponse))
+            ->setVersion($this->getProviderProperty('version', $providerResponse))
+            ->setRequestId($this->getProviderProperty('requestid', $providerResponse))
+            ->setAccount($this->getProviderProperty('account', $providerResponse))
+            ->setType($this->getProviderProperty('type', $providerResponse))
+            ->setTest($this->getProviderProperty('test', $providerResponse, TypeConverter::BOOL))
+        ;
     }
 
     protected function getOrderFromProviderResponse(array $providerResponse): Order
     {
-        $map = [
-            'p_firstname' => 'paymentFirstName',
-            'p_lastname' => 'paymentLastName',
-            'p_email' => 'paymentEmail',
-            'p_street' => 'paymentStreet',
-            'p_city' => 'paymentCity',
-            'p_zip' => 'paymentZip',
-            'p_state' => 'paymentState',
-            'country' => 'paymentCountryCode',
-            'p_countrycode' => 'paymentCountryCode',
-        ];
-
         $order = new Order(
-            (int) $providerResponse['orderid'],
-            (float) $providerResponse['amount'],
-            $providerResponse['currency']
+            $this->getProviderProperty('orderid', $providerResponse, TypeConverter::INT),
+            $this->getProviderProperty('amount', $providerResponse, TypeConverter::FLOAT),
+            $this->getProviderProperty('currency', $providerResponse),
         );
 
-        $this->setArrayValuesToObject($order, $providerResponse, $map);
-
-        return $order;
+        return $order->setPaymentFirstName($this->getProviderProperty('p_firstname', $providerResponse))
+            ->setPaymentLastName($this->getProviderProperty('p_lastname', $providerResponse))
+            ->setPaymentEmail($this->getProviderProperty('p_email', $providerResponse))
+            ->setPaymentStreet($this->getProviderProperty('p_street', $providerResponse))
+            ->setPaymentCity($this->getProviderProperty('p_city', $providerResponse))
+            ->setPaymentZip($this->getProviderProperty('p_zip', $providerResponse))
+            ->setPaymentState($this->getProviderProperty('p_state', $providerResponse))
+            ->setPaymentCountryCode($this->getProviderProperty('p_countrycode', $providerResponse))
+        ;
     }
 
-    protected function setArrayValuesToObject(object $object, array $inputArray, array $map): void
-    {
-        foreach ($map as $arrayKey => $objectProperty) {
-            if (!empty($inputArray[$arrayKey])) {
-                $setterMethodName = 'set' . ucfirst($objectProperty);
-                $object->{$setterMethodName}($inputArray[$arrayKey]);
-            }
+    protected function getProviderProperty(
+        string $propertyName,
+        array $providerData,
+        int $convertToType = TypeConverter::DEFAULT
+    ) {
+        if (isset($providerData[$propertyName]) === false) {
+            return null;
         }
+
+        return $this->typeConverter->convert($providerData[$propertyName] ?? null, $convertToType);
     }
 }

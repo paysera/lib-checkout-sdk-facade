@@ -6,7 +6,8 @@ namespace Paysera\CheckoutSdk\Validator;
 
 use Paysera\CheckoutSdk\Entity\PaymentMethodRequest;
 use Paysera\CheckoutSdk\Entity\RequestInterface;
-use Paysera\CheckoutSdk\Exception\CheckoutIntegrationException;
+use Paysera\CheckoutSdk\Exception\InvalidTypeException;
+use Paysera\CheckoutSdk\Exception\ValidationException;
 
 class PaymentMethodRequestValidator implements RequestValidatorInterface
 {
@@ -24,19 +25,20 @@ class PaymentMethodRequestValidator implements RequestValidatorInterface
 
     /**
      * @param PaymentMethodRequest $request
-     * @throws CheckoutIntegrationException
+     * @throws InvalidTypeException|ValidationException
      */
     public function validate(RequestInterface $request): void
     {
         if ($this->canValidate($request) === false) {
-            CheckoutIntegrationException::throwInvalidType(PaymentMethodRequest::class);
+            throw new InvalidTypeException(PaymentMethodRequest::class);
         }
 
         $this->validateSelectedCountries($request);
     }
 
     /**
-     * @throws CheckoutIntegrationException
+     * @throws ValidationException
+     * @param PaymentMethodRequest $request
      */
     protected function validateSelectedCountries(PaymentMethodRequest $request): void
     {

@@ -8,7 +8,8 @@ use Mockery as m;
 use Paysera\CheckoutSdk\Entity\Collection\PaymentMethodGroupCollection;
 use Paysera\CheckoutSdk\Entity\PaymentMethodCountry;
 use Paysera\CheckoutSdk\Entity\PaymentMethodGroup;
-use Paysera\CheckoutSdk\Exception\CheckoutIntegrationException;
+use Paysera\CheckoutSdk\Exception\BaseException;
+use Paysera\CheckoutSdk\Exception\InvalidTypeException;
 use Paysera\CheckoutSdk\Tests\AbstractCase;
 
 class PaymentMethodGroupCollectionTest extends AbstractCase
@@ -21,8 +22,8 @@ class PaymentMethodGroupCollectionTest extends AbstractCase
         $collection = new PaymentMethodGroupCollection();
 
         if ($isCompatible === false) {
-            $this->expectException(CheckoutIntegrationException::class);
-            $this->expectExceptionCode(CheckoutIntegrationException::E_INVALID_TYPE);
+            $this->expectException(InvalidTypeException::class);
+            $this->expectExceptionCode(BaseException::E_INVALID_TYPE);
         }
 
         $collection->exchangeArray([m::mock($class)]);

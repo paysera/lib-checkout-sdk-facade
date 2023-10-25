@@ -9,25 +9,28 @@ class PaymentValidationResponse
     private int $projectId;
     private Order $order;
     private int $status;
-    private ?string $payment = null;
-    private ?string $country = null;
-    private ?string $originalPaymentText = null;
-    private ?string $paymentText = null;
-    private bool $test = false;
-    private ?string $version = null;
-    private ?string $requestId = null;
-    private ?string $name = null;
-    private ?string $sureName = null;
-    private ?string $paymentCurrency = null;
-    private ?float $paymentAmount = null;
-    private ?string $account = null;
-    private ?string $type = null;
+    private ?string $payment;
+    private ?string $originalPaymentText;
+    private ?string $paymentText;
+    private bool $test;
+    private ?string $version;
+    private ?string $requestId;
+    private ?string $account;
+    private ?string $type;
 
-    public function __construct(int $projectId,  Order $order, int $status)
+    public function __construct(int $projectId, Order $order, int $status)
     {
         $this->projectId = $projectId;
         $this->order = $order;
         $this->status = $status;
+        $this->payment = null;
+        $this->originalPaymentText = null;
+        $this->paymentText = null;
+        $this->test = false;
+        $this->version = null;
+        $this->requestId = null;
+        $this->account = null;
+        $this->type = null;
     }
 
     public function getProjectId(): int
@@ -50,19 +53,11 @@ class PaymentValidationResponse
         return $this->payment;
     }
 
-    public function setPayment(?string $payment): void
+    public function setPayment(?string $payment): self
     {
         $this->payment = $payment;
-    }
 
-    public function getCountry(): ?string
-    {
-        return $this->country;
-    }
-
-    public function setCountry(?string $country): void
-    {
-        $this->country = $country;
+        return $this;
     }
 
     public function getOriginalPaymentText(): ?string
@@ -70,9 +65,11 @@ class PaymentValidationResponse
         return $this->originalPaymentText;
     }
 
-    public function setOriginalPaymentText(?string $originalPaymentText): void
+    public function setOriginalPaymentText(?string $originalPaymentText): self
     {
         $this->originalPaymentText = $originalPaymentText;
+
+        return $this;
     }
 
     public function getPaymentText(): ?string
@@ -80,9 +77,11 @@ class PaymentValidationResponse
         return $this->paymentText;
     }
 
-    public function setPaymentText(?string $paymentText): void
+    public function setPaymentText(?string $paymentText): self
     {
         $this->paymentText = $paymentText;
+
+        return $this;
     }
 
     public function isTest(): bool
@@ -90,9 +89,11 @@ class PaymentValidationResponse
         return $this->test;
     }
 
-    public function setTest(bool $test): void
+    public function setTest(?bool $test): self
     {
-        $this->test = $test;
+        $this->test = (bool) $test;
+
+        return $this;
     }
 
     public function getVersion(): ?string
@@ -100,9 +101,11 @@ class PaymentValidationResponse
         return $this->version;
     }
 
-    public function setVersion(?string $version): void
+    public function setVersion(?string $version): self
     {
         $this->version = $version;
+
+        return $this;
     }
 
     public function getRequestId(): ?string
@@ -110,49 +113,11 @@ class PaymentValidationResponse
         return $this->requestId;
     }
 
-    public function setRequestId(?string $requestId): void
+    public function setRequestId(?string $requestId): self
     {
         $this->requestId = $requestId;
-    }
 
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(?string $name): void
-    {
-        $this->name = $name;
-    }
-
-    public function getSureName(): ?string
-    {
-        return $this->sureName;
-    }
-
-    public function setSureName(?string $sureName): void
-    {
-        $this->sureName = $sureName;
-    }
-
-    public function getPaymentCurrency(): ?string
-    {
-        return $this->paymentCurrency;
-    }
-
-    public function setPaymentCurrency(?string $paymentCurrency): void
-    {
-        $this->paymentCurrency = $paymentCurrency;
-    }
-
-    public function getPaymentAmount(): ?float
-    {
-        return $this->paymentAmount;
-    }
-
-    public function setPaymentAmount(?float $paymentAmount): void
-    {
-        $this->paymentAmount = $paymentAmount;
+        return $this;
     }
 
     public function getAccount(): ?string
@@ -160,9 +125,11 @@ class PaymentValidationResponse
         return $this->account;
     }
 
-    public function setAccount(?string $account): void
+    public function setAccount(?string $account): self
     {
         $this->account = $account;
+
+        return $this;
     }
 
     public function getType(): ?string
@@ -170,8 +137,10 @@ class PaymentValidationResponse
         return $this->type;
     }
 
-    public function setType(?string $type): void
+    public function setType(?string $type): self
     {
         $this->type = $type;
+
+        return $this;
     }
 }

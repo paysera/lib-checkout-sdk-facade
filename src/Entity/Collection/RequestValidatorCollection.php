@@ -20,7 +20,7 @@ class RequestValidatorCollection extends Collection implements RequestValidatorI
     public function canValidate(RequestInterface $request): bool
     {
         $compatibleValidatorCollection = $this->filter(
-            static fn(RequestValidatorInterface $validator) => $validator->canValidate($request)
+            static fn (RequestValidatorInterface $validator) => $validator->canValidate($request)
         );
 
         return (bool) $compatibleValidatorCollection->count();

@@ -9,7 +9,8 @@ use Paysera\CheckoutSdk\Entity\Order;
 use Paysera\CheckoutSdk\Entity\PaymentRedirectRequest;
 use Paysera\CheckoutSdk\Entity\PaymentValidationRequest;
 use Paysera\CheckoutSdk\Entity\RequestInterface;
-use Paysera\CheckoutSdk\Exception\CheckoutIntegrationException;
+use Paysera\CheckoutSdk\Exception\BaseException;
+use Paysera\CheckoutSdk\Exception\InvalidTypeException;
 use Paysera\CheckoutSdk\Tests\AbstractCase;
 use Paysera\CheckoutSdk\Validator\CountryCodeIso2Validator;
 use Paysera\CheckoutSdk\Validator\PaymentRedirectRequestValidator;
@@ -34,12 +35,12 @@ class PaymentRedirectRequestValidatorTest extends AbstractCase
         if ($isCompatible === false) {
             $validator = new PaymentRedirectRequestValidator();
 
-            $this->expectException(CheckoutIntegrationException::class);
-            $this->expectExceptionCode(CheckoutIntegrationException::E_INVALID_TYPE);
+            $this->expectException(InvalidTypeException::class);
+            $this->expectExceptionCode(BaseException::E_INVALID_TYPE);
         } else {
             $countryValidator = m::mock('overload:' . CountryCodeIso2Validator::class);
             $countryValidator->shouldReceive('validate')
-                ->times(2)
+                ->once()
                 ->with('gb');
 
             $validator = new PaymentRedirectRequestValidator();
@@ -52,7 +53,7 @@ class PaymentRedirectRequestValidatorTest extends AbstractCase
     {
         return [
             'compatibleRequest' => [
-                (new PaymentRedirectRequest(
+                new PaymentRedirectRequest(
                     1,
                     'pass',
                     'test',
@@ -60,7 +61,7 @@ class PaymentRedirectRequestValidatorTest extends AbstractCase
                     'test',
                     (new Order(1, 100.0, 'USD'))
                         ->setPaymentCountryCode('gb')
-                ))->setCountry('gb'),
+                ),
                 true,
                 'The entity is compatible for validation.'
             ],

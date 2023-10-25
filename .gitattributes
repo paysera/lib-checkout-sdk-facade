@@ -9,3 +9,6 @@
 /coverage           export-ignore
 /.editorconfig      export-ignore
 /CHANGELOG.md       export-ignore
+/.php_cs            export-ignore
+/.php_cs_risky      export-ignore
+/.php_cs_safe       export-ignore

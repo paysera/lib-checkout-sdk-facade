@@ -20,7 +20,7 @@ class PaymentMethodCountryAdapter
 
     public function convert(WebToPay_PaymentMethodCountry $providerEntity): PaymentMethodCountry
     {
-        $providerEntityProperties = Invader::getProperties($providerEntity);
+        $providerEntityProperties = (new Invader())->getProperties($providerEntity);
 
         $paymentMethodCountry = new PaymentMethodCountry(
             (string) $providerEntityProperties['countryCode'],

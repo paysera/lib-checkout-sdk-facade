@@ -6,7 +6,6 @@ namespace Paysera\CheckoutSdk\Tests\Provider\WebToPay\Adapter;
 
 use Paysera\CheckoutSdk\Provider\WebToPay\Adapter\PaymentValidationResponseAdapter;
 use Paysera\CheckoutSdk\Tests\AbstractCase;
-use Paysera\CheckoutSdk\Util\Invader;
 
 class PaymentValidationResponseAdapterTest extends AbstractCase
 {
@@ -44,7 +43,7 @@ class PaymentValidationResponseAdapterTest extends AbstractCase
 
         $paymentValidationResponse = $adapter->convert($providerData);
 
-        $responseProperties = Invader::getProperties($paymentValidationResponse);
+        $responseProperties = $this->getObjectProperties($paymentValidationResponse);
         unset($responseProperties['order']);
 
         $this->assertEquals(
@@ -52,16 +51,11 @@ class PaymentValidationResponseAdapterTest extends AbstractCase
                 'projectId' => 111,
                 'status' => 1,
                 'payment' => 'payment',
-                'country' => 'lt',
                 'originalPaymentText' => 'originalPaymentText',
                 'paymentText' => 'paymentText',
                 'test' => false,
                 'version' => 'version',
                 'requestId' => 'requestId',
-                'name' => 'name',
-                'sureName' => 'sureName',
-                'paymentCurrency' => 'USD',
-                'paymentAmount' => 1000.0,
                 'account' => 'account',
                 'type' => 'type',
             ],
@@ -69,7 +63,7 @@ class PaymentValidationResponseAdapterTest extends AbstractCase
             'The response properties values must be equal to the data set.'
         );
 
-        $orderProperties = Invader::getProperties($paymentValidationResponse->getOrder());
+        $orderProperties = $this->getObjectProperties($paymentValidationResponse->getOrder());
 
         $this->assertEquals(
             [

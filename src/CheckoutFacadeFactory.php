@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Paysera\CheckoutSdk;
 
-use Paysera\CheckoutSdk\CheckoutFacade;
 use Paysera\CheckoutSdk\Entity\Collection\RequestValidatorCollection;
 use Paysera\CheckoutSdk\Provider\WebToPay\WebToPayProviderFactory;
 use Paysera\CheckoutSdk\Validator\PaymentMethodRequestValidator;
@@ -12,12 +11,12 @@ use Paysera\CheckoutSdk\Validator\PaymentRedirectRequestValidator;
 
 class CheckoutFacadeFactory
 {
-    public static function create(): CheckoutFacade
+    public function create(): CheckoutFacade
     {
-        $provider = WebToPayProviderFactory::create();
+        $provider = (new WebToPayProviderFactory())->create();
         $requestValidatorCollection = new RequestValidatorCollection([
             new PaymentMethodRequestValidator(),
-            new PaymentRedirectRequestValidator()
+            new PaymentRedirectRequestValidator(),
         ]);
 
         return new CheckoutFacade($provider, $requestValidatorCollection);

@@ -10,13 +10,15 @@ class Invader
 {
     /**
      * This function can extract all properties (even private and protected) of given object.
+     * @param object $object
+     * @return array
      */
-    public static function getProperties(object $object): array
+    public function getProperties(object $object): array
     {
-        $invader = static function ($object) {
+        $function = static function ($object) {
             return get_object_vars($object);
         };
-        $invader = Closure::bind($invader, null, $object);
+        $invader = Closure::bind($function, null, $object);
 
         return $invader($object);
     }

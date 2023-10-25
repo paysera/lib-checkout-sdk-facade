@@ -12,10 +12,10 @@ class PaymentMethodRequest implements RequestInterface
     private Order $order;
 
     public function __construct(
-        int    $projectId,
+        int $projectId,
         string $language,
-        Order  $order,
-        array  $selectedCountries = []
+        Order $order,
+        array $selectedCountries = []
     ) {
         $this->projectId = $projectId;
         $this->language = $language;

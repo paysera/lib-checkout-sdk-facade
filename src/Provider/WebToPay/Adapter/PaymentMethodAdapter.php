@@ -13,7 +13,7 @@ class PaymentMethodAdapter
 {
     public function convert(WebToPay_PaymentMethod $providerEntity): PaymentMethod
     {
-        $providerEntityProperties = Invader::getProperties($providerEntity);
+        $providerEntityProperties = (new Invader())->getProperties($providerEntity);
 
         $paymentMethod = new PaymentMethod(
             (string) $providerEntityProperties['key'],

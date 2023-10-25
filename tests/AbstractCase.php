@@ -6,6 +6,7 @@ namespace Paysera\CheckoutSdk\Tests;
 
 use Mockery as m;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
+use Paysera\CheckoutSdk\Util\Invader;
 
 abstract class AbstractCase extends MockeryTestCase
 {
@@ -23,6 +24,11 @@ abstract class AbstractCase extends MockeryTestCase
         parent::mockeryTestTearDown();
 
         m::close();
+    }
+
+    public function getObjectProperties(object $object): array
+    {
+        return (new Invader)->getProperties($object);
     }
 }
 

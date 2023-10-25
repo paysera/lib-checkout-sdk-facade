@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Paysera\CheckoutSdk\Validator;
 
-use Paysera\CheckoutSdk\Exception\CheckoutIntegrationException;
+use Paysera\CheckoutSdk\Exception\ValidationException;
 
 class CountryCodeIso2Validator
 {
@@ -254,18 +254,19 @@ class CountryCodeIso2Validator
         'EH' => 'Western Sahara',
         'YE' => 'Yemen',
         'ZM' => 'Zambia',
-        'ZW' => 'Zimbabwe'
+        'ZW' => 'Zimbabwe',
     ];
 
     /**
-     * @throws CheckoutIntegrationException
+     * @throws ValidationException
+     * @param string $countryCodeIso2
      */
     public function validate(string $countryCodeIso2): void
     {
         $countries = array_keys(static::COUNTRIES);
         $countryCodeIso2UpperCased = strtoupper($countryCodeIso2);
         if (!in_array($countryCodeIso2UpperCased, $countries, true)) {
-            CheckoutIntegrationException::throwValidation("Undefined country code ISO2 `$countryCodeIso2`.");
+            throw new ValidationException("Undefined country code ISO2 `$countryCodeIso2`.");
         }
     }
 }

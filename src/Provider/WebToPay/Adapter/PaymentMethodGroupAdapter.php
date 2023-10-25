@@ -20,7 +20,7 @@ class PaymentMethodGroupAdapter
 
     public function convert(WebToPay_PaymentMethodGroup $providerEntity): PaymentMethodGroup
     {
-        $providerEntityProperties = Invader::getProperties($providerEntity);
+        $providerEntityProperties = (new Invader())->getProperties($providerEntity);
 
         $paymentMethodGroup = new PaymentMethodGroup(
             (string) $providerEntityProperties['groupKey'],
