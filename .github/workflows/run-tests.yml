@@ -27,6 +27,8 @@ jobs:
         php-version: ${{ matrix.php }}
         extensions: fileinfo, dom, curl, libxml, mbstring, bcmath, soap
         coverage: none
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Install PHP dependencies
       run: composer update --${{ matrix.dependency-version }} --no-interaction --no-progress
