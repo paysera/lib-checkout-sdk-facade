@@ -12,7 +12,7 @@ class WebToPayProviderFactoryTest extends AbstractCase
 {
     public function testCreate(): void
     {
-        $provider = WebToPayProviderFactory::create();
+        $provider = (new WebToPayProviderFactory)->create();
 
         $this->assertInstanceOf(
             ProviderInterface::class,
