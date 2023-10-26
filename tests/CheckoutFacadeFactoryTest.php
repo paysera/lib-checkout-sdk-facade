@@ -11,7 +11,7 @@ class CheckoutFacadeFactoryTest extends AbstractCase
 {
     public function testCreate(): void
     {
-        $facade = CheckoutFacadeFactory::create();
+        $facade = (new CheckoutFacadeFactory)->create();
 
         $this->assertNotNull(
             $facade,
