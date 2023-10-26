@@ -1,0 +1,40 @@
+name: Check styling
+
+on: [push]
+
+permissions:
+    contents: read
+
+jobs:
+  style:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get changed files in the src folder
+        id: changed-files-src
+        uses: tj-actions/changed-files@v40
+        with:
+          files: src/*.php
+
+      - name: Setup PHP
+        if: steps.changed-files-src.outputs.any_changed == 'true'
+        uses: shivammathur/setup-php@v2
+        with:
+            php-version: 7.4
+            extensions: fileinfo, dom, curl, libxml, mbstring, bcmath, soap
+            coverage: none
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install PHP dependencies
+        if: steps.changed-files-src.outputs.any_changed == 'true'
+        run: composer update --prefer-stable --no-interaction --no-progress
+
+      - name: Check styling in the src folder
+        if: steps.changed-files-src.outputs.any_changed == 'true'
+        run: vendor/bin/paysera-php-cs-fixer fix -v --config=.php_cs_risky --dry-run --stop-on-violation --using-cache=no --path-mode=intersection ${{ steps.changed-files-src.outputs.all_changed_files }}
