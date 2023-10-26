@@ -17,14 +17,8 @@ abstract class Collection implements Iterator, Countable
 {
     private int $position;
 
-    /**
-     * @var array<ItemInterface>
-     */
     private array $array;
 
-    /**
-     * @param array<ItemInterface> $array
-     */
     public function __construct(array $array = [])
     {
         $this->position = 0;
@@ -40,7 +34,7 @@ abstract class Collection implements Iterator, Countable
         return count($this->array);
     }
 
-    public function current()
+    public function current(): ItemInterface
     {
         return $this->array[$this->position];
     }
@@ -77,10 +71,6 @@ abstract class Collection implements Iterator, Countable
         return new static(array_values($filteredArray));
     }
 
-    /**
-     * @param array<int, ItemInterface> $array
-     * @return void
-     */
     public function exchangeArray(array $array): void
     {
         $isCompatible = array_reduce($array, fn ($carry, $item) => $carry && $this->isCompatible($item), true);
@@ -95,7 +85,6 @@ abstract class Collection implements Iterator, Countable
 
     /**
      * @param ItemInterface $value
-     * @return void
      */
     public function append($value): void
     {
@@ -107,6 +96,7 @@ abstract class Collection implements Iterator, Countable
 
     /**
      * @return ItemInterface|null
+     * @param null|int $index
      */
     public function get(int $index = null)
     {

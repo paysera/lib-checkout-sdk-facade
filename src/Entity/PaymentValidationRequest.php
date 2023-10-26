@@ -14,10 +14,6 @@ class PaymentValidationRequest implements RequestInterface
     private ?string $type;
     private ?string $to;
     private ?string $from;
-
-    /**
-     * @var array<int|string, mixed>|null
-     */
     private ?array $sms;
 
     public function __construct(
@@ -111,18 +107,11 @@ class PaymentValidationRequest implements RequestInterface
         return $this;
     }
 
-    /**
-     * @return array<int|string, mixed>|null
-     */
     public function getSms(): ?array
     {
         return $this->sms;
     }
 
-    /**
-     * @param array<int|string, mixed>|null $sms
-     * @return $this
-     */
     public function setSms(?array $sms): self
     {
         $this->sms = $sms;

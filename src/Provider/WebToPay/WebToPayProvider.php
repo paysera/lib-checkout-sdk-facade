@@ -89,10 +89,6 @@ class WebToPayProvider implements ProviderInterface
         }
     }
 
-    /**
-     * @param PaymentValidationRequest $request
-     * @return array<string, mixed>
-     */
     protected function getValidatePaymentDataFromRequest(PaymentValidationRequest $request): array
     {
         $validatePaymentData = [
@@ -108,10 +104,6 @@ class WebToPayProvider implements ProviderInterface
         return array_filter($validatePaymentData, static fn ($value) => $value !== null);
     }
 
-    /**
-     * @param PaymentRedirectRequest $request
-     * @return array<string, mixed>
-     */
     protected function getRedirectPaymentDataFromRequest(PaymentRedirectRequest $request): array
     {
         $paymentData = [

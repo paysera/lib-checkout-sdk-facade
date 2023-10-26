@@ -23,7 +23,7 @@ class TranslationCollection extends Collection
 
     public function getByLanguage(string $language): ?Translation
     {
-        return $this->filter(static fn (Translation $translation) => $translation->getLanguage() === $language )->get();
+        return $this->filter(static fn (Translation $translation) => $translation->getLanguage() === $language)->get();
     }
 
     public function current(): Translation

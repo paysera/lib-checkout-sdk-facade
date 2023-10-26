@@ -17,10 +17,6 @@ class PaymentValidationResponseAdapter
         $this->typeConverter = new TypeConverter();
     }
 
-    /**
-     * @param array<string, mixed> $providerResponse
-     * @return PaymentValidationResponse
-     */
     public function convert(array $providerResponse): PaymentValidationResponse
     {
         $order = $this->getOrderFromProviderResponse($providerResponse);
@@ -42,10 +38,6 @@ class PaymentValidationResponseAdapter
         ;
     }
 
-    /**
-     * @param array<string, mixed> $providerResponse
-     * @return Order
-     */
     protected function getOrderFromProviderResponse(array $providerResponse): Order
     {
         $order = new Order(
@@ -65,16 +57,10 @@ class PaymentValidationResponseAdapter
         ;
     }
 
-    /**
-     * @param string $propertyName
-     * @param array<string, mixed> $providerResponse
-     * @param int $convertToType
-     * @return mixed|null
-     */
     protected function getProviderProperty(
         string $propertyName,
-        array  $providerResponse,
-        int    $convertToType = TypeConverter::DEFAULT
+        array $providerResponse,
+        int $convertToType = TypeConverter::DEFAULT
     ) {
         if (isset($providerResponse[$propertyName]) === false) {
             return null;

@@ -27,8 +27,8 @@ class PaymentMethodCountryCollection extends Collection
     }
 
     /**
-     * @param array<int,string> $selectedCountries
      * @return PaymentMethodCountryCollection<PaymentMethodCountry>
+     * @param array $selectedCountries
      */
     public function filterByCountryCodes(array $selectedCountries): self
     {
