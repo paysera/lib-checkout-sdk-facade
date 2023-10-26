@@ -13,6 +13,10 @@ use Paysera\CheckoutSdk\Util\Invader;
 use WebToPay_PaymentMethodCountry;
 use WebToPay_PaymentMethodGroup;
 
+/**
+ * @runTestsInSeparateProcesses
+ * @preserveGlobalState disabled
+ */
 class PaymentMethodCountryAdapterTest extends AbstractCase
 {
     public function testConvert(): void

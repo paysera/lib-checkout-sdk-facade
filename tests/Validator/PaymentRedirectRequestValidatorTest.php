@@ -15,6 +15,10 @@ use Paysera\CheckoutSdk\Tests\AbstractCase;
 use Paysera\CheckoutSdk\Validator\CountryCodeIso2Validator;
 use Paysera\CheckoutSdk\Validator\PaymentRedirectRequestValidator;
 
+/**
+ * @runTestsInSeparateProcesses
+ * @preserveGlobalState disabled
+ */
 class PaymentRedirectRequestValidatorTest extends AbstractCase
 {
     /**

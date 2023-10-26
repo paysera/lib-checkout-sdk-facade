@@ -10,6 +10,10 @@ use Paysera\CheckoutSdk\Tests\AbstractCase;
 use Paysera\CheckoutSdk\Util\Invader;
 use WebToPay_PaymentMethod;
 
+/**
+ * @runTestsInSeparateProcesses
+ * @preserveGlobalState disabled
+ */
 class PaymentMethodAdapterTest extends AbstractCase
 {
     public function testConvert(): void

@@ -22,6 +22,10 @@ use WebToPay_PaymentMethodCountry;
 use WebToPay_PaymentMethodList;
 use WebToPayException;
 
+/**
+ * @runTestsInSeparateProcesses
+ * @preserveGlobalState disabled
+ */
 class WebToPayProviderTest extends AbstractCase
 {
     /** @var PaymentMethodCountryAdapter|null|m\MockInterface  */
