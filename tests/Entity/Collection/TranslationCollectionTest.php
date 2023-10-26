@@ -87,7 +87,7 @@ class TranslationCollectionTest extends AbstractCase
         );
         $this->assertEquals(
             'en',
-            $filteredCollection->current()->getLanguage(),
+            $filteredCollection->get()->getLanguage(),
             'The filtered collection item must correspond to the filter condition.'
         );
     }

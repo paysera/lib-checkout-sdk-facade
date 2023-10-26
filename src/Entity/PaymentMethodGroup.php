@@ -16,6 +16,7 @@ class PaymentMethodGroup extends AbstractPaymentMethod
 
     /**
      * Holds actual payment methods.
+     * @var PaymentMethodCollection<PaymentMethod>
      */
     protected PaymentMethodCollection $paymentMethods;
 
@@ -51,7 +52,7 @@ class PaymentMethodGroup extends AbstractPaymentMethod
      */
     public function getTitle(string $language = null): string
     {
-        return $this->translate($this->titleTranslations, $language, $this->defaultLanguage, $this->key);
+        return $this->translate($this->titleTranslations, $language, $this->defaultLanguage) ?? $this->key;
     }
 
     /**
@@ -64,6 +65,7 @@ class PaymentMethodGroup extends AbstractPaymentMethod
 
     /**
      * Returns available payment methods for this group.
+     * @return PaymentMethodCollection<PaymentMethod>
      */
     public function getPaymentMethods(): PaymentMethodCollection
     {

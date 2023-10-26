@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Paysera\CheckoutSdk\Entity;
 
-class Translation
+use Paysera\CheckoutSdk\Entity\Collection\ItemInterface;
+
+class Translation implements ItemInterface
 {
     /**
      * Current translation language.

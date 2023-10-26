@@ -8,9 +8,19 @@ class PaymentMethodRequest implements RequestInterface
 {
     private int $projectId;
     private string $language;
+
+    /**
+     * @var string[]
+     */
     private array $selectedCountries;
     private Order $order;
 
+    /**
+     * @param int $projectId
+     * @param string $language
+     * @param Order $order
+     * @param array<int, string> $selectedCountries
+     */
     public function __construct(
         int $projectId,
         string $language,

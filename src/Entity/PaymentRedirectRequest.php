@@ -71,7 +71,11 @@ class PaymentRedirectRequest implements RequestInterface
 
     public function setPayment(?string $payment): self
     {
-        $this->payment = strtolower($payment);
+        $this->payment = $payment;
+
+        if (is_string($payment)) {
+            $this->payment = strtolower($payment);
+        }
 
         return $this;
     }
@@ -107,7 +111,7 @@ class PaymentRedirectRequest implements RequestInterface
 
     public function setTest(?bool $test): self
     {
-        $this->test = $test;
+        $this->test = $test ?? false;
 
         return $this;
     }

@@ -8,12 +8,23 @@ use Countable;
 use Iterator;
 use Paysera\CheckoutSdk\Exception\InvalidTypeException;
 
+/**
+ * @phpstan-consistent-constructor
+ * @template ItemInterface
+ * @implements Iterator<ItemInterface>
+ */
 abstract class Collection implements Iterator, Countable
 {
     private int $position;
 
+    /**
+     * @var array<ItemInterface>
+     */
     private array $array;
 
+    /**
+     * @param array<ItemInterface> $array
+     */
     public function __construct(array $array = [])
     {
         $this->position = 0;
@@ -31,7 +42,7 @@ abstract class Collection implements Iterator, Countable
 
     public function current()
     {
-        return $this->array[$this->position] ?? null;
+        return $this->array[$this->position];
     }
 
     public function next(): void
@@ -57,6 +68,7 @@ abstract class Collection implements Iterator, Countable
     /**
      * Returns new collection instance with filtered items.
      * @param callable $filterFunction
+     * @return Collection<ItemInterface>
      */
     public function filter(callable $filterFunction): Collection
     {
@@ -65,6 +77,10 @@ abstract class Collection implements Iterator, Countable
         return new static(array_values($filteredArray));
     }
 
+    /**
+     * @param array<int, ItemInterface> $array
+     * @return void
+     */
     public function exchangeArray(array $array): void
     {
         $isCompatible = array_reduce($array, fn ($carry, $item) => $carry && $this->isCompatible($item), true);
@@ -77,8 +93,23 @@ abstract class Collection implements Iterator, Countable
         $this->array = $array;
     }
 
-    protected function appendToCollection($value): void
+    /**
+     * @param ItemInterface $value
+     * @return void
+     */
+    public function append($value): void
     {
+        if ($this->isCompatible($value) === false) {
+            throw new InvalidTypeException($this->getItemType());
+        }
         $this->array[] = $value;
+    }
+
+    /**
+     * @return ItemInterface|null
+     */
+    public function get(int $index = null)
+    {
+        return $this->array[$index ?? $this->position] ?? null;
     }
 }

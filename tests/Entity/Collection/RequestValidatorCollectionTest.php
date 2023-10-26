@@ -122,7 +122,7 @@ class RequestValidatorCollectionTest extends AbstractCase
         );
         $this->assertInstanceOf(
             PaymentMethodRequestValidator::class,
-            $filteredCollection->current(),
+            $filteredCollection->get(),
             'The filtered collection item must correspond to the filter condition.'
         );
     }

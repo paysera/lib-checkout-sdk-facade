@@ -87,7 +87,7 @@ class PaymentMethodCollectionTest extends AbstractCase
         );
         $this->assertEquals(
             '1',
-            $filteredCollection->current()->getKey(),
+            $filteredCollection->get()->getKey(),
             'The filtered collection item must correspond to the filter condition.'
         );
     }

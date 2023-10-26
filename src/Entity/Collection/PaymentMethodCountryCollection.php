@@ -7,7 +7,12 @@ namespace Paysera\CheckoutSdk\Entity\Collection;
 use Paysera\CheckoutSdk\Entity\PaymentMethodCountry;
 
 /**
- * @method PaymentMethodCountryCollection filter(callable $filterFunction)
+ * @template PaymentMethodCountry
+ * @extends Collection<PaymentMethodCountry>
+ *
+ * @method PaymentMethodCountryCollection<PaymentMethodCountry> filter(callable $filterFunction)
+ * @method void append(PaymentMethodCountry $value)
+ * @method PaymentMethodCountry|null get(int $index = null)
  */
 class PaymentMethodCountryCollection extends Collection
 {
@@ -18,12 +23,13 @@ class PaymentMethodCountryCollection extends Collection
 
     public function getByCode(string $code): ?PaymentMethodCountry
     {
-        return $this->filter(
-            static fn (PaymentMethodCountry $paymentMethodCountry) => $paymentMethodCountry->getCode()
-            === $code
-        )->current();
+        return $this->filter(static fn (PaymentMethodCountry $country) => $country->getCode() === $code)->get();
     }
 
+    /**
+     * @param array<int,string> $selectedCountries
+     * @return PaymentMethodCountryCollection<PaymentMethodCountry>
+     */
     public function filterByCountryCodes(array $selectedCountries): self
     {
         $selectedCountriesLowercase = array_map('strtolower', $selectedCountries);
@@ -36,12 +42,7 @@ class PaymentMethodCountryCollection extends Collection
         );
     }
 
-    public function append(PaymentMethodCountry $value): void
-    {
-        $this->appendToCollection($value);
-    }
-
-    public function current(): ?PaymentMethodCountry
+    public function current(): PaymentMethodCountry
     {
         return parent::current();
     }

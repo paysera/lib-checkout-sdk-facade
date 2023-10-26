@@ -85,7 +85,7 @@ class WebToPayProviderTest extends AbstractCase
         $collection->rewind();
         $this->assertEquals(
             $paymentMethodCountry,
-            $collection->current(),
+            $collection->get(),
             'The provider must return countries collection.'
         );
     }

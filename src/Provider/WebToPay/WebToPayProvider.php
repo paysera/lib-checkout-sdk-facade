@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Paysera\CheckoutSdk\Provider\WebToPay;
 
 use Paysera\CheckoutSdk\Entity\Collection\PaymentMethodCountryCollection;
+use Paysera\CheckoutSdk\Entity\PaymentMethodCountry;
 use Paysera\CheckoutSdk\Entity\PaymentMethodRequest;
 use Paysera\CheckoutSdk\Entity\PaymentRedirectRequest;
 use Paysera\CheckoutSdk\Entity\PaymentValidationRequest;
@@ -29,6 +30,11 @@ class WebToPayProvider implements ProviderInterface
         $this->paymentValidationResponseAdapter = $paymentValidationResponseAdapter;
     }
 
+    /**
+     * @param PaymentMethodRequest $request
+     * @return PaymentMethodCountryCollection<PaymentMethodCountry>
+     * @throws ProviderException
+     */
     public function getPaymentMethodCountries(PaymentMethodRequest $request): PaymentMethodCountryCollection
     {
         $countryCollection = new PaymentMethodCountryCollection();
@@ -83,6 +89,10 @@ class WebToPayProvider implements ProviderInterface
         }
     }
 
+    /**
+     * @param PaymentValidationRequest $request
+     * @return array<string, mixed>
+     */
     protected function getValidatePaymentDataFromRequest(PaymentValidationRequest $request): array
     {
         $validatePaymentData = [
@@ -98,6 +108,10 @@ class WebToPayProvider implements ProviderInterface
         return array_filter($validatePaymentData, static fn ($value) => $value !== null);
     }
 
+    /**
+     * @param PaymentRedirectRequest $request
+     * @return array<string, mixed>
+     */
     protected function getRedirectPaymentDataFromRequest(PaymentRedirectRequest $request): array
     {
         $paymentData = [

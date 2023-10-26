@@ -263,7 +263,7 @@ class CountryCodeIso2Validator
      */
     public function validate(string $countryCodeIso2): void
     {
-        $countries = array_keys(static::COUNTRIES);
+        $countries = array_keys(self::COUNTRIES);
         $countryCodeIso2UpperCased = strtoupper($countryCodeIso2);
         if (!in_array($countryCodeIso2UpperCased, $countries, true)) {
             throw new ValidationException("Undefined country code ISO2 `$countryCodeIso2`.");

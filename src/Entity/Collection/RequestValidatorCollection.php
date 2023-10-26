@@ -8,7 +8,12 @@ use Paysera\CheckoutSdk\Entity\RequestInterface;
 use Paysera\CheckoutSdk\Validator\RequestValidatorInterface;
 
 /**
- * @method RequestValidatorCollection filter(callable $filterFunction)
+ * @template RequestValidatorInterface
+ * @extends Collection<RequestValidatorInterface>
+ *
+ * @method RequestValidatorCollection<RequestValidatorInterface> filter(callable $filterFunction)
+ * @method void append(RequestValidatorInterface $value)
+ * @method RequestValidatorInterface|null get(int $index = null)
  */
 class RequestValidatorCollection extends Collection implements RequestValidatorInterface
 {
@@ -35,7 +40,7 @@ class RequestValidatorCollection extends Collection implements RequestValidatorI
         }
     }
 
-    public function current(): ?RequestValidatorInterface
+    public function current(): RequestValidatorInterface
     {
         return parent::current();
     }

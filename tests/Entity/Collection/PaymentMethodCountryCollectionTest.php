@@ -87,7 +87,7 @@ class PaymentMethodCountryCollectionTest extends AbstractCase
         );
         $this->assertEquals(
             'gb',
-            $filteredCollection->current()->getCode(),
+            $filteredCollection->get()->getCode(),
             'The filtered collection item must correspond to the filter condition.'
         );
     }
@@ -119,7 +119,7 @@ class PaymentMethodCountryCollectionTest extends AbstractCase
         );
         $this->assertEquals(
             'lt',
-            $filteredCollection->current()->getCode(),
+            $filteredCollection->get()->getCode(),
             'The filtered collection item must correspond to the filter condition.'
         );
 
@@ -131,7 +131,7 @@ class PaymentMethodCountryCollectionTest extends AbstractCase
         );
         $this->assertEquals(
             'lv',
-            $filteredCollection->current()->getCode(),
+            $filteredCollection->get()->getCode(),
             'The filtered collection item must correspond to the filter condition.'
         );
     }

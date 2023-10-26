@@ -16,6 +16,7 @@ class PaymentMethod extends AbstractPaymentMethod
     /**
      * Logo collection of objects with urls.
      * Usually logo is same for all languages, but exceptions exist.
+     * @var TranslationCollection<Translation>
      */
     protected TranslationCollection $logos;
 
@@ -41,6 +42,7 @@ class PaymentMethod extends AbstractPaymentMethod
 
     /**
      * Returns collection of objects with country codes (country code ISO2) and logo urls.
+     * @return TranslationCollection<Translation>
      */
     public function getLogos(): TranslationCollection
     {
@@ -55,7 +57,7 @@ class PaymentMethod extends AbstractPaymentMethod
      */
     public function getLogoUrl(string $language = null): ?string
     {
-        return $this->translate($this->logos, $language, $this->defaultLanguage, null);
+        return $this->translate($this->logos, $language, $this->defaultLanguage);
     }
 
     /**
@@ -65,6 +67,6 @@ class PaymentMethod extends AbstractPaymentMethod
      */
     public function getTitle(string $language = null): string
     {
-        return $this->translate($this->titleTranslations, $language, $this->defaultLanguage, $this->key);
+        return $this->translate($this->titleTranslations, $language, $this->defaultLanguage) ?? $this->key;
     }
 }

@@ -19,6 +19,11 @@ class TypeConverter
         ]
     ;
 
+    /**
+     * @param mixed $value
+     * @param int $type
+     * @return mixed
+     */
     public function convert($value, int $type = self::DEFAULT)
     {
         if (array_key_exists($type, static::ACCEPTED_TYPES) === false) {
@@ -28,16 +33,28 @@ class TypeConverter
         return call_user_func(self::ACCEPTED_TYPES[$type], $value);
     }
 
+    /**
+     * @param mixed $value
+     * @return int
+     */
     protected function castToInteger($value): int
     {
         return (int) $value;
     }
 
+    /**
+     * @param mixed $value
+     * @return float
+     */
     protected function castToFloat($value): float
     {
         return (float) $value;
     }
 
+    /**
+     * @param mixed $value
+     * @return bool
+     */
     protected function castToBoolean($value): bool
     {
         if (is_string($value)) {

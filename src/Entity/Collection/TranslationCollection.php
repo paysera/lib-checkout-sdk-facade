@@ -7,7 +7,12 @@ namespace Paysera\CheckoutSdk\Entity\Collection;
 use Paysera\CheckoutSdk\Entity\Translation;
 
 /**
- * @method TranslationCollection filter(callable $filterFunction)
+ * @template Translation
+ * @extends Collection<Translation>
+ *
+ * @method TranslationCollection<Translation> filter(callable $filterFunction)
+ * @method void append(Translation $value)
+ * @method Translation|null get(int $index = null)
  */
 class TranslationCollection extends Collection
 {
@@ -18,18 +23,10 @@ class TranslationCollection extends Collection
 
     public function getByLanguage(string $language): ?Translation
     {
-        return $this->filter(
-            static fn (Translation $translation) => $translation->getLanguage()
-            === $language
-        )->current();
+        return $this->filter(static fn (Translation $translation) => $translation->getLanguage() === $language )->get();
     }
 
-    public function append(Translation $value): void
-    {
-        $this->appendToCollection($value);
-    }
-
-    public function current(): ?Translation
+    public function current(): Translation
     {
         return parent::current();
     }

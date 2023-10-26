@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Paysera\CheckoutSdk;
 
 use Paysera\CheckoutSdk\Entity\Collection\PaymentMethodCountryCollection;
+use Paysera\CheckoutSdk\Entity\PaymentMethodCountry;
 use Paysera\CheckoutSdk\Entity\PaymentMethodRequest;
 use Paysera\CheckoutSdk\Entity\PaymentRedirectRequest;
 use Paysera\CheckoutSdk\Entity\PaymentValidationRequest;
@@ -25,6 +26,10 @@ final class CheckoutFacade
         $this->requestValidator = $requestValidator;
     }
 
+    /**
+     * @param PaymentMethodRequest $request
+     * @return PaymentMethodCountryCollection<PaymentMethodCountry>
+     */
     public function getPaymentMethodCountries(PaymentMethodRequest $request): PaymentMethodCountryCollection
     {
         $this->requestValidator->validate($request);

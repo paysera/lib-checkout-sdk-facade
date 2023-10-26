@@ -7,7 +7,12 @@ namespace Paysera\CheckoutSdk\Entity\Collection;
 use Paysera\CheckoutSdk\Entity\PaymentMethodGroup;
 
 /**
- * @method PaymentMethodGroupCollection filter(callable $filterFunction)
+ * @template PaymentMethodGroup
+ * @extends Collection<PaymentMethodGroup>
+ *
+ * @method PaymentMethodGroupCollection<PaymentMethodGroup> filter(callable $filterFunction)
+ * @method void append(PaymentMethodGroup $value)
+ * @method PaymentMethodGroup|null get(int $index = null)
  */
 class PaymentMethodGroupCollection extends Collection
 {
@@ -16,12 +21,7 @@ class PaymentMethodGroupCollection extends Collection
         return $item instanceof PaymentMethodGroup;
     }
 
-    public function append(PaymentMethodGroup $value): void
-    {
-        $this->appendToCollection($value);
-    }
-
-    public function current(): ?PaymentMethodGroup
+    public function current(): PaymentMethodGroup
     {
         return parent::current();
     }
