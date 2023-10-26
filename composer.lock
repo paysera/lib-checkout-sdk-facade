@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f77e41f992012911f97504e5ac6a7913",
+    "content-hash": "258cfe3c4c9614550c9eda6388bde7cb",
     "packages": [
         {
             "name": "webtopay/libwebtopay",
@@ -467,26 +467,26 @@
         },
         {
             "name": "paysera/lib-php-cs-fixer-config",
-            "version": "2.4.1",
+            "version": "2.5.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/paysera/lib-php-cs-fixer-config.git",
-                "reference": "8fbd192e7a07138f64f6855f297173a550a5fe6e"
+                "url": "https://github.com/denjai/lib-php-cs-fixer-config.git",
+                "reference": "74e8b1ca5bfda32c039e24e40ed89157e4948fe6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paysera/lib-php-cs-fixer-config/zipball/8fbd192e7a07138f64f6855f297173a550a5fe6e",
-                "reference": "8fbd192e7a07138f64f6855f297173a550a5fe6e",
+                "url": "https://api.github.com/repos/denjai/lib-php-cs-fixer-config/zipball/74e8b1ca5bfda32c039e24e40ed89157e4948fe6",
+                "reference": "74e8b1ca5bfda32c039e24e40ed89157e4948fe6",
                 "shasum": ""
             },
             "require": {
                 "doctrine/inflector": "^1.0",
-                "php": "^7.0"
+                "php": "^7.0 || ^8.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "2.16.3",
-                "gecko-packages/gecko-php-unit": "^2.0",
-                "phpunit/phpunit": "^6.0"
+                "friendsofphp/php-cs-fixer": "2.19.3",
+                "phpunit/phpunit": "^6.0 || ^7.0 || ^8.0 || ^9.0",
+                "sanmai/phpunit-legacy-adapter": "^6.4 || ^8.2"
             },
             "suggest": {
                 "paysera/lib-arcanist-php-cs-extension": "Integrates PHP CS Fixer into arcanist workflow"
@@ -497,18 +497,39 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Paysera\\PhpCsFixerConfig\\": "src",
+                    "Paysera\\PhpCsFixerConfig\\Composer\\": "composer",
                     "Paysera\\PhpCsFixerConfig\\Config\\": "config",
-                    "Paysera\\PhpCsFixerConfig\\Composer\\": "composer"
+                    "Paysera\\PhpCsFixerConfig\\": "src"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Paysera\\PhpCsFixerConfig\\Tests\\": "tests"
+                }
+            },
+            "scripts": {
+                "download-phar": [
+                    "./download-phar.sh"
+                ],
+                "phpunit": [
+                    "phpunit"
+                ],
+                "fix-cs": [
+                    "./paysera-php-cs-fixer fix"
+                ],
+                "test-cs": [
+                    "./paysera-php-cs-fixer fix --dry-run -v"
+                ],
+                "test": [
+                    "@phpunit",
+                    "@test-cs"
+                ]
+            },
             "description": "PHP CS Fixer config for Paysera conventions",
             "support": {
-                "issues": "https://github.com/paysera/lib-php-cs-fixer-config/issues",
-                "source": "https://github.com/paysera/lib-php-cs-fixer-config/tree/2.4.1"
+                "source": "https://github.com/denjai/lib-php-cs-fixer-config/tree/2.5.0"
             },
-            "time": "2021-10-12T08:38:21+00:00"
+            "time": "2022-03-09T10:55:27+00:00"
         },
         {
             "name": "phar-io/manifest",

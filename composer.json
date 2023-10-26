@@ -25,16 +25,13 @@
     },
     "require-dev": {
         "mockery/mockery": "^1.6",
-        "paysera/lib-php-cs-fixer-config": "^2.4",
+        "paysera/lib-php-cs-fixer-config": "^2.5",
         "phpunit/phpunit": "^9.6"
     },
     "scripts": {
         "format": "vendor/bin/paysera-php-cs-fixer fix --allow-risky=yes",
         "test": "vendor/bin/phpunit --do-not-cache-result",
         "test-coverage": "vendor/bin/phpunit --do-not-cache-result --coverage-html coverage",
-        "post-install-cmd": [
-            "Paysera\\PhpCsFixerConfig\\Composer\\PhpCsFixerConfigProvider::copyPhpCs"
-        ],
         "post-update-cmd": [
             "Paysera\\PhpCsFixerConfig\\Composer\\PhpCsFixerConfigProvider::copyPhpCs"
         ]
@@ -43,5 +40,11 @@
         "sort-packages": true
     },
     "prefer-stable": true,
-    "minimum-stability": "stable"
+    "minimum-stability": "stable",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/denjai/lib-php-cs-fixer-config.git"
+        }
+    ]
 }
