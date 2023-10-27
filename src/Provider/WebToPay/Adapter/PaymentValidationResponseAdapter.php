@@ -12,9 +12,9 @@ class PaymentValidationResponseAdapter
 {
     protected TypeConverter $typeConverter;
 
-    public function __construct()
+    public function __construct(TypeConverter $typeConverter)
     {
-        $this->typeConverter = new TypeConverter();
+        $this->typeConverter = $typeConverter;
     }
 
     public function convert(array $providerResponse): PaymentValidationResponse

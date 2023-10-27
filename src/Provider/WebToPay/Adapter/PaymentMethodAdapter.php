@@ -11,9 +11,16 @@ use WebToPay_PaymentMethod;
 
 class PaymentMethodAdapter
 {
+    protected Invader $invader;
+
+    public function __construct(Invader $invader)
+    {
+        $this->invader = $invader;
+    }
+
     public function convert(WebToPay_PaymentMethod $providerEntity): PaymentMethod
     {
-        $providerEntityProperties = (new Invader())->getProperties($providerEntity);
+        $providerEntityProperties = $this->invader->getProperties($providerEntity);
 
         $paymentMethod = new PaymentMethod(
             (string) $providerEntityProperties['key'],

@@ -1,6 +1,36 @@
 parameters:
 	ignoreErrors:
 		-
+			message: "#^Method Paysera\\\\CheckoutSdk\\\\CheckoutFacadeFactory\\:\\:create\\(\\) should return Paysera\\\\CheckoutSdk\\\\CheckoutFacade but returns object\\.$#"
+			count: 1
+			path: src/CheckoutFacadeFactory.php
+
+		-
+			message: "#^Method Paysera\\\\CheckoutSdk\\\\ConfigProvider\\:\\:get\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/ConfigProvider.php
+
+		-
+			message: "#^Method Paysera\\\\CheckoutSdk\\\\ConfigProvider\\:\\:getNested\\(\\) has no return type specified\\.$#"
+			count: 1
+			path: src/ConfigProvider.php
+
+		-
+			message: "#^Method Paysera\\\\CheckoutSdk\\\\ConfigProvider\\:\\:getNested\\(\\) has parameter \\$config with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/ConfigProvider.php
+
+		-
+			message: "#^Method Paysera\\\\CheckoutSdk\\\\ConfigProvider\\:\\:getNested\\(\\) has parameter \\$keys with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/ConfigProvider.php
+
+		-
+			message: "#^Property Paysera\\\\CheckoutSdk\\\\ConfigProvider\\:\\:\\$config type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/ConfigProvider.php
+
+		-
 			message: "#^Method Paysera\\\\CheckoutSdk\\\\Entity\\\\Collection\\\\Collection\\:\\:__construct\\(\\) has parameter \\$array with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Entity/Collection/Collection.php
@@ -99,6 +129,41 @@ parameters:
 			message: "#^Method Paysera\\\\CheckoutSdk\\\\Provider\\\\WebToPay\\\\WebToPayProvider\\:\\:getValidatePaymentDataFromRequest\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Provider/WebToPay/WebToPayProvider.php
+
+		-
+			message: "#^Method Paysera\\\\CheckoutSdk\\\\Util\\\\Container\\:\\:build\\(\\) has parameter \\$parameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Util/Container.php
+
+		-
+			message: "#^Method Paysera\\\\CheckoutSdk\\\\Util\\\\Container\\:\\:fillCollectionWithInterfaces\\(\\) has parameter \\$collection with generic class Paysera\\\\CheckoutSdk\\\\Entity\\\\Collection\\\\Collection but does not specify its types\\: ItemInterface$#"
+			count: 1
+			path: src/Util/Container.php
+
+		-
+			message: "#^Method Paysera\\\\CheckoutSdk\\\\Util\\\\Container\\:\\:get\\(\\) has parameter \\$parameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Util/Container.php
+
+		-
+			message: "#^Method Paysera\\\\CheckoutSdk\\\\Util\\\\Container\\:\\:getDependencies\\(\\) has parameter \\$constructorParameters with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Util/Container.php
+
+		-
+			message: "#^Method Paysera\\\\CheckoutSdk\\\\Util\\\\Container\\:\\:getDependencies\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Util/Container.php
+
+		-
+			message: "#^Parameter \\#1 \\$argument of class ReflectionClass constructor expects class\\-string\\<T of object\\>\\|T of object, string given\\.$#"
+			count: 1
+			path: src/Util/Container.php
+
+		-
+			message: "#^Property Paysera\\\\CheckoutSdk\\\\Util\\\\Container\\:\\:\\$instances type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Util/Container.php
 
 		-
 			message: "#^Method Paysera\\\\CheckoutSdk\\\\Util\\\\Invader\\:\\:getProperties\\(\\) return type has no value type specified in iterable type array\\.$#"

@@ -10,15 +10,10 @@ use Paysera\CheckoutSdk\Tests\AbstractCase;
 use Paysera\CheckoutSdk\Util\Invader;
 use WebToPay_PaymentMethod;
 
-/**
- * @runTestsInSeparateProcesses
- * @preserveGlobalState disabled
- */
 class PaymentMethodAdapterTest extends AbstractCase
 {
     public function testConvert(): void
     {
-        $adapter = new PaymentMethodAdapter();
         $providerData = [
             'key' => 'method test key',
             'defaultLanguage' => 'en',
@@ -35,10 +30,14 @@ class PaymentMethodAdapterTest extends AbstractCase
         ];
 
         $providerEntity = m::mock(WebToPay_PaymentMethod::class);
-        m::mock('overload:'. Invader::class)
+        $invaderMock = m::mock(Invader::class)
             ->expects()
             ->getProperties($providerEntity)
-            ->andReturn($providerData);
+            ->andReturn($providerData)
+            ->getMock();
+        $this->container->set(Invader::class, $invaderMock);
+
+        $adapter = $this->container->get(PaymentMethodAdapter::class);
 
         $paymentMethod = $adapter->convert($providerEntity);
 

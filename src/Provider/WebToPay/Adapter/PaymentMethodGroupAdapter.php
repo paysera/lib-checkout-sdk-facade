@@ -12,15 +12,17 @@ use WebToPay_PaymentMethodGroup;
 class PaymentMethodGroupAdapter
 {
     protected PaymentMethodAdapter $paymentMethodAdapter;
+    protected Invader $invader;
 
-    public function __construct(PaymentMethodAdapter $paymentMethodAdapter)
+    public function __construct(PaymentMethodAdapter $paymentMethodAdapter, Invader $invader)
     {
         $this->paymentMethodAdapter = $paymentMethodAdapter;
+        $this->invader = $invader;
     }
 
     public function convert(WebToPay_PaymentMethodGroup $providerEntity): PaymentMethodGroup
     {
-        $providerEntityProperties = (new Invader())->getProperties($providerEntity);
+        $providerEntityProperties = $this->invader->getProperties($providerEntity);
 
         $paymentMethodGroup = new PaymentMethodGroup(
             (string) $providerEntityProperties['groupKey'],

@@ -54,7 +54,7 @@ class RequestValidatorCollectionTest extends AbstractCase
      */
     public function testCanValidate(string $class, bool $canValidate, string $message): void
     {
-        $paymentMethodRequestValidator = new PaymentMethodRequestValidator();
+        $paymentMethodRequestValidator = $this->container->get(PaymentMethodRequestValidator::class);
         $collection = new RequestValidatorCollection([$paymentMethodRequestValidator]);
 
         $this->assertEquals(
@@ -107,8 +107,8 @@ class RequestValidatorCollectionTest extends AbstractCase
 
     public function testFilter(): void
     {
-        $validator1 = new PaymentMethodRequestValidator();
-        $validator2 = new PaymentRedirectRequestValidator();
+        $validator1 = $this->container->get(PaymentMethodRequestValidator::class);
+        $validator2 = $this->container->get(PaymentRedirectRequestValidator::class);
         $collection = new RequestValidatorCollection([$validator1, $validator2]);
 
         $filteredCollection = $collection->filter(

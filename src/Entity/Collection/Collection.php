@@ -25,7 +25,7 @@ abstract class Collection implements Iterator, Countable
         $this->exchangeArray($array);
     }
 
-    abstract protected function getItemType(): string;
+    abstract public function getItemType(): string;
 
     abstract public function isCompatible(object $item): bool;
 

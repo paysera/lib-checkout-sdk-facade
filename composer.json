@@ -21,7 +21,8 @@
     ],
     "require": {
         "php": ">=7.4",
-        "webtopay/libwebtopay": "^1.9"
+        "psr/container": "^2.0",
+        "webtopay/libwebtopay": "^2.0"
     },
     "require-dev": {
         "mockery/mockery": "^1.6",

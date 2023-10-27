@@ -15,20 +15,23 @@ use Paysera\CheckoutSdk\Tests\AbstractCase;
 use Paysera\CheckoutSdk\Validator\CountryCodeIso2Validator;
 use Paysera\CheckoutSdk\Validator\PaymentMethodRequestValidator;
 
-/**
- * @runTestsInSeparateProcesses
- * @preserveGlobalState disabled
- */
 class PaymentMethodRequestValidatorTest extends AbstractCase
 {
+    protected ?PaymentMethodRequestValidator $validator = null;
+
+    public function mockeryTestSetUp(): void
+    {
+        parent::mockeryTestSetUp();
+
+        $this->validator = $this->container->get(PaymentMethodRequestValidator::class);
+    }
+
     /**
      * @dataProvider canValidateRequestsDataProvider
      */
     public function testCanValidate(RequestInterface $request, bool $isCompatible, string $message): void
     {
-        $validator = new PaymentMethodRequestValidator();
-
-        $this->assertEquals($isCompatible, $validator->canValidate($request), $message);
+        $this->assertEquals($isCompatible, $this->validator->canValidate($request), $message);
     }
 
     /**
@@ -37,23 +40,23 @@ class PaymentMethodRequestValidatorTest extends AbstractCase
     public function testConvert(RequestInterface $request, bool $isCompatible): void
     {
         if ($isCompatible === false) {
-            $validator = new PaymentMethodRequestValidator();
-
             $this->expectException(InvalidTypeException::class);
             $this->expectExceptionCode(BaseException::E_INVALID_TYPE);
         } else {
-            $countryValidator = m::mock('overload:' . CountryCodeIso2Validator::class);
-            $countryValidator->shouldReceive('validate')
+            $countryValidatorMock = m::mock(CountryCodeIso2Validator::class)
+                ->shouldReceive('validate')
                 ->once()
-                ->with('gb');
-            $countryValidator->shouldReceive('validate')
+                ->with('gb')
+                ->getMock()
+                ->shouldReceive('validate')
                 ->once()
-                ->with('lt');
+                ->with('lt')
+                ->getMock();
 
-            $validator = new PaymentMethodRequestValidator();
+            $this->container->set(CountryCodeIso2Validator::class, $countryValidatorMock);
         }
 
-        $validator->validate($request);
+        $this->container->build(PaymentMethodRequestValidator::class)->validate($request);
     }
 
     public function canValidateRequestsDataProvider(): array

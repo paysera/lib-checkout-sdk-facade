@@ -13,21 +13,10 @@ use Paysera\CheckoutSdk\Util\Invader;
 use WebToPay_PaymentMethod;
 use WebToPay_PaymentMethodGroup;
 
-/**
- * @runTestsInSeparateProcesses
- * @preserveGlobalState disabled
- */
 class PaymentMethodGroupAdapterTest extends AbstractCase
 {
     public function testConvert(): void
     {
-        $paymentMethod = m::mock(PaymentMethod::class);
-        $paymentMethodAdapter = m::mock(PaymentMethodAdapter::class);
-        $paymentMethodAdapter->shouldReceive('convert')
-            ->withAnyArgs()
-            ->andReturn($paymentMethod);
-
-        $adapter = new PaymentMethodGroupAdapter($paymentMethodAdapter);
         $providerData = [
             'groupKey' => 'group test key',
             'defaultLanguage' => 'en',
@@ -44,10 +33,22 @@ class PaymentMethodGroupAdapterTest extends AbstractCase
         ];
 
         $providerEntity = m::mock(WebToPay_PaymentMethodGroup::class);
-        m::mock('overload:'. Invader::class)
+        $invaderMock = m::mock(Invader::class)
             ->expects()
             ->getProperties($providerEntity)
-            ->andReturn($providerData);
+            ->andReturn($providerData)
+            ->getMock();
+        $this->container->set(Invader::class, $invaderMock);
+
+        $paymentMethod = m::mock(PaymentMethod::class);
+        $paymentMethodAdapterMock = m::mock(PaymentMethodAdapter::class)
+            ->shouldReceive('convert')
+            ->withAnyArgs()
+            ->andReturn($paymentMethod)
+            ->getMock();
+        $this->container->set(PaymentMethodAdapter::class, $paymentMethodAdapterMock);
+
+        $adapter = $this->container->get(PaymentMethodGroupAdapter::class);
 
         $paymentMethodGroup = $adapter->convert($providerEntity);
 

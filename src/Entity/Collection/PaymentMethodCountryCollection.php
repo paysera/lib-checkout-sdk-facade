@@ -47,7 +47,7 @@ class PaymentMethodCountryCollection extends Collection
         return parent::current();
     }
 
-    protected function getItemType(): string
+    public function getItemType(): string
     {
         return PaymentMethodCountry::class;
     }

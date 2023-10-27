@@ -12,15 +12,17 @@ use WebToPay_PaymentMethodCountry;
 class PaymentMethodCountryAdapter
 {
     protected PaymentMethodGroupAdapter $paymentMethodGroupAdapter;
+    protected Invader $invader;
 
-    public function __construct(PaymentMethodGroupAdapter $paymentMethodGroupAdapter)
+    public function __construct(PaymentMethodGroupAdapter $paymentMethodGroupAdapter, Invader $invader)
     {
         $this->paymentMethodGroupAdapter = $paymentMethodGroupAdapter;
+        $this->invader = $invader;
     }
 
     public function convert(WebToPay_PaymentMethodCountry $providerEntity): PaymentMethodCountry
     {
-        $providerEntityProperties = (new Invader())->getProperties($providerEntity);
+        $providerEntityProperties = $this->invader->getProperties($providerEntity);
 
         $paymentMethodCountry = new PaymentMethodCountry(
             (string) $providerEntityProperties['countryCode'],

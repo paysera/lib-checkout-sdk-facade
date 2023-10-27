@@ -11,7 +11,7 @@ class PaymentValidationResponseAdapterTest extends AbstractCase
 {
     public function testConvert(): void
     {
-        $adapter = new PaymentValidationResponseAdapter();
+        $adapter = $this->container->get(PaymentValidationResponseAdapter::class);
         $providerData = [
             'projectid' => '111',
             'status' => '1',

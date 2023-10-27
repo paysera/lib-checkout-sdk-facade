@@ -15,20 +15,23 @@ use Paysera\CheckoutSdk\Tests\AbstractCase;
 use Paysera\CheckoutSdk\Validator\CountryCodeIso2Validator;
 use Paysera\CheckoutSdk\Validator\PaymentRedirectRequestValidator;
 
-/**
- * @runTestsInSeparateProcesses
- * @preserveGlobalState disabled
- */
 class PaymentRedirectRequestValidatorTest extends AbstractCase
 {
+    protected ?PaymentRedirectRequestValidator $validator = null;
+
+    public function mockeryTestSetUp(): void
+    {
+        parent::mockeryTestSetUp();
+
+        $this->validator = $this->container->get(PaymentRedirectRequestValidator::class);
+    }
+
     /**
      * @dataProvider canValidateRequestsDataProvider
      */
     public function testCanValidate(RequestInterface $request, bool $isCompatible, string $message): void
     {
-        $validator = new PaymentRedirectRequestValidator();
-
-        $this->assertEquals($isCompatible, $validator->canValidate($request), $message);
+        $this->assertEquals($isCompatible, $this->validator->canValidate($request), $message);
     }
 
     /**
@@ -37,20 +40,19 @@ class PaymentRedirectRequestValidatorTest extends AbstractCase
     public function testConvert(RequestInterface $request, bool $isCompatible): void
     {
         if ($isCompatible === false) {
-            $validator = new PaymentRedirectRequestValidator();
-
             $this->expectException(InvalidTypeException::class);
             $this->expectExceptionCode(BaseException::E_INVALID_TYPE);
         } else {
-            $countryValidator = m::mock('overload:' . CountryCodeIso2Validator::class);
-            $countryValidator->shouldReceive('validate')
+            $countryValidatorMock = m::mock(CountryCodeIso2Validator::class)
+                ->shouldReceive('validate')
                 ->once()
-                ->with('gb');
+                ->with('gb')
+                ->getMock();
 
-            $validator = new PaymentRedirectRequestValidator();
+            $this->container->set(CountryCodeIso2Validator::class, $countryValidatorMock);
         }
 
-        $validator->validate($request);
+        $this->container->build(PaymentRedirectRequestValidator::class)->validate($request);
     }
 
     public function canValidateRequestsDataProvider(): array

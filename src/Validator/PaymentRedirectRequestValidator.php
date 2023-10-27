@@ -13,9 +13,9 @@ class PaymentRedirectRequestValidator implements RequestValidatorInterface
 {
     protected CountryCodeIso2Validator $countryCodeIso2Validator;
 
-    public function __construct()
+    public function __construct(CountryCodeIso2Validator $countryCodeIso2Validator)
     {
-        $this->countryCodeIso2Validator = new CountryCodeIso2Validator();
+        $this->countryCodeIso2Validator = $countryCodeIso2Validator;
     }
 
     public function canValidate(RequestInterface $request): bool

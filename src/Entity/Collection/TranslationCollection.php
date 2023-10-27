@@ -31,7 +31,7 @@ class TranslationCollection extends Collection
         return parent::current();
     }
 
-    protected function getItemType(): string
+    public function getItemType(): string
     {
         return Translation::class;
     }

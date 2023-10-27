@@ -45,7 +45,7 @@ class RequestValidatorCollection extends Collection implements RequestValidatorI
         return parent::current();
     }
 
-    protected function getItemType(): string
+    public function getItemType(): string
     {
         return RequestValidatorInterface::class;
     }
