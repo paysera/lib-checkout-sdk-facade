@@ -2,11 +2,10 @@
 
 namespace Paysera\CheckoutSdk\Util;
 
+use Exception;
 use Paysera\CheckoutSdk\ConfigProvider;
-use Paysera\CheckoutSdk\Entity\Collection\Collection;
 use Paysera\CheckoutSdk\Exception\ContainerException;
 use Paysera\CheckoutSdk\Exception\ContainerNotFoundException;
-use Paysera\CheckoutSdk\Exception\InvalidTypeException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -20,9 +19,9 @@ class Container implements ContainerInterface
 
     public function __construct(ConfigProvider $configProvider = null)
     {
+        $this->instances = [];
         $this->configProvider = $configProvider ?? new ConfigProvider();
         $this->instances[ConfigProvider::class] = $this->configProvider;
-        $this->instances = [];
     }
 
     public function has(string $id): bool
@@ -30,19 +29,19 @@ class Container implements ContainerInterface
         return isset($this->instances[$id]);
     }
 
-    public function get(string $id, array $parameters = []): object
+    public function get(string $id): object
     {
         if ($this->has($id) === false) {
-            $this->set($id, $this->build($id, $parameters));
+            try {
+                $instance = $this->build($id);
+            } catch (Exception $exception) {
+                throw new ContainerNotFoundException("Service with id `$id` not found in container.");
+            }
+
+            $this->set($id, $instance);
         }
 
-        $result = $this->instances[$id] ?? null;
-
-        if ($result === null) {
-            throw new ContainerNotFoundException("Service with id `$id` not found in container.");
-        }
-
-        return $result;
+        return $this->instances[$id];
     }
 
     public function set(string $id, object $concrete = null): void
@@ -52,19 +51,23 @@ class Container implements ContainerInterface
 
     /**
      * @param string $id
-     * @param array $parameters
      * @return object
      * @throws ContainerException
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function build(string $id, array $parameters = []): object
+    public function build(string $id): object
     {
         $aliases = $this->configProvider->get('container.aliases');
         $alias = $aliases[$id] ?? null;
-
         if ($alias !== null) {
             return $this->get($alias);
+        }
+
+        $factories = $this->configProvider->get('container.factories');
+        $factory = $factories[$id] ?? null;
+        if (is_callable($factory)) {
+            return $factory($this);
         }
 
         try {
@@ -73,39 +76,7 @@ class Container implements ContainerInterface
             throw new ContainerException("Class $id has instantiable issues.");
         }
 
-        if ($instance instanceof Collection) {
-            $this->fillCollectionWithInterfaces($instance);
-        }
-
         return $instance;
-    }
-
-    /**
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     * @param Collection $collection
-     */
-    protected function fillCollectionWithInterfaces(Collection $collection): void
-    {
-        $itemType = $collection->getItemType();
-
-        if (preg_match('/^.+Interface$/', $itemType) === false) {
-            return;
-        }
-
-        $items = [];
-        $collectionClassName = get_class($collection);
-        foreach (get_declared_classes() as $className) {
-            if ($className !== $collectionClassName && in_array($itemType, class_implements($className), true)) {
-                $items[] = $this->get($className);
-            }
-        }
-
-        try {
-            $collection->exchangeArray($items);
-        } catch (InvalidTypeException $exception) {
-            throw new ContainerException("Cannot fill collection $collectionClassName.");
-        }
     }
 
     /**
