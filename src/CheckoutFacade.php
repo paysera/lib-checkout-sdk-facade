@@ -11,21 +11,22 @@ use Paysera\CheckoutSdk\Entity\PaymentRedirectRequest;
 use Paysera\CheckoutSdk\Entity\PaymentValidationRequest;
 use Paysera\CheckoutSdk\Entity\PaymentValidationResponse;
 use Paysera\CheckoutSdk\Provider\ProviderInterface;
-use Paysera\CheckoutSdk\Validator\RequestValidatorInterface;
+use Paysera\CheckoutSdk\Validator\RequestValidator;
 
 final class CheckoutFacade
 {
     private ProviderInterface $provider;
-    private RequestValidatorInterface $requestValidator;
+    private RequestValidator $requestValidator;
 
     public function __construct(
         ProviderInterface $provider,
-        RequestValidatorInterface $requestValidator
+        RequestValidator $requestValidator
     ) {
         $this->provider = $provider;
         $this->requestValidator = $requestValidator;
     }
 
+    // TODO add filter class
     /**
      * @param PaymentMethodRequest $request
      * @return PaymentMethodCountryCollection<PaymentMethodCountry>
@@ -43,6 +44,7 @@ final class CheckoutFacade
         return $paymentMethodCountries;
     }
 
+    // TODO Return RedirectResponse
     public function redirectToPayment(PaymentRedirectRequest $request): void
     {
         $this->requestValidator->validate($request);
@@ -50,6 +52,7 @@ final class CheckoutFacade
         $this->provider->redirectToPayment($request);
     }
 
+    // TODO rename method to IfPaymentSuccess
     public function validatePayment(PaymentValidationRequest $request): PaymentValidationResponse
     {
         $this->requestValidator->validate($request);

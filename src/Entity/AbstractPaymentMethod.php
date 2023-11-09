@@ -51,6 +51,7 @@ abstract class AbstractPaymentMethod implements ItemInterface
         return $this->titleTranslations;
     }
 
+    // TODO $language is nullable
     /**
      * Get translation from collection. Uses specified language or default one.
      * Can return the default value if any languages were not specified.

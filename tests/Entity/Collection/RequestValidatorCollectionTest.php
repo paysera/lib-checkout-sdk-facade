@@ -49,49 +49,6 @@ class RequestValidatorCollectionTest extends AbstractCase
         $this->assertEquals($isCompatible, $collection->isCompatible(m::mock($class)), $message);
     }
 
-    /**
-     * @dataProvider canValidateDataProvider
-     */
-    public function testCanValidate(string $class, bool $canValidate, string $message): void
-    {
-        $paymentMethodRequestValidator = $this->container->get(PaymentMethodRequestValidator::class);
-        $collection = new RequestValidatorCollection([$paymentMethodRequestValidator]);
-
-        $this->assertEquals(
-            $canValidate,
-            $collection->canValidate(m::mock($class)),
-            $message
-        );
-    }
-
-    public function testValidate(): void
-    {
-        $paymentMethodRequestValidator = m::mock(PaymentMethodRequestValidator::class);
-        $paymentMethodRequestValidator->shouldReceive('canValidate')
-            ->once()
-            ->withAnyArgs()
-            ->andReturn(true);
-        $paymentMethodRequestValidator->shouldReceive('validate')
-            ->once()
-            ->withAnyArgs();
-
-        $paymentRedirectRequestValidator = m::mock(PaymentRedirectRequestValidator::class);
-        $paymentRedirectRequestValidator->shouldReceive('canValidate')
-            ->once()
-            ->withAnyArgs()
-            ->andReturn(false);
-        $paymentRedirectRequestValidator->shouldReceive('validate')
-            ->never()
-            ->withAnyArgs();
-
-        $collection = new RequestValidatorCollection([
-            $paymentMethodRequestValidator,
-            $paymentRedirectRequestValidator
-        ]);
-
-        $collection->validate(m::mock(PaymentMethodRequest::class));
-    }
-
     public function testCurrent(): void
     {
         $collection = new RequestValidatorCollection([m::mock(PaymentMethodRequestValidator::class)]);
@@ -139,22 +96,6 @@ class RequestValidatorCollectionTest extends AbstractCase
                 CountryCodeIso2Validator::class,
                 false,
                 'The entity must be not compatible for collection.'
-            ],
-        ];
-    }
-
-    public function canValidateDataProvider(): array
-    {
-        return [
-            'canValidate'    => [
-                PaymentMethodRequest::class,
-                true,
-                'The collection must validate the entity.'
-            ],
-            'cannotValidate' => [
-                PaymentValidationRequest::class,
-                false,
-                'The collection must not validate the entity.'
             ],
         ];
     }

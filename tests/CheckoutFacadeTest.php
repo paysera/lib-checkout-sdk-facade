@@ -7,20 +7,20 @@ namespace Paysera\CheckoutSdk\Tests;
 use Mockery as m;
 use Paysera\CheckoutSdk\CheckoutFacade;
 use Paysera\CheckoutSdk\Entity\Collection\PaymentMethodCountryCollection;
-use Paysera\CheckoutSdk\Entity\Collection\RequestValidatorCollection;
 use Paysera\CheckoutSdk\Entity\PaymentMethodRequest;
 use Paysera\CheckoutSdk\Entity\PaymentRedirectRequest;
 use Paysera\CheckoutSdk\Entity\PaymentValidationRequest;
 use Paysera\CheckoutSdk\Entity\PaymentValidationResponse;
 use Paysera\CheckoutSdk\Provider\ProviderInterface;
+use Paysera\CheckoutSdk\Validator\RequestValidator;
 
 class CheckoutFacadeTest extends AbstractCase
 {
     protected const EXCEPTION_MESSAGE = 'Some problems.';
     /**
-     * @var RequestValidatorCollection|null|m\MockInterface
+     * @var RequestValidator|null|m\MockInterface
      */
-    protected ?RequestValidatorCollection $requestValidatorCollectionMock = null;
+    protected ?RequestValidator $requestValidatorMock = null;
     /**
      * @var ProviderInterface|null|m\MockInterface
      */
@@ -32,12 +32,12 @@ class CheckoutFacadeTest extends AbstractCase
     {
         parent::mockeryTestSetUp();
 
-        $this->requestValidatorCollectionMock = m::mock(RequestValidatorCollection::class);
+        $this->requestValidatorMock = m::mock(RequestValidator::class);
         $this->providerMock = m::mock(ProviderInterface::class);
 
         $this->facade = new CheckoutFacade(
             $this->providerMock,
-            $this->requestValidatorCollectionMock
+            $this->requestValidatorMock
         );
     }
 
@@ -54,7 +54,7 @@ class CheckoutFacadeTest extends AbstractCase
             ->with(['gb'])
             ->andReturn($collection);
 
-        $this->requestValidatorCollectionMock->shouldReceive('validate')
+        $this->requestValidatorMock->shouldReceive('validate')
             ->once()
             ->with($request);
 
@@ -74,7 +74,7 @@ class CheckoutFacadeTest extends AbstractCase
     {
         $request = m::mock(PaymentRedirectRequest::class);
 
-        $this->requestValidatorCollectionMock->shouldReceive('validate')
+        $this->requestValidatorMock->shouldReceive('validate')
             ->once()
             ->with($request);
 
@@ -90,7 +90,7 @@ class CheckoutFacadeTest extends AbstractCase
         $request = m::mock(PaymentValidationRequest::class);
         $response = m::mock(PaymentValidationResponse::class);
 
-        $this->requestValidatorCollectionMock->shouldReceive('validate')
+        $this->requestValidatorMock->shouldReceive('validate')
             ->once()
             ->with($request);
 

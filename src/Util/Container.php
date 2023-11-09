@@ -3,7 +3,6 @@
 namespace Paysera\CheckoutSdk\Util;
 
 use Exception;
-use Paysera\CheckoutSdk\ConfigProvider;
 use Paysera\CheckoutSdk\Exception\ContainerException;
 use Paysera\CheckoutSdk\Exception\ContainerNotFoundException;
 use Psr\Container\ContainerExceptionInterface;
@@ -15,13 +14,10 @@ use ReflectionException;
 class Container implements ContainerInterface
 {
     protected array $instances;
-    protected ConfigProvider $configProvider;
 
-    public function __construct(ConfigProvider $configProvider = null)
+    public function __construct()
     {
         $this->instances = [];
-        $this->configProvider = $configProvider ?? new ConfigProvider();
-        $this->instances[ConfigProvider::class] = $this->configProvider;
     }
 
     public function has(string $id): bool
@@ -58,18 +54,6 @@ class Container implements ContainerInterface
      */
     public function build(string $id): object
     {
-        $aliases = $this->configProvider->get('container.aliases');
-        $alias = $aliases[$id] ?? null;
-        if ($alias !== null) {
-            return $this->get($alias);
-        }
-
-        $factories = $this->configProvider->get('container.factories');
-        $factory = $factories[$id] ?? null;
-        if (is_callable($factory)) {
-            return $factory($this);
-        }
-
         try {
             $instance = $this->createInstance($id);
         } catch (ReflectionException $exception) {
@@ -106,7 +90,7 @@ class Container implements ContainerInterface
     }
 
     /**
-     * @param array $constructorParameters
+     * @param \ReflectionParameter[] $constructorParameters
      * @return array
      * @throws ContainerException
      * @throws ContainerExceptionInterface
@@ -116,6 +100,7 @@ class Container implements ContainerInterface
     {
         $dependencies = [];
         foreach ($constructorParameters as $constructorParameter) {
+            // TODO Deprecated in PHP 8
             $dependency = $constructorParameter->getClass();
             if ($dependency === null) {
                 if ($constructorParameter->isDefaultValueAvailable()) {
