@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Paysera\CheckoutSdk\Entity;
 
-class PaymentValidationResponse
+class PaymentCallbackValidationResponse
 {
     private int $projectId;
     private Order $order;

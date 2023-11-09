@@ -10,8 +10,8 @@ use Paysera\CheckoutSdk\Entity\Collection\PaymentMethodCountryCollection;
 use Paysera\CheckoutSdk\Entity\PaymentMethodCountry;
 use Paysera\CheckoutSdk\Entity\PaymentMethodRequest;
 use Paysera\CheckoutSdk\Entity\PaymentRedirectRequest;
-use Paysera\CheckoutSdk\Entity\PaymentValidationRequest;
-use Paysera\CheckoutSdk\Entity\PaymentValidationResponse;
+use Paysera\CheckoutSdk\Entity\PaymentCallbackValidationRequest;
+use Paysera\CheckoutSdk\Entity\PaymentCallbackValidationResponse;
 use Paysera\CheckoutSdk\Provider\ProviderInterface;
 use Paysera\CheckoutSdk\Validator\RequestValidator;
 
@@ -98,21 +98,21 @@ class CheckoutFacadeTest extends AbstractCase
 
     public function testValidatePayment(): void
     {
-        $request = m::mock(PaymentValidationRequest::class);
-        $response = m::mock(PaymentValidationResponse::class);
+        $request = m::mock(PaymentCallbackValidationRequest::class);
+        $response = m::mock(PaymentCallbackValidationResponse::class);
 
         $this->requestValidatorMock->shouldReceive('validate')
             ->once()
             ->with($request);
 
-        $this->providerMock->shouldReceive('validatePayment')
+        $this->providerMock->shouldReceive('getPaymentCallbackValidationData')
             ->once()
             ->with($request)
             ->andReturn($response);
 
         $this->assertEquals(
             $response,
-            $this->facade->validatePayment($request),
+            $this->facade->getPaymentCallbackValidationData($request),
             'The facade must return validation response.'
         );
     }

@@ -8,26 +8,34 @@ use Paysera\CheckoutSdk\Entity\Collection\PaymentMethodCountryCollection;
 use Paysera\CheckoutSdk\Entity\PaymentMethodCountry;
 use Paysera\CheckoutSdk\Entity\PaymentMethodRequest;
 use Paysera\CheckoutSdk\Entity\PaymentRedirectRequest;
-use Paysera\CheckoutSdk\Entity\PaymentValidationRequest;
-use Paysera\CheckoutSdk\Entity\PaymentValidationResponse;
+use Paysera\CheckoutSdk\Entity\PaymentCallbackValidationRequest;
+use Paysera\CheckoutSdk\Entity\PaymentCallbackValidationResponse;
 use Paysera\CheckoutSdk\Exception\ProviderException;
 use Paysera\CheckoutSdk\Provider\ProviderInterface;
+use Paysera\CheckoutSdk\Provider\WebToPay\Adapter\PaymentCallbackValidationRequestNormalizer;
 use Paysera\CheckoutSdk\Provider\WebToPay\Adapter\PaymentMethodCountryAdapter;
-use Paysera\CheckoutSdk\Provider\WebToPay\Adapter\PaymentValidationResponseAdapter;
+use Paysera\CheckoutSdk\Provider\WebToPay\Adapter\PaymentRedirectRequestNormalizer;
+use Paysera\CheckoutSdk\Provider\WebToPay\Adapter\PaymentValidationResponseNormalizer;
 use WebToPay;
 use WebToPayException;
 
 class WebToPayProvider implements ProviderInterface
 {
     protected PaymentMethodCountryAdapter $paymentMethodCountryAdapter;
-    protected PaymentValidationResponseAdapter $paymentValidationResponseAdapter;
+    protected PaymentValidationResponseNormalizer $paymentValidationResponseNormalizer;
+    protected PaymentRedirectRequestNormalizer $paymentRedirectRequestNormalizer;
+    protected PaymentCallbackValidationRequestNormalizer $callbackValidationRequestNormalizer;
 
     public function __construct(
         PaymentMethodCountryAdapter $paymentMethodCountryAdapter,
-        PaymentValidationResponseAdapter $paymentValidationResponseAdapter
+        PaymentValidationResponseNormalizer $paymentValidationResponseNormalizer,
+        PaymentRedirectRequestNormalizer $paymentRedirectRequestNormalizer,
+        PaymentCallbackValidationRequestNormalizer $callbackValidationRequestNormalizer
     ) {
         $this->paymentMethodCountryAdapter = $paymentMethodCountryAdapter;
-        $this->paymentValidationResponseAdapter = $paymentValidationResponseAdapter;
+        $this->paymentValidationResponseNormalizer = $paymentValidationResponseNormalizer;
+        $this->paymentRedirectRequestNormalizer = $paymentRedirectRequestNormalizer;
+        $this->callbackValidationRequestNormalizer = $callbackValidationRequestNormalizer;
     }
 
     /**
@@ -63,7 +71,7 @@ class WebToPayProvider implements ProviderInterface
 
     public function redirectToPayment(PaymentRedirectRequest $request): void
     {
-        $paymentData = $this->getRedirectPaymentDataFromRequest($request);
+        $paymentData = $this->paymentRedirectRequestNormalizer->normalize($request);
 
         try {
             WebToPay::redirectToPayment($paymentData, true);
@@ -72,9 +80,10 @@ class WebToPayProvider implements ProviderInterface
         }
     }
 
-    public function validatePayment(PaymentValidationRequest $request): PaymentValidationResponse
-    {
-        $validatePaymentData = $this->getValidatePaymentDataFromRequest($request);
+    public function getPaymentCallbackValidationData(
+        PaymentCallbackValidationRequest $request
+    ): PaymentCallbackValidationResponse {
+        $validatePaymentData = $this->callbackValidationRequestNormalizer->normalize($request);
 
         try {
             $response = WebToPay::validateAndParseData(
@@ -83,51 +92,9 @@ class WebToPayProvider implements ProviderInterface
                 $request->getProjectPassword()
             );
 
-            return $this->paymentValidationResponseAdapter->convert($response);
+            return $this->paymentValidationResponseNormalizer->denormalize($response);
         } catch (WebToPayException $exception) {
             throw new ProviderException($exception);
         }
-    }
-
-    protected function getValidatePaymentDataFromRequest(PaymentValidationRequest $request): array
-    {
-        $validatePaymentData = [
-            'data' => $request->getData(),
-            'ss1' => $request->getSs1(),
-            'ss2' => $request->getSs2(),
-            'type' => $request->getType(),
-            'to' => $request->getTo(),
-            'from' => $request->getFrom(),
-            'sms' => $request->getSms(),
-        ];
-
-        return array_filter($validatePaymentData, static fn ($value) => $value !== null);
-    }
-
-    protected function getRedirectPaymentDataFromRequest(PaymentRedirectRequest $request): array
-    {
-        $paymentData = [
-            'projectid' => $request->getProjectId(),
-            'sign_password' => $request->getProjectPassword(),
-            'orderid' => $request->getOrder()->getOrderId(),
-            'amount' => (int) $request->getOrder()->getAmount(),
-            'currency' => $request->getOrder()->getCurrency(),
-            'accepturl' => $request->getAcceptUrl(),
-            'cancelurl' => $request->getCancelUrl(),
-            'callbackurl' => $request->getCallbackUrl(),
-            'payment' => $request->getPayment(),
-            'country' => $request->getOrder()->getPaymentCountryCode(),
-            'p_firstname' => $request->getOrder()->getPaymentFirstName(),
-            'p_lastname' => $request->getOrder()->getPaymentLastName(),
-            'p_email' => $request->getOrder()->getPaymentEmail(),
-            'p_street' => $request->getOrder()->getPaymentStreet(),
-            'p_city' => $request->getOrder()->getPaymentCity(),
-            'p_zip' => $request->getOrder()->getPaymentZip(),
-            'p_state' => $request->getOrder()->getPaymentState(),
-            'p_countrycode' => $request->getOrder()->getPaymentCountryCode(),
-            'test' => (int) $request->getTest(),
-        ];
-
-        return array_filter($paymentData, static fn ($value) => $value !== null);
     }
 }

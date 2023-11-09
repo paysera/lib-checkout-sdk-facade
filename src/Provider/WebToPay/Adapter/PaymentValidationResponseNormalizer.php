@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Paysera\CheckoutSdk\Provider\WebToPay\Adapter;
 
 use Paysera\CheckoutSdk\Entity\Order;
-use Paysera\CheckoutSdk\Entity\PaymentValidationResponse;
+use Paysera\CheckoutSdk\Entity\PaymentCallbackValidationResponse;
 use Paysera\CheckoutSdk\Util\TypeConverter;
 
-class PaymentValidationResponseAdapter
+class PaymentValidationResponseNormalizer
 {
     protected TypeConverter $typeConverter;
 
@@ -17,11 +17,11 @@ class PaymentValidationResponseAdapter
         $this->typeConverter = $typeConverter;
     }
 
-    public function convert(array $providerResponse): PaymentValidationResponse
+    public function denormalize(array $providerResponse): PaymentCallbackValidationResponse
     {
         $order = $this->getOrderFromProviderResponse($providerResponse);
 
-        $paymentValidationResponse = new PaymentValidationResponse(
+        $paymentValidationResponse = new PaymentCallbackValidationResponse(
             $this->getProviderProperty('projectid', $providerResponse, TypeConverter::INT),
             $order,
             $this->getProviderProperty('status', $providerResponse, TypeConverter::INT),

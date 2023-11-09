@@ -9,12 +9,14 @@ use Paysera\CheckoutSdk\Entity\Order;
 use Paysera\CheckoutSdk\Entity\PaymentMethodCountry;
 use Paysera\CheckoutSdk\Entity\PaymentMethodRequest;
 use Paysera\CheckoutSdk\Entity\PaymentRedirectRequest;
-use Paysera\CheckoutSdk\Entity\PaymentValidationRequest;
-use Paysera\CheckoutSdk\Entity\PaymentValidationResponse;
+use Paysera\CheckoutSdk\Entity\PaymentCallbackValidationRequest;
+use Paysera\CheckoutSdk\Entity\PaymentCallbackValidationResponse;
 use Paysera\CheckoutSdk\Exception\BaseException;
 use Paysera\CheckoutSdk\Exception\ProviderException;
+use Paysera\CheckoutSdk\Provider\WebToPay\Adapter\PaymentCallbackValidationRequestNormalizer;
 use Paysera\CheckoutSdk\Provider\WebToPay\Adapter\PaymentMethodCountryAdapter;
-use Paysera\CheckoutSdk\Provider\WebToPay\Adapter\PaymentValidationResponseAdapter;
+use Paysera\CheckoutSdk\Provider\WebToPay\Adapter\PaymentRedirectRequestNormalizer;
+use Paysera\CheckoutSdk\Provider\WebToPay\Adapter\PaymentValidationResponseNormalizer;
 use Paysera\CheckoutSdk\Provider\WebToPay\WebToPayProvider;
 use Paysera\CheckoutSdk\Tests\AbstractCase;
 use WebToPay;
@@ -31,8 +33,8 @@ class WebToPayProviderTest extends AbstractCase
     /** @var PaymentMethodCountryAdapter|null|m\MockInterface  */
     protected ?PaymentMethodCountryAdapter $paymentMethodCountryAdapterMock = null;
 
-    /** @var PaymentValidationResponseAdapter|null|m\MockInterface */
-    protected ?PaymentValidationResponseAdapter $paymentValidationResponseAdapterMock = null;
+    /** @var PaymentValidationResponseNormalizer|null|m\MockInterface */
+    protected ?PaymentValidationResponseNormalizer $paymentValidationResponseAdapterMock = null;
 
     protected ?WebToPayProvider $webToPayProvider = null;
 
@@ -41,11 +43,13 @@ class WebToPayProviderTest extends AbstractCase
         parent::mockeryTestSetUp();
 
         $this->paymentMethodCountryAdapterMock = m::mock(PaymentMethodCountryAdapter::class);
-        $this->paymentValidationResponseAdapterMock = m::mock(PaymentValidationResponseAdapter::class);
+        $this->paymentValidationResponseAdapterMock = m::mock(PaymentValidationResponseNormalizer::class);
 
         $this->webToPayProvider = new WebToPayProvider(
             $this->paymentMethodCountryAdapterMock,
-            $this->paymentValidationResponseAdapterMock
+            $this->paymentValidationResponseAdapterMock,
+            new PaymentRedirectRequestNormalizer(),
+            new PaymentCallbackValidationRequestNormalizer()
         );
     }
 
@@ -114,12 +118,12 @@ class WebToPayProviderTest extends AbstractCase
             )
             ->andReturn(['some data here...']);
 
-        $validationResponseMock = m::mock(PaymentValidationResponse::class);
+        $validationResponseMock = m::mock(PaymentCallbackValidationResponse::class);
         $this->paymentValidationResponseAdapterMock->expects()
-            ->convert(['some data here...'])
+            ->denormalize(['some data here...'])
             ->andReturn($validationResponseMock);
 
-        $validateResponse = $this->webToPayProvider->validatePayment($validationRequest);
+        $validateResponse = $this->webToPayProvider->getPaymentCallbackValidationData($validationRequest);
 
         $this->assertEquals(
             $validationResponseMock,
@@ -171,8 +175,8 @@ class WebToPayProviderTest extends AbstractCase
                 'WebToPay static method' => 'redirectToPayment',
             ],
             [
-                'WebToPayProvider method' => 'validatePayment',
-                'Request argument' => new PaymentValidationRequest(
+                'WebToPayProvider method' => 'getPaymentCallbackValidationData',
+                'Request argument' => new PaymentCallbackValidationRequest(
                     1,
                     'pass',
                     'test data'
@@ -234,11 +238,11 @@ class WebToPayProviderTest extends AbstractCase
     }
 
     /**
-     * @return array{0: PaymentValidationRequest, 1: array}
+     * @return array{0: PaymentCallbackValidationRequest, 1: array}
      */
     protected function getPaymentValidationRequestAndProviderData(): array
     {
-        $validationRequest = (new PaymentValidationRequest(
+        $validationRequest = (new PaymentCallbackValidationRequest(
             1,
             'pass',
             'test data'

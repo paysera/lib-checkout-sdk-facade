@@ -7,7 +7,7 @@ namespace Paysera\CheckoutSdk\Tests\Entity\Collection;
 use Mockery as m;
 use Paysera\CheckoutSdk\Entity\Collection\RequestValidatorCollection;
 use Paysera\CheckoutSdk\Entity\PaymentMethodRequest;
-use Paysera\CheckoutSdk\Entity\PaymentValidationRequest;
+use Paysera\CheckoutSdk\Entity\PaymentCallbackValidationRequest;
 use Paysera\CheckoutSdk\Exception\BaseException;
 use Paysera\CheckoutSdk\Exception\InvalidTypeException;
 use Paysera\CheckoutSdk\Tests\AbstractCase;

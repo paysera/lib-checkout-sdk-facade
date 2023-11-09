@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Paysera\CheckoutSdk\Entity;
 
-class PaymentValidationRequest implements RequestInterface
+class PaymentCallbackValidationRequest implements RequestInterface
 {
     private int $projectId;
     private string $projectPassword;

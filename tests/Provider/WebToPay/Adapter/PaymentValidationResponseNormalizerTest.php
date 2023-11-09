@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Paysera\CheckoutSdk\Tests\Provider\WebToPay\Adapter;
 
-use Paysera\CheckoutSdk\Provider\WebToPay\Adapter\PaymentValidationResponseAdapter;
+use Paysera\CheckoutSdk\Provider\WebToPay\Adapter\PaymentValidationResponseNormalizer;
 use Paysera\CheckoutSdk\Tests\AbstractCase;
 
-class PaymentValidationResponseAdapterTest extends AbstractCase
+class PaymentValidationResponseNormalizerTest extends AbstractCase
 {
-    public function testConvert(): void
+    public function testDenormalize(): void
     {
-        $adapter = $this->container->get(PaymentValidationResponseAdapter::class);
+        $normalizer = $this->container->get(PaymentValidationResponseNormalizer::class);
         $providerData = [
             'projectid' => '111',
             'status' => '1',
@@ -41,7 +41,7 @@ class PaymentValidationResponseAdapterTest extends AbstractCase
             'p_state' => 'Some state',
         ];
 
-        $paymentValidationResponse = $adapter->convert($providerData);
+        $paymentValidationResponse = $normalizer->denormalize($providerData);
 
         $responseProperties = $this->getObjectProperties($paymentValidationResponse);
         unset($responseProperties['order']);

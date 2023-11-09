@@ -7,7 +7,7 @@ namespace Paysera\CheckoutSdk\Tests\Validator;
 use Mockery as m;
 use Paysera\CheckoutSdk\Entity\Order;
 use Paysera\CheckoutSdk\Entity\PaymentRedirectRequest;
-use Paysera\CheckoutSdk\Entity\PaymentValidationRequest;
+use Paysera\CheckoutSdk\Entity\PaymentCallbackValidationRequest;
 use Paysera\CheckoutSdk\Entity\RequestInterface;
 use Paysera\CheckoutSdk\Exception\BaseException;
 use Paysera\CheckoutSdk\Exception\InvalidTypeException;
@@ -72,7 +72,7 @@ class PaymentRedirectRequestValidatorTest extends AbstractCase
                 'The entity is compatible for validation.'
             ],
             'incompatibleRequest' => [
-                new PaymentValidationRequest(1, 'pass', 'data'),
+                new PaymentCallbackValidationRequest(1, 'pass', 'data'),
                 false,
                 'The entity is not compatible for validation.'
             ],

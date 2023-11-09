@@ -51,6 +51,21 @@ parameters:
 			path: src/Entity/Collection/TranslationCollection.php
 
 		-
+			message: "#^Method Paysera\\\\CheckoutSdk\\\\Entity\\\\PaymentCallbackValidationRequest\\:\\:getSms\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Entity/PaymentCallbackValidationRequest.php
+
+		-
+			message: "#^Method Paysera\\\\CheckoutSdk\\\\Entity\\\\PaymentCallbackValidationRequest\\:\\:setSms\\(\\) has parameter \\$sms with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Entity/PaymentCallbackValidationRequest.php
+
+		-
+			message: "#^Property Paysera\\\\CheckoutSdk\\\\Entity\\\\PaymentCallbackValidationRequest\\:\\:\\$sms type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Entity/PaymentCallbackValidationRequest.php
+
+		-
 			message: "#^Method Paysera\\\\CheckoutSdk\\\\Entity\\\\PaymentMethodRequest\\:\\:__construct\\(\\) has parameter \\$selectedCountries with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Entity/PaymentMethodRequest.php
@@ -61,49 +76,34 @@ parameters:
 			path: src/Entity/PaymentMethodRequest.php
 
 		-
-			message: "#^Method Paysera\\\\CheckoutSdk\\\\Entity\\\\PaymentValidationRequest\\:\\:getSms\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: "#^Method Paysera\\\\CheckoutSdk\\\\Provider\\\\WebToPay\\\\Adapter\\\\PaymentCallbackValidationRequestNormalizer\\:\\:normalize\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/Entity/PaymentValidationRequest.php
+			path: src/Provider/WebToPay/Adapter/PaymentCallbackValidationRequestNormalizer.php
 
 		-
-			message: "#^Method Paysera\\\\CheckoutSdk\\\\Entity\\\\PaymentValidationRequest\\:\\:setSms\\(\\) has parameter \\$sms with no value type specified in iterable type array\\.$#"
+			message: "#^Method Paysera\\\\CheckoutSdk\\\\Provider\\\\WebToPay\\\\Adapter\\\\PaymentRedirectRequestNormalizer\\:\\:normalize\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/Entity/PaymentValidationRequest.php
+			path: src/Provider/WebToPay/Adapter/PaymentRedirectRequestNormalizer.php
 
 		-
-			message: "#^Property Paysera\\\\CheckoutSdk\\\\Entity\\\\PaymentValidationRequest\\:\\:\\$sms type has no value type specified in iterable type array\\.$#"
+			message: "#^Method Paysera\\\\CheckoutSdk\\\\Provider\\\\WebToPay\\\\Adapter\\\\PaymentValidationResponseNormalizer\\:\\:denormalize\\(\\) has parameter \\$providerResponse with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/Entity/PaymentValidationRequest.php
+			path: src/Provider/WebToPay/Adapter/PaymentValidationResponseNormalizer.php
 
 		-
-			message: "#^Method Paysera\\\\CheckoutSdk\\\\Provider\\\\WebToPay\\\\Adapter\\\\PaymentValidationResponseAdapter\\:\\:convert\\(\\) has parameter \\$providerResponse with no value type specified in iterable type array\\.$#"
+			message: "#^Method Paysera\\\\CheckoutSdk\\\\Provider\\\\WebToPay\\\\Adapter\\\\PaymentValidationResponseNormalizer\\:\\:getOrderFromProviderResponse\\(\\) has parameter \\$providerResponse with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/Provider/WebToPay/Adapter/PaymentValidationResponseAdapter.php
+			path: src/Provider/WebToPay/Adapter/PaymentValidationResponseNormalizer.php
 
 		-
-			message: "#^Method Paysera\\\\CheckoutSdk\\\\Provider\\\\WebToPay\\\\Adapter\\\\PaymentValidationResponseAdapter\\:\\:getOrderFromProviderResponse\\(\\) has parameter \\$providerResponse with no value type specified in iterable type array\\.$#"
+			message: "#^Method Paysera\\\\CheckoutSdk\\\\Provider\\\\WebToPay\\\\Adapter\\\\PaymentValidationResponseNormalizer\\:\\:getProviderProperty\\(\\) has no return type specified\\.$#"
 			count: 1
-			path: src/Provider/WebToPay/Adapter/PaymentValidationResponseAdapter.php
+			path: src/Provider/WebToPay/Adapter/PaymentValidationResponseNormalizer.php
 
 		-
-			message: "#^Method Paysera\\\\CheckoutSdk\\\\Provider\\\\WebToPay\\\\Adapter\\\\PaymentValidationResponseAdapter\\:\\:getProviderProperty\\(\\) has no return type specified\\.$#"
+			message: "#^Method Paysera\\\\CheckoutSdk\\\\Provider\\\\WebToPay\\\\Adapter\\\\PaymentValidationResponseNormalizer\\:\\:getProviderProperty\\(\\) has parameter \\$providerResponse with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/Provider/WebToPay/Adapter/PaymentValidationResponseAdapter.php
-
-		-
-			message: "#^Method Paysera\\\\CheckoutSdk\\\\Provider\\\\WebToPay\\\\Adapter\\\\PaymentValidationResponseAdapter\\:\\:getProviderProperty\\(\\) has parameter \\$providerResponse with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Provider/WebToPay/Adapter/PaymentValidationResponseAdapter.php
-
-		-
-			message: "#^Method Paysera\\\\CheckoutSdk\\\\Provider\\\\WebToPay\\\\WebToPayProvider\\:\\:getRedirectPaymentDataFromRequest\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Provider/WebToPay/WebToPayProvider.php
-
-		-
-			message: "#^Method Paysera\\\\CheckoutSdk\\\\Provider\\\\WebToPay\\\\WebToPayProvider\\:\\:getValidatePaymentDataFromRequest\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Provider/WebToPay/WebToPayProvider.php
+			path: src/Provider/WebToPay/Adapter/PaymentValidationResponseNormalizer.php
 
 		-
 			message: "#^Method Paysera\\\\CheckoutSdk\\\\Service\\\\PaymentMethodCountryManager\\:\\:filterCollectionByCodes\\(\\) has parameter \\$selectedCountries with no value type specified in iterable type array\\.$#"
