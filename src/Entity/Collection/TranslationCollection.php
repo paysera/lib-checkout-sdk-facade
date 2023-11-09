@@ -21,11 +21,6 @@ class TranslationCollection extends Collection
         return $item instanceof Translation;
     }
 
-    public function getByLanguage(string $language): ?Translation
-    {
-        return $this->filter(static fn (Translation $translation) => $translation->getLanguage() === $language)->get();
-    }
-
     public function current(): Translation
     {
         return parent::current();

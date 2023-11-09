@@ -7,6 +7,7 @@ use Paysera\CheckoutSdk\Entity\RequestInterface;
 
 class RequestValidator
 {
+    /** @var RequestValidatorCollection<RequestValidatorInterface> */
     protected RequestValidatorCollection $requestValidatorCollection;
 
     public function __construct(
@@ -15,7 +16,7 @@ class RequestValidator
     ) {
         $this->requestValidatorCollection = new RequestValidatorCollection([
             $paymentMethodRequestValidator,
-            $paymentRedirectRequestValidator
+            $paymentRedirectRequestValidator,
         ]);
     }
 

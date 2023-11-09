@@ -15,9 +15,14 @@ class PaymentMethodGroupTest extends AbstractCase
     /**
      * @dataProvider getTitleProvider
      */
-    public function testGetTitle(array $translations, string $language, $expected, string $message): void
-    {
-        $paymentMethodGroup = new PaymentMethodGroup('key', 'en');
+    public function testGetTitle(
+        array $translations,
+        ?string $language,
+        string $defaultLanguage,
+        $expected,
+        string $message
+    ): void {
+        $paymentMethodGroup = new PaymentMethodGroup('key', $defaultLanguage);
 
         foreach ($translations as $translation) {
             $paymentMethodGroup->getTitleTranslations()->append($translation);
@@ -65,20 +70,30 @@ class PaymentMethodGroupTest extends AbstractCase
             'selectedLanguageTranslationFound' => [
                 [new Translation('en', 'en text'), new Translation('lt', 'lt text')],
                 'lt',
+                'en',
                 'lt text',
                 'Invalid translation if the selected language is present.',
             ],
             'selectedLanguageTranslationAbsentUsedDefaultLanguageTranslation' => [
                 [new Translation('en', 'en text'), new Translation('lv', 'lv text')],
                 'lt',
+                'en',
                 'en text',
                 'Invalid translation if the selected language is absent, but the default is present.',
             ],
             'selectedLanguageAndDefaultLanguageTranslationsAbsent' => [
                 [new Translation('lt', 'lt text'), new Translation('lv', 'lv text')],
                 'it',
+                'en',
                 'key',
                 'Invalid translation if the selected and the default language are absent.',
+            ],
+            'withoutSelectedLanguage' => [
+                [new Translation('lt', 'lt text'), new Translation('lv', 'lv text')],
+                null,
+                'lv',
+                'lv text',
+                'Invalid translation if the selected language is null.',
             ],
         ];
     }

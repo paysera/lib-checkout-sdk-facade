@@ -27,6 +27,7 @@ final class CheckoutFacade
     }
 
     // TODO add filter class
+
     /**
      * @param PaymentMethodRequest $request
      * @return PaymentMethodCountryCollection<PaymentMethodCountry>

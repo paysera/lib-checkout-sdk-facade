@@ -24,6 +24,8 @@ class PaymentMethod extends AbstractPaymentMethod
         string $key,
         string $defaultLanguage = self::DEFAULT_LANGUAGE
     ) {
+        parent::__construct();
+
         $this->key = $key;
 
         $this->logos = new TranslationCollection();
@@ -57,7 +59,7 @@ class PaymentMethod extends AbstractPaymentMethod
      */
     public function getLogoUrl(string $language = null): ?string
     {
-        return $this->translate($this->logos, $language, $this->defaultLanguage);
+        return $this->translator->translate($this->logos, $this->getDefaultLanguage(), $language);
     }
 
     /**
@@ -67,6 +69,10 @@ class PaymentMethod extends AbstractPaymentMethod
      */
     public function getTitle(string $language = null): string
     {
-        return $this->translate($this->titleTranslations, $language, $this->defaultLanguage) ?? $this->key;
+        return $this->translator->translate(
+            $this->titleTranslations,
+            $this->getDefaultLanguage(),
+            $language
+        ) ?? $this->key;
     }
 }

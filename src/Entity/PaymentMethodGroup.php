@@ -22,6 +22,8 @@ class PaymentMethodGroup extends AbstractPaymentMethod
 
     public function __construct(string $key, string $defaultLanguage = self::DEFAULT_LANGUAGE)
     {
+        parent::__construct();
+
         $this->key = $key;
 
         $this->paymentMethods = new PaymentMethodCollection();
@@ -52,7 +54,11 @@ class PaymentMethodGroup extends AbstractPaymentMethod
      */
     public function getTitle(string $language = null): string
     {
-        return $this->translate($this->titleTranslations, $language, $this->defaultLanguage) ?? $this->key;
+        return $this->translator->translate(
+            $this->titleTranslations,
+            $this->getDefaultLanguage(),
+            $language
+        ) ?? $this->key;
     }
 
     /**

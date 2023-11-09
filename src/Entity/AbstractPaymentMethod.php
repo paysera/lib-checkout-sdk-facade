@@ -6,6 +6,7 @@ namespace Paysera\CheckoutSdk\Entity;
 
 use Paysera\CheckoutSdk\Entity\Collection\ItemInterface;
 use Paysera\CheckoutSdk\Entity\Collection\TranslationCollection;
+use Paysera\CheckoutSdk\Service\Translator;
 
 abstract class AbstractPaymentMethod implements ItemInterface
 {
@@ -22,10 +23,18 @@ abstract class AbstractPaymentMethod implements ItemInterface
      */
     protected string $defaultLanguage;
 
+    protected Translator $translator;
+
+    public function __construct()
+    {
+        $this->translator = new Translator();
+    }
+
     /**
      * Sets default language for translations.
      * Returns itself for fluent interface.
      * @param string $language
+     * @return static
      */
     public function setDefaultLanguage(string $language): self
     {
@@ -49,33 +58,5 @@ abstract class AbstractPaymentMethod implements ItemInterface
     public function getTitleTranslations(): TranslationCollection
     {
         return $this->titleTranslations;
-    }
-
-    // TODO $language is nullable
-    /**
-     * Get translation from collection. Uses specified language or default one.
-     * Can return the default value if any languages were not specified.
-     * @param TranslationCollection<Translation> $translationCollection
-     * @param ?string $language
-     * @param string $defaultLanguage
-     */
-    protected function translate(
-        TranslationCollection $translationCollection,
-        ?string $language,
-        string $defaultLanguage
-    ): ?string {
-        if ($language !== null) {
-            $translation = $translationCollection->getByLanguage($language);
-            if ($translation !== null) {
-                return $translation->getValue();
-            }
-        }
-
-        $defaultTranslation = $translationCollection->getByLanguage($defaultLanguage);
-        if ($defaultTranslation !== null) {
-            return $defaultTranslation->getValue();
-        }
-
-        return null;
     }
 }

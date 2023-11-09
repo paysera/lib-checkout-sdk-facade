@@ -13,9 +13,14 @@ class PaymentMethodTest extends AbstractCase
     /**
      * @dataProvider getLogoUrlProvider
      */
-    public function testGetLogoUrl(array $translations, string $language, $expected, string $message): void
-    {
-        $paymentMethod = new PaymentMethod('key', 'en');
+    public function testGetLogoUrl(
+        array $translations,
+        ?string $language,
+        string $defaultLanguage,
+        $expected,
+        string $message
+    ): void {
+        $paymentMethod = new PaymentMethod('key', $defaultLanguage);
 
         foreach ($translations as $translation) {
             $paymentMethod->getLogos()->append($translation);
@@ -27,9 +32,14 @@ class PaymentMethodTest extends AbstractCase
     /**
      * @dataProvider getTitleProvider
      */
-    public function testGetTitle(array $translations, string $language, $expected, string $message): void
-    {
-        $paymentMethod = new PaymentMethod('key', 'en');
+    public function testGetTitle(
+        array $translations,
+        ?string $language,
+        string $defaultLanguage,
+        $expected,
+        string $message
+    ): void {
+        $paymentMethod = new PaymentMethod('key', $defaultLanguage);
 
         foreach ($translations as $translation) {
             $paymentMethod->getTitleTranslations()->append($translation);
@@ -44,20 +54,30 @@ class PaymentMethodTest extends AbstractCase
             'selectedLanguageTranslationFound' => [
                 [new Translation('en', 'en text'), new Translation('lt', 'lt text')],
                 'lt',
+                'en',
                 'lt text',
                 'Invalid translation if the selected language is present.',
             ],
             'selectedLanguageTranslationAbsentUsedDefaultLanguageTranslation' => [
                 [new Translation('en', 'en text'), new Translation('lv', 'lv text')],
                 'lt',
+                'en',
                 'en text',
                 'Invalid translation if the selected language is absent, but the default is present.',
             ],
             'selectedLanguageAndDefaultLanguageTranslationsAbsent' => [
                 [new Translation('lt', 'lt text'), new Translation('lv', 'lv text')],
                 'it',
+                'en',
                 null,
                 'Invalid translation if the selected and the default language are absent.',
+            ],
+            'withoutSelectedLanguage' => [
+                [new Translation('lt', 'lt text'), new Translation('lv', 'lv text')],
+                null,
+                'lv',
+                'lv text',
+                'Invalid translation if the selected language is null.',
             ],
         ];
     }
@@ -68,20 +88,30 @@ class PaymentMethodTest extends AbstractCase
             'selectedLanguageTranslationFound' => [
                 [new Translation('en', 'en text'), new Translation('lt', 'lt text')],
                 'lt',
+                'en',
                 'lt text',
                 'Invalid translation if the selected language is present.',
             ],
             'selectedLanguageTranslationAbsentUsedDefaultLanguageTranslation' => [
                 [new Translation('en', 'en text'), new Translation('lv', 'lv text')],
                 'lt',
+                'en',
                 'en text',
                 'Invalid translation if the selected language is absent, but the default is present.',
             ],
             'selectedLanguageAndDefaultLanguageTranslationsAbsent' => [
                 [new Translation('lt', 'lt text'), new Translation('lv', 'lv text')],
                 'it',
+                'en',
                 'key',
                 'Invalid translation if the selected and the default language are absent.',
+            ],
+            'withoutSelectedLanguage' => [
+                [new Translation('lt', 'lt text'), new Translation('lv', 'lv text')],
+                null,
+                'lv',
+                'lv text',
+                'Invalid translation if the selected language is null.',
             ],
         ];
     }

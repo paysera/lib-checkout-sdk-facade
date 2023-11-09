@@ -92,19 +92,6 @@ class TranslationCollectionTest extends AbstractCase
         );
     }
 
-    public function testGetByLanguage(): void
-    {
-        $translation1 = new Translation('en', 'en text');
-        $translation2 = new Translation('lt', 'lt text');
-        $collection = new TranslationCollection([$translation1, $translation2]);
-
-        $this->assertEquals(
-            'en',
-            $collection->getByLanguage('en')->getLanguage(),
-            'The translation language must be equal to the search language.'
-        );
-    }
-
     public function isCompatibleDataProvider(): array
     {
         return [
