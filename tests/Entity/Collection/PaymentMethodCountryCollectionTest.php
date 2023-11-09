@@ -92,63 +92,6 @@ class PaymentMethodCountryCollectionTest extends AbstractCase
         );
     }
 
-    public function testFilterByCountryCodes(): void
-    {
-        $paymentMethodCountry1 = new PaymentMethodCountry('gb');
-        $paymentMethodCountry2 = new PaymentMethodCountry('lt');
-        $paymentMethodCountry3 = new PaymentMethodCountry('lv');
-        $collection = new PaymentMethodCountryCollection([
-            $paymentMethodCountry1,
-            $paymentMethodCountry2,
-            $paymentMethodCountry3
-        ]);
-
-        $filteredCollection = $collection->filterByCountryCodes(['Lt', 'LV', 'it']);
-
-        $this->assertCount(
-            2,
-            $filteredCollection,
-            'The filtered collection must not be empty.'
-        );
-
-        $filteredCollection->rewind();
-        $this->assertEquals(
-            0,
-            $filteredCollection->key(),
-            'The filtered collection cursor must be on the first element.'
-        );
-        $this->assertEquals(
-            'lt',
-            $filteredCollection->get()->getCode(),
-            'The filtered collection item must correspond to the filter condition.'
-        );
-
-        $filteredCollection->next();
-        $this->assertEquals(
-            1,
-            $filteredCollection->key(),
-            'The filtered collection cursor must be on the second element.'
-        );
-        $this->assertEquals(
-            'lv',
-            $filteredCollection->get()->getCode(),
-            'The filtered collection item must correspond to the filter condition.'
-        );
-    }
-
-    public function testGetByCode(): void
-    {
-        $paymentMethodCountry1 = new PaymentMethodCountry('gb');
-        $paymentMethodCountry2 = new PaymentMethodCountry('lt');
-        $collection = new PaymentMethodCountryCollection([$paymentMethodCountry1, $paymentMethodCountry2]);
-
-        $this->assertEquals(
-            'gb',
-            $collection->getByCode('gb')->getCode(),
-            'The item country code must be equal to the search code.'
-        );
-    }
-
     public function isCompatibleDataProvider(): array
     {
         return [

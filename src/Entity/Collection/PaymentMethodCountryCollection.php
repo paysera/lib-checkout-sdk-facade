@@ -21,27 +21,6 @@ class PaymentMethodCountryCollection extends Collection
         return $item instanceof PaymentMethodCountry;
     }
 
-    public function getByCode(string $code): ?PaymentMethodCountry
-    {
-        return $this->filter(static fn (PaymentMethodCountry $country) => $country->getCode() === $code)->get();
-    }
-
-    /**
-     * @return PaymentMethodCountryCollection<PaymentMethodCountry>
-     * @param array $selectedCountries
-     */
-    public function filterByCountryCodes(array $selectedCountries): self
-    {
-        $selectedCountriesLowercase = array_map('strtolower', $selectedCountries);
-        return $this->filter(
-            static fn (PaymentMethodCountry $country) => in_array(
-                strtolower($country->getCode()),
-                $selectedCountriesLowercase,
-                true
-            )
-        );
-    }
-
     public function current(): PaymentMethodCountry
     {
         return parent::current();

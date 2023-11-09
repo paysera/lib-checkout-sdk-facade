@@ -36,11 +36,6 @@ parameters:
 			path: src/Entity/Collection/PaymentMethodCountryCollection.php
 
 		-
-			message: "#^Method Paysera\\\\CheckoutSdk\\\\Entity\\\\Collection\\\\PaymentMethodCountryCollection\\:\\:filterByCountryCodes\\(\\) has parameter \\$selectedCountries with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Entity/Collection/PaymentMethodCountryCollection.php
-
-		-
 			message: "#^Method Paysera\\\\CheckoutSdk\\\\Entity\\\\Collection\\\\PaymentMethodGroupCollection\\:\\:current\\(\\) should return Paysera\\\\CheckoutSdk\\\\Entity\\\\PaymentMethodGroup but returns Paysera\\\\CheckoutSdk\\\\Entity\\\\Collection\\\\ItemInterface\\.$#"
 			count: 1
 			path: src/Entity/Collection/PaymentMethodGroupCollection.php
@@ -109,6 +104,11 @@ parameters:
 			message: "#^Method Paysera\\\\CheckoutSdk\\\\Provider\\\\WebToPay\\\\WebToPayProvider\\:\\:getValidatePaymentDataFromRequest\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Provider/WebToPay/WebToPayProvider.php
+
+		-
+			message: "#^Method Paysera\\\\CheckoutSdk\\\\Service\\\\PaymentMethodCountryManager\\:\\:filterCollectionByCodes\\(\\) has parameter \\$selectedCountries with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: src/Service/PaymentMethodCountryManager.php
 
 		-
 			message: "#^Method Paysera\\\\CheckoutSdk\\\\Util\\\\Container\\:\\:getDependencies\\(\\) return type has no value type specified in iterable type array\\.$#"

@@ -7,6 +7,7 @@ namespace Paysera\CheckoutSdk\Tests;
 use Mockery as m;
 use Paysera\CheckoutSdk\CheckoutFacade;
 use Paysera\CheckoutSdk\Entity\Collection\PaymentMethodCountryCollection;
+use Paysera\CheckoutSdk\Entity\PaymentMethodCountry;
 use Paysera\CheckoutSdk\Entity\PaymentMethodRequest;
 use Paysera\CheckoutSdk\Entity\PaymentRedirectRequest;
 use Paysera\CheckoutSdk\Entity\PaymentValidationRequest;
@@ -48,11 +49,14 @@ class CheckoutFacadeTest extends AbstractCase
             ->times(2)
             ->andReturn(['gb']);
 
-        $collection = m::mock(PaymentMethodCountryCollection::class);
-        $collection->shouldReceive('filterByCountryCodes')
-            ->once()
-            ->with(['gb'])
-            ->andReturn($collection);
+        $paymentMethodCountry1 = new PaymentMethodCountry('gb');
+        $paymentMethodCountry2 = new PaymentMethodCountry('lt');
+        $paymentMethodCountry3 = new PaymentMethodCountry('lv');
+        $collection = new PaymentMethodCountryCollection([
+            $paymentMethodCountry1,
+            $paymentMethodCountry2,
+            $paymentMethodCountry3
+        ]);
 
         $this->requestValidatorMock->shouldReceive('validate')
             ->once()
@@ -63,10 +67,17 @@ class CheckoutFacadeTest extends AbstractCase
             ->with($request)
             ->andReturn($collection);
 
+        $resultCollection = $this->facade->getPaymentMethodCountries($request);
+
+        $this->assertCount(
+            1,
+            $resultCollection,
+            'The facade must return filtered country collection with single item.'
+        );
         $this->assertEquals(
-            $collection,
-            $this->facade->getPaymentMethodCountries($request),
-            'The facade must return countries collection.'
+            $paymentMethodCountry1,
+            $resultCollection->get(),
+            'The facade must return filtered country collection.'
         );
     }
 
