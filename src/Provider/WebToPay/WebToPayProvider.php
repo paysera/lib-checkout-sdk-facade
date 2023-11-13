@@ -78,6 +78,7 @@ class WebToPayProvider implements ProviderInterface
     /**
      * @throws ValidationException
      * @throws ProviderException
+     * @param PaymentRedirectRequest $request
      */
     public function redirectToPayment(PaymentRedirectRequest $request): PaymentRedirectResponse
     {
@@ -85,16 +86,19 @@ class WebToPayProvider implements ProviderInterface
 
         try {
             $providerOutput = $this->redirectToPaymentHelper
-                ->catchOutputBuffer(fn () => WebToPay::redirectToPayment($paymentData, false));
+                ->catchOutputBuffer(fn () => WebToPay::redirectToPayment($paymentData, false))
+            ;
         } catch (WebToPayException $exception) {
             throw new ProviderException($exception);
         }
 
-        $redirectUrl = $this->getRedirectUrlFromHeaders($this->redirectToPaymentHelper->getResponseHeaders())
-            ?? $this->getRedirectUrlFromScript($providerOutput);
+        $redirectUrl =
+            $this->getRedirectUrlFromHeaders($this->redirectToPaymentHelper->getResponseHeaders())
+            ?? $this->getRedirectUrlFromScript($providerOutput)
+        ;
         $this->redirectToPaymentHelper->removeResponseHeader('Location');
 
-        if (empty($redirectUrl)) {
+        if ($redirectUrl === null) {
             throw new ValidationException('Redirect url must be not empty.');
         }
 
@@ -119,6 +123,10 @@ class WebToPayProvider implements ProviderInterface
         }
     }
 
+    /**
+     * @param array<int, string> $headers
+     * @return string|null
+     */
     protected function getRedirectUrlFromHeaders(array $headers): ?string
     {
         foreach ($headers as $header) {

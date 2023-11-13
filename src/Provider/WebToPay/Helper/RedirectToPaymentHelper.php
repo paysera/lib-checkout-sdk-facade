@@ -8,9 +8,12 @@ class RedirectToPaymentHelper
     {
         ob_start();
         $function();
-        return ob_get_clean();
+        return (string) (ob_get_clean());
     }
 
+    /**
+     * @return array<int, string>
+     */
     public function getResponseHeaders(): array
     {
         return headers_list();

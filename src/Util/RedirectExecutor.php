@@ -4,15 +4,19 @@ namespace Paysera\CheckoutSdk\Util;
 
 class RedirectExecutor
 {
-    public function execute(string $redirectUrl, string $redirectOutput): void
+    public function execute(string $url, string $output): void
     {
-        if (headers_sent()) {
-            print '<script type="text/javascript">window.location = "' . addslashes($redirectUrl) . '";</script>';
-        } else {
-            header("Location: $redirectUrl");
-        }
+        headers_sent() ? $this->redirectByScript($url, $output) : $this->redirectByHeader($url, $output);
+    }
 
-        print $redirectOutput;
-        exit();
+    protected function redirectByHeader(string $url, string $output): void
+    {
+        header("Location: $url");
+        exit($output);
+    }
+
+    protected function redirectByScript(string $url, string $output): void
+    {
+        exit('<script type="text/javascript">window.location = "' . addslashes($url) . '";</script>' . $output);
     }
 }
