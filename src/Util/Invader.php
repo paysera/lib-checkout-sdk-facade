@@ -11,6 +11,7 @@ class Invader
     /**
      * This function can extract all properties (even private and protected) of given object.
      * @param object $object
+     * @return array
      */
     public function getProperties(object $object): array
     {

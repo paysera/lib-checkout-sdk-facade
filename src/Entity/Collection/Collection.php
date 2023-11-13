@@ -85,6 +85,7 @@ abstract class Collection implements Iterator, Countable
 
     /**
      * @param ItemInterface $value
+     * @throws InvalidTypeException
      */
     public function append($value): void
     {
