@@ -10,6 +10,7 @@ use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use ReflectionClass;
 use ReflectionException;
+use ReflectionNamedType;
 
 class Container implements ContainerInterface
 {
@@ -99,17 +100,19 @@ class Container implements ContainerInterface
     protected function getDependencies(array $constructorParameters): array
     {
         $dependencies = [];
+
         foreach ($constructorParameters as $constructorParameter) {
-            // TODO Deprecated in PHP 8
-            $dependency = $constructorParameter->getClass();
-            if ($dependency === null) {
+            /** @var ReflectionNamedType|null $type */
+            $type = $constructorParameter->getType();
+
+            if ($type === null) {
                 if ($constructorParameter->isDefaultValueAvailable()) {
                     $dependencies[] = $constructorParameter->getDefaultValue();
                 } else {
                     throw new ContainerException("Can not resolve class dependency $constructorParameter->name");
                 }
             } else {
-                $dependencies[] = $this->get($dependency->name);
+                $dependencies[] = $this->get($type->getName());
             }
         }
 
