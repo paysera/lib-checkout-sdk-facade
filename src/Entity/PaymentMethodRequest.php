@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Paysera\CheckoutSdk\Entity;
 
-// TODO unitize requests entities to singe
 class PaymentMethodRequest implements RequestInterface
 {
     private int $projectId;

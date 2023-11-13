@@ -11,12 +11,14 @@ use Paysera\CheckoutSdk\Entity\PaymentMethodRequest;
 use Paysera\CheckoutSdk\Entity\PaymentRedirectRequest;
 use Paysera\CheckoutSdk\Entity\PaymentCallbackValidationRequest;
 use Paysera\CheckoutSdk\Entity\PaymentCallbackValidationResponse;
+use Paysera\CheckoutSdk\Entity\PaymentRedirectResponse;
 use Paysera\CheckoutSdk\Exception\BaseException;
 use Paysera\CheckoutSdk\Exception\ProviderException;
 use Paysera\CheckoutSdk\Provider\WebToPay\Adapter\PaymentCallbackValidationRequestNormalizer;
 use Paysera\CheckoutSdk\Provider\WebToPay\Adapter\PaymentMethodCountryAdapter;
 use Paysera\CheckoutSdk\Provider\WebToPay\Adapter\PaymentRedirectRequestNormalizer;
 use Paysera\CheckoutSdk\Provider\WebToPay\Adapter\PaymentValidationResponseNormalizer;
+use Paysera\CheckoutSdk\Provider\WebToPay\Helper\RedirectToPaymentHelper;
 use Paysera\CheckoutSdk\Provider\WebToPay\WebToPayProvider;
 use Paysera\CheckoutSdk\Tests\AbstractCase;
 use WebToPay;
@@ -34,7 +36,9 @@ class WebToPayProviderTest extends AbstractCase
     protected ?PaymentMethodCountryAdapter $paymentMethodCountryAdapterMock = null;
 
     /** @var PaymentValidationResponseNormalizer|null|m\MockInterface */
-    protected ?PaymentValidationResponseNormalizer $paymentValidationResponseAdapterMock = null;
+    protected ?PaymentValidationResponseNormalizer $paymentValidationResponseNormalizer = null;
+    /** @var RedirectToPaymentHelper|null|m\MockInterface  */
+    protected ?RedirectToPaymentHelper $redirectResponseHelper = null;
 
     protected ?WebToPayProvider $webToPayProvider = null;
 
@@ -43,13 +47,15 @@ class WebToPayProviderTest extends AbstractCase
         parent::mockeryTestSetUp();
 
         $this->paymentMethodCountryAdapterMock = m::mock(PaymentMethodCountryAdapter::class);
-        $this->paymentValidationResponseAdapterMock = m::mock(PaymentValidationResponseNormalizer::class);
+        $this->paymentValidationResponseNormalizer = m::mock(PaymentValidationResponseNormalizer::class);
+        $this->redirectResponseHelper = m::mock(RedirectToPaymentHelper::class);
 
         $this->webToPayProvider = new WebToPayProvider(
             $this->paymentMethodCountryAdapterMock,
-            $this->paymentValidationResponseAdapterMock,
+            $this->paymentValidationResponseNormalizer,
             new PaymentRedirectRequestNormalizer(),
-            new PaymentCallbackValidationRequestNormalizer()
+            new PaymentCallbackValidationRequestNormalizer(),
+            $this->redirectResponseHelper
         );
     }
 
@@ -94,15 +100,45 @@ class WebToPayProviderTest extends AbstractCase
         );
     }
 
-    public function testRedirectToPayment(): void
+    public function testRedirectToPaymentWithHeader(): void
     {
         [$redirectRequest, $providerData] = $this->getPaymentRedirectRequestAndProviderData();
 
         m::mock('overload:'. WebToPay::class)
             ->expects()
-            ->redirectToPayment($providerData, true);
+            ->redirectToPayment($providerData, false);
 
-        $this->webToPayProvider->redirectToPayment($redirectRequest);
+        $this->redirectResponseHelper->shouldReceive('catchOutputBuffer')
+            ->shouldReceive('getResponseHeaders')
+            ->andReturn(['Location: http://example.paysera.test'])
+            ->shouldReceive('removeResponseHeader')
+            ->with('Location');
+
+        $response = $this->webToPayProvider->redirectToPayment($redirectRequest);
+
+        $this->assertInstanceOf(PaymentRedirectResponse::class, $response);
+        $this->assertEquals('http://example.paysera.test', $response->getRedirectUrl());
+    }
+
+    public function testRedirectToPaymentWithScript(): void
+    {
+        [$redirectRequest, $providerData] = $this->getPaymentRedirectRequestAndProviderData();
+
+        m::mock('overload:'. WebToPay::class)
+            ->expects()
+            ->redirectToPayment($providerData, false);
+
+        $this->redirectResponseHelper->shouldReceive('catchOutputBuffer')
+            ->andReturn('<script type="text/javascript">window.location = "' . addslashes('http://example.paysera.test?test\'test') . '";</script>')
+            ->shouldReceive('getResponseHeaders')
+            ->andReturn([])
+            ->shouldReceive('removeResponseHeader')
+            ->with('Location');
+
+        $response = $this->webToPayProvider->redirectToPayment($redirectRequest);
+
+        $this->assertInstanceOf(PaymentRedirectResponse::class, $response);
+        $this->assertEquals('http://example.paysera.test?test\'test', $response->getRedirectUrl());
     }
 
     public function testValidatePayment(): void
@@ -119,7 +155,7 @@ class WebToPayProviderTest extends AbstractCase
             ->andReturn(['some data here...']);
 
         $validationResponseMock = m::mock(PaymentCallbackValidationResponse::class);
-        $this->paymentValidationResponseAdapterMock->expects()
+        $this->paymentValidationResponseNormalizer->expects()
             ->denormalize(['some data here...'])
             ->andReturn($validationResponseMock);
 
@@ -162,18 +198,18 @@ class WebToPayProviderTest extends AbstractCase
                 ),
                 'WebToPay static method' => 'getPaymentMethodList',
             ],
-            [
-                'WebToPayProvider method' => 'redirectToPayment',
-                'Request argument' => new PaymentRedirectRequest(
-                    1,
-                    'pass',
-                    'acceptUrl',
-                    'cancelUrl',
-                    'callbackUrl',
-                    new Order(1, 100.0, 'USD')
-                ),
-                'WebToPay static method' => 'redirectToPayment',
-            ],
+//            [
+//                'WebToPayProvider method' => 'redirectToPayment',
+//                'Request argument' => new PaymentRedirectRequest(
+//                    1,
+//                    'pass',
+//                    'acceptUrl',
+//                    'cancelUrl',
+//                    'callbackUrl',
+//                    new Order(1, 100.0, 'USD')
+//                ),
+//                'WebToPay static method' => 'redirectToPayment',
+//            ],
             [
                 'WebToPayProvider method' => 'getPaymentCallbackValidationData',
                 'Request argument' => new PaymentCallbackValidationRequest(

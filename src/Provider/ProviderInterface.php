@@ -10,6 +10,7 @@ use Paysera\CheckoutSdk\Entity\PaymentMethodRequest;
 use Paysera\CheckoutSdk\Entity\PaymentRedirectRequest;
 use Paysera\CheckoutSdk\Entity\PaymentCallbackValidationRequest;
 use Paysera\CheckoutSdk\Entity\PaymentCallbackValidationResponse;
+use Paysera\CheckoutSdk\Entity\PaymentRedirectResponse;
 
 interface ProviderInterface
 {
@@ -19,7 +20,7 @@ interface ProviderInterface
      */
     public function getPaymentMethodCountries(PaymentMethodRequest $request): PaymentMethodCountryCollection;
 
-    public function redirectToPayment(PaymentRedirectRequest $request): void;
+    public function redirectToPayment(PaymentRedirectRequest $request): PaymentRedirectResponse;
 
     public function getPaymentCallbackValidationData(
         PaymentCallbackValidationRequest $request

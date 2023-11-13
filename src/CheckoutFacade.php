@@ -10,6 +10,7 @@ use Paysera\CheckoutSdk\Entity\PaymentMethodRequest;
 use Paysera\CheckoutSdk\Entity\PaymentRedirectRequest;
 use Paysera\CheckoutSdk\Entity\PaymentCallbackValidationRequest;
 use Paysera\CheckoutSdk\Entity\PaymentCallbackValidationResponse;
+use Paysera\CheckoutSdk\Entity\PaymentRedirectResponse;
 use Paysera\CheckoutSdk\Provider\ProviderInterface;
 use Paysera\CheckoutSdk\Service\PaymentMethodCountryManager;
 use Paysera\CheckoutSdk\Validator\RequestValidator;
@@ -47,12 +48,11 @@ final class CheckoutFacade
         return $paymentMethodCountries;
     }
 
-    // TODO Return RedirectResponse
-    public function redirectToPayment(PaymentRedirectRequest $request): void
+    public function redirectToPayment(PaymentRedirectRequest $request): PaymentRedirectResponse
     {
         $this->requestValidator->validate($request);
 
-        $this->provider->redirectToPayment($request);
+        return $this->provider->redirectToPayment($request);
     }
 
     public function getPaymentCallbackValidationData(

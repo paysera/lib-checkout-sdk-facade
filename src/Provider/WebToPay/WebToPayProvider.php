@@ -10,12 +10,15 @@ use Paysera\CheckoutSdk\Entity\PaymentMethodRequest;
 use Paysera\CheckoutSdk\Entity\PaymentRedirectRequest;
 use Paysera\CheckoutSdk\Entity\PaymentCallbackValidationRequest;
 use Paysera\CheckoutSdk\Entity\PaymentCallbackValidationResponse;
+use Paysera\CheckoutSdk\Entity\PaymentRedirectResponse;
 use Paysera\CheckoutSdk\Exception\ProviderException;
+use Paysera\CheckoutSdk\Exception\ValidationException;
 use Paysera\CheckoutSdk\Provider\ProviderInterface;
 use Paysera\CheckoutSdk\Provider\WebToPay\Adapter\PaymentCallbackValidationRequestNormalizer;
 use Paysera\CheckoutSdk\Provider\WebToPay\Adapter\PaymentMethodCountryAdapter;
 use Paysera\CheckoutSdk\Provider\WebToPay\Adapter\PaymentRedirectRequestNormalizer;
 use Paysera\CheckoutSdk\Provider\WebToPay\Adapter\PaymentValidationResponseNormalizer;
+use Paysera\CheckoutSdk\Provider\WebToPay\Helper\RedirectToPaymentHelper;
 use WebToPay;
 use WebToPayException;
 
@@ -25,17 +28,20 @@ class WebToPayProvider implements ProviderInterface
     protected PaymentValidationResponseNormalizer $paymentValidationResponseNormalizer;
     protected PaymentRedirectRequestNormalizer $paymentRedirectRequestNormalizer;
     protected PaymentCallbackValidationRequestNormalizer $callbackValidationRequestNormalizer;
+    protected RedirectToPaymentHelper $redirectToPaymentHelper;
 
     public function __construct(
         PaymentMethodCountryAdapter $paymentMethodCountryAdapter,
         PaymentValidationResponseNormalizer $paymentValidationResponseNormalizer,
         PaymentRedirectRequestNormalizer $paymentRedirectRequestNormalizer,
-        PaymentCallbackValidationRequestNormalizer $callbackValidationRequestNormalizer
+        PaymentCallbackValidationRequestNormalizer $callbackValidationRequestNormalizer,
+        RedirectToPaymentHelper $redirectToPaymentHelper
     ) {
         $this->paymentMethodCountryAdapter = $paymentMethodCountryAdapter;
         $this->paymentValidationResponseNormalizer = $paymentValidationResponseNormalizer;
         $this->paymentRedirectRequestNormalizer = $paymentRedirectRequestNormalizer;
         $this->callbackValidationRequestNormalizer = $callbackValidationRequestNormalizer;
+        $this->redirectToPaymentHelper = $redirectToPaymentHelper;
     }
 
     /**
@@ -69,15 +75,30 @@ class WebToPayProvider implements ProviderInterface
         return $countryCollection;
     }
 
-    public function redirectToPayment(PaymentRedirectRequest $request): void
+    /**
+     * @throws ValidationException
+     * @throws ProviderException
+     */
+    public function redirectToPayment(PaymentRedirectRequest $request): PaymentRedirectResponse
     {
         $paymentData = $this->paymentRedirectRequestNormalizer->normalize($request);
 
         try {
-            WebToPay::redirectToPayment($paymentData, true);
+            $providerOutput = $this->redirectToPaymentHelper
+                ->catchOutputBuffer(fn () => WebToPay::redirectToPayment($paymentData, false));
         } catch (WebToPayException $exception) {
             throw new ProviderException($exception);
         }
+
+        $redirectUrl = $this->getRedirectUrlFromHeaders($this->redirectToPaymentHelper->getResponseHeaders())
+            ?? $this->getRedirectUrlFromScript($providerOutput);
+        $this->redirectToPaymentHelper->removeResponseHeader('Location');
+
+        if (empty($redirectUrl)) {
+            throw new ValidationException('Redirect url must be not empty.');
+        }
+
+        return new PaymentRedirectResponse($redirectUrl);
     }
 
     public function getPaymentCallbackValidationData(
@@ -96,5 +117,25 @@ class WebToPayProvider implements ProviderInterface
         } catch (WebToPayException $exception) {
             throw new ProviderException($exception);
         }
+    }
+
+    protected function getRedirectUrlFromHeaders(array $headers): ?string
+    {
+        foreach ($headers as $header) {
+            if (strpos($header, 'Location:') !== false) {
+                return trim(substr($header, strlen('Location:')));
+            }
+        }
+
+        return null;
+    }
+
+    protected function getRedirectUrlFromScript(string $providerOutput): ?string
+    {
+        if (preg_match('/window.location\s*=\s*"(.+?)"/', $providerOutput, $matches)) {
+            return stripslashes($matches[1]);
+        }
+
+        return null;
     }
 }
