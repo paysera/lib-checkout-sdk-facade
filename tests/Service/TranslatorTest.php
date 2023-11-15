@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Paysera\CheckoutSdk\Tests\Service;
 
 use Paysera\CheckoutSdk\Entity\Collection\TranslationCollection;
@@ -29,7 +31,7 @@ class TranslatorTest extends AbstractCase
             'selectedLanguageFound' => [
                 new TranslationCollection([
                     new Translation('en', 'en text'),
-                    new Translation('lt', 'lt text')
+                    new Translation('lt', 'lt text'),
                 ]),
                 'lt',
                 'lt text',
@@ -38,7 +40,7 @@ class TranslatorTest extends AbstractCase
             'selectedLanguageAbsent' => [
                 new TranslationCollection([
                     new Translation('en', 'en text'),
-                    new Translation('lt', 'lt text')
+                    new Translation('lt', 'lt text'),
                 ]),
                 'it',
                 null,
