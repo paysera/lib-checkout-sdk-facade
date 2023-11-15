@@ -24,10 +24,7 @@ class PaymentMethodCountryAdapter
     {
         $providerEntityProperties = $this->invader->getProperties($providerEntity);
 
-        $paymentMethodCountry = new PaymentMethodCountry(
-            (string) $providerEntityProperties['countryCode'],
-            (string) $providerEntityProperties['defaultLanguage']
-        );
+        $paymentMethodCountry = new PaymentMethodCountry((string) $providerEntityProperties['countryCode']);
 
         foreach ($providerEntityProperties['titleTranslations'] ?? [] as $language => $titleTranslation) {
             $translation = new Translation($language, $titleTranslation);

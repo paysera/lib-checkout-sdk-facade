@@ -9,25 +9,25 @@ use Paysera\CheckoutSdk\Entity\Translation;
 
 class Translator
 {
+    public const DEFAULT_LANGUAGE = 'lt';
+
     /**
-     * Get translation from collection. Uses specified language or default one.
-     * Can return the default value if any languages were not specified.
+     * Get translation from collection. Uses specified language or fallback one.
      * @param TranslationCollection<Translation> $collection
-     * @param string $defaultLanguage
-     * @param string|null $language
+     * @param string $language
      * @return string|null
      */
     public function translate(
         TranslationCollection $collection,
-        string $defaultLanguage,
-        ?string $language = null
+        string $language
     ): ?string {
-        $translation =
-            $this->getTranslationByLanguage($collection, $language ?? $defaultLanguage)
-            ?? $this->getTranslationByLanguage($collection, $defaultLanguage)
-        ;
+        $translation = $this->getTranslationByLanguage($collection, $language);
 
-        return $translation !== null ? $translation->getValue() : null;
+        if ($translation === null) {
+            return null;
+        }
+
+        return $translation->getValue();
     }
 
     /**
@@ -40,8 +40,7 @@ class Translator
         string $language
     ): ?Translation {
         return $collection->filter(
-            static fn (Translation $translation) => $translation->getLanguage()
-            === $language
+            static fn (Translation $translation) => $translation->getLanguage() === $language
         )->get();
     }
 }

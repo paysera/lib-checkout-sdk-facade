@@ -24,10 +24,7 @@ class PaymentMethodGroupAdapter
     {
         $providerEntityProperties = $this->invader->getProperties($providerEntity);
 
-        $paymentMethodGroup = new PaymentMethodGroup(
-            (string) $providerEntityProperties['groupKey'],
-            (string) $providerEntityProperties['defaultLanguage']
-        );
+        $paymentMethodGroup = new PaymentMethodGroup((string) $providerEntityProperties['groupKey']);
 
         foreach ($providerEntityProperties['translations'] ?? [] as $language => $titleTranslation) {
             $translation = new Translation($language, $titleTranslation);

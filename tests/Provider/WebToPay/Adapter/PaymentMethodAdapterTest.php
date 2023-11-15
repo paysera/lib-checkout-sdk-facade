@@ -47,11 +47,6 @@ class PaymentMethodAdapterTest extends AbstractCase
             static::VALUE_MUST_BE_EQUAL_TO_PROVIDER_MESSAGE
         );
         $this->assertEquals(
-            $providerData['defaultLanguage'],
-            $paymentMethod->getDefaultLanguage(),
-            static::VALUE_MUST_BE_EQUAL_TO_PROVIDER_MESSAGE
-        );
-        $this->assertEquals(
             count($providerData['logoList']),
             $paymentMethod->getLogos()->count(),
             static::COUNT_MUST_BE_EQUAL_TO_PROVIDER_MESSAGE

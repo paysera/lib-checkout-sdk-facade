@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Paysera\CheckoutSdk\Entity;
 
+use Paysera\CheckoutSdk\Entity\Collection\ItemInterface;
 use Paysera\CheckoutSdk\Entity\Collection\PaymentMethodGroupCollection;
 use Paysera\CheckoutSdk\Entity\Collection\TranslationCollection;
 
-class PaymentMethodCountry extends AbstractPaymentMethod
+class PaymentMethodCountry implements ItemInterface
 {
     /**
      * Current country code (country code ISO2)
@@ -15,50 +16,32 @@ class PaymentMethodCountry extends AbstractPaymentMethod
     protected string $countryCode;
 
     /**
+     * Collection of translation objects.
+     * @var TranslationCollection<Translation>
+     */
+    protected TranslationCollection $titleTranslations;
+
+    /**
      * Holds available payment types for this country.
      * @var PaymentMethodGroupCollection<PaymentMethodGroup>
      */
     protected PaymentMethodGroupCollection $groups;
 
-    public function __construct(string $countryCode, string $defaultLanguage = self::DEFAULT_LANGUAGE)
+    public function __construct(string $countryCode)
     {
-        parent::__construct();
-
         $this->countryCode = strtolower($countryCode);
 
         $this->groups = new PaymentMethodGroupCollection();
         $this->titleTranslations = new TranslationCollection();
-
-        $this->setDefaultLanguage($defaultLanguage);
     }
 
     /**
-     * @inheritDoc
+     * Returns collection of translation objects.
+     * @return TranslationCollection<Translation>
      */
-    public function setDefaultLanguage(string $language): self
+    public function getTitleTranslations(): TranslationCollection
     {
-        parent::setDefaultLanguage($language);
-
-        foreach ($this->groups as $group) {
-            $group->setDefaultLanguage($language);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Gets title of the group. Tries to get title in specified language. If it is not found or if language is not
-     * specified, uses default language, given to constructor.
-     *
-     * @param string|null $language [Optional]
-     */
-    public function getTitle(string $language = null): string
-    {
-        return $this->translator->translate(
-            $this->titleTranslations,
-            $this->getDefaultLanguage(),
-            $language
-        ) ?? $this->countryCode;
+        return $this->titleTranslations;
     }
 
     /**

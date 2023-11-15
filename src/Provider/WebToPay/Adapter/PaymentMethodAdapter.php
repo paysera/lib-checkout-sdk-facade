@@ -22,10 +22,7 @@ class PaymentMethodAdapter
     {
         $providerEntityProperties = $this->invader->getProperties($providerEntity);
 
-        $paymentMethod = new PaymentMethod(
-            (string) $providerEntityProperties['key'],
-            (string) $providerEntityProperties['defaultLanguage']
-        );
+        $paymentMethod = new PaymentMethod((string) $providerEntityProperties['key']);
 
         foreach ($providerEntityProperties['logoList'] ?? [] as $language => $url) {
             $logo = new Translation($language, $url);
