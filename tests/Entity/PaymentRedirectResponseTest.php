@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Paysera\CheckoutSdk\Tests\Entity;
 
 use Paysera\CheckoutSdk\Entity\PaymentRedirectResponse;

@@ -69,7 +69,7 @@ class RequestValidatorCollectionTest extends AbstractCase
         $collection = new RequestValidatorCollection([$validator1, $validator2]);
 
         $filteredCollection = $collection->filter(
-            static fn(RequestValidatorInterface $validator) => get_class($validator) === PaymentMethodRequestValidator::class
+            static fn (RequestValidatorInterface $validator) => get_class($validator) === PaymentMethodRequestValidator::class
         );
 
         $this->assertCount(
@@ -90,12 +90,12 @@ class RequestValidatorCollectionTest extends AbstractCase
             'compatibleItem'   => [
                 PaymentRedirectRequestValidator::class,
                 true,
-                'The validator must be compatible for collection.'
+                'The validator must be compatible for collection.',
             ],
             'incompatibleItem' => [
                 CountryCodeIso2Validator::class,
                 false,
-                'The entity must be not compatible for collection.'
+                'The entity must be not compatible for collection.',
             ],
         ];
     }

@@ -77,7 +77,7 @@ class PaymentMethodCountryCollectionTest extends AbstractCase
         $collection = new PaymentMethodCountryCollection([$paymentMethodCountry1, $paymentMethodCountry2]);
 
         $filteredCollection = $collection->filter(
-            static fn(PaymentMethodCountry $paymentMethodCountry) => $paymentMethodCountry->getCode() === 'gb'
+            static fn (PaymentMethodCountry $paymentMethodCountry) => $paymentMethodCountry->getCode() === 'gb'
         );
 
         $this->assertCount(

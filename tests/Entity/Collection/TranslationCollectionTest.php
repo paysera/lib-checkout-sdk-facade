@@ -77,7 +77,7 @@ class TranslationCollectionTest extends AbstractCase
         $collection = new TranslationCollection([$translation1, $translation2]);
 
         $filteredCollection = $collection->filter(
-            static fn(Translation $translation) => $translation->getLanguage() === 'en'
+            static fn (Translation $translation) => $translation->getLanguage() === 'en'
         );
 
         $this->assertCount(

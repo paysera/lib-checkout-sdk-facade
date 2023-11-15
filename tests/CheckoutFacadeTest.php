@@ -55,7 +55,7 @@ class CheckoutFacadeTest extends AbstractCase
         $collection = new PaymentMethodCountryCollection([
             $paymentMethodCountry1,
             $paymentMethodCountry2,
-            $paymentMethodCountry3
+            $paymentMethodCountry3,
         ]);
 
         $this->requestValidatorMock->shouldReceive('validate')

@@ -36,4 +36,3 @@ abstract class AbstractCase extends MockeryTestCase
         return $this->container->get(Invader::class)->getProperties($object);
     }
 }
-

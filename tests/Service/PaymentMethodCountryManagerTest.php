@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Paysera\CheckoutSdk\Tests\Service;
 
 use Paysera\CheckoutSdk\Entity\Collection\PaymentMethodCountryCollection;
@@ -31,7 +33,7 @@ class PaymentMethodCountryManagerTest extends AbstractCase
         $collection = new PaymentMethodCountryCollection([
             $paymentMethodCountry1,
             $paymentMethodCountry2,
-            $paymentMethodCountry3
+            $paymentMethodCountry3,
         ]);
         $manager = new PaymentMethodCountryManager();
 

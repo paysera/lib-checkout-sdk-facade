@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Paysera\CheckoutSdk\Provider\WebToPay\Adapter;
 
 use Paysera\CheckoutSdk\Entity\PaymentRedirectRequest;

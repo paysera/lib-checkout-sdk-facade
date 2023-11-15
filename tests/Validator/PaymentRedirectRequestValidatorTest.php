@@ -69,12 +69,12 @@ class PaymentRedirectRequestValidatorTest extends AbstractCase
                         ->setPaymentCountryCode('gb')
                 ),
                 true,
-                'The entity is compatible for validation.'
+                'The entity is compatible for validation.',
             ],
             'incompatibleRequest' => [
                 new PaymentCallbackValidationRequest(1, 'pass', 'data'),
                 false,
-                'The entity is not compatible for validation.'
+                'The entity is not compatible for validation.',
             ],
         ];
     }

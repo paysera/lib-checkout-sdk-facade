@@ -11,8 +11,6 @@
 /build                export-ignore
 /.editorconfig        export-ignore
 /CHANGELOG.md         export-ignore
-/.php_cs              export-ignore
-/.php_cs_risky        export-ignore
-/.php_cs_safe         export-ignore
+/.php-cs-fixer.dist.php export-ignore
 phpstan.neon.dist     export-ignore
 phpstan-baseline.neon export-ignore

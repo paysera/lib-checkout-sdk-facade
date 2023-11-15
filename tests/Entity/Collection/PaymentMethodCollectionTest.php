@@ -77,7 +77,7 @@ class PaymentMethodCollectionTest extends AbstractCase
         $collection = new PaymentMethodCollection([$paymentMethod1, $paymentMethod2]);
 
         $filteredCollection = $collection->filter(
-            static fn(PaymentMethod $paymentMethod) => $paymentMethod->getKey() === '1'
+            static fn (PaymentMethod $paymentMethod) => $paymentMethod->getKey() === '1'
         );
 
         $this->assertCount(

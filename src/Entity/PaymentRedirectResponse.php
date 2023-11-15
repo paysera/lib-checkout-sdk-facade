@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Paysera\CheckoutSdk\Entity;
 
 use Paysera\CheckoutSdk\Util\RedirectExecutor;
@@ -17,16 +19,19 @@ class PaymentRedirectResponse
         $this->redirectOutput = $this->getDefaultRedirectOutput();
     }
 
+    // TODO remove it
     public function makeRedirect(): void
     {
         $this->redirectExecutor->execute($this->redirectUrl, $this->redirectOutput);
     }
 
+    // TODO remove it
     public function getRedirectOutput(): string
     {
         return $this->redirectOutput;
     }
 
+    // TODO remove it
     public function setRedirectOutput(string $redirectOutput): void
     {
         $this->redirectOutput = $redirectOutput;
@@ -37,6 +42,7 @@ class PaymentRedirectResponse
         return $this->redirectUrl;
     }
 
+    // TODO remove it
     protected function getDefaultRedirectOutput(): string
     {
         return sprintf(

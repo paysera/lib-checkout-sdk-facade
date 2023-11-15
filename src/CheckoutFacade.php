@@ -55,6 +55,7 @@ final class CheckoutFacade
         return $this->provider->redirectToPayment($request);
     }
 
+    // rename to validated data
     public function getPaymentCallbackValidationData(
         PaymentCallbackValidationRequest $request
     ): PaymentCallbackValidationResponse {
