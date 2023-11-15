@@ -105,14 +105,14 @@ class CheckoutFacadeTest extends AbstractCase
             ->once()
             ->with($request);
 
-        $this->providerMock->shouldReceive('getPaymentCallbackValidationData')
+        $this->providerMock->shouldReceive('getPaymentCallbackValidatedData')
             ->once()
             ->with($request)
             ->andReturn($response);
 
         $this->assertEquals(
             $response,
-            $this->facade->getPaymentCallbackValidationData($request),
+            $this->facade->getPaymentCallbackValidatedData($request),
             'The facade must return validation response.'
         );
     }

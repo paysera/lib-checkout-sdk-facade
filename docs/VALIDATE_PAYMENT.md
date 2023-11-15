@@ -23,7 +23,7 @@ $paymentValidationRequest->setSs1($data['payment_request_ss1'])
     ->setSs2($data['payment_request_ss2'])
 ;
 
-$response = $checkoutFacade->getPaymentCallbackValidationData($paymentValidationRequest);
+$response = $checkoutFacade->getPaymentCallbackValidatedData($paymentValidationRequest);
 ```
 
 Method `validatePayment()` returns [response](../src/Entity/PaymentValidationResponse.php) with all decoded information about payment.

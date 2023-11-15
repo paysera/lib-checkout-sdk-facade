@@ -105,7 +105,7 @@ class WebToPayProvider implements ProviderInterface
         return new PaymentRedirectResponse($redirectUrl);
     }
 
-    public function getPaymentCallbackValidationData(
+    public function getPaymentCallbackValidatedData(
         PaymentCallbackValidationRequest $request
     ): PaymentCallbackValidationResponse {
         $validatePaymentData = $this->callbackValidationRequestNormalizer->normalize($request);

@@ -22,7 +22,7 @@ interface ProviderInterface
 
     public function redirectToPayment(PaymentRedirectRequest $request): PaymentRedirectResponse;
 
-    public function getPaymentCallbackValidationData(
+    public function getPaymentCallbackValidatedData(
         PaymentCallbackValidationRequest $request
     ): PaymentCallbackValidationResponse;
 }

@@ -159,13 +159,41 @@ class WebToPayProviderTest extends AbstractCase
             ->denormalize(['some data here...'])
             ->andReturn($validationResponseMock);
 
-        $validateResponse = $this->webToPayProvider->getPaymentCallbackValidationData($validationRequest);
+        $validateResponse = $this->webToPayProvider->getPaymentCallbackValidatedData($validationRequest);
 
         $this->assertEquals(
             $validationResponseMock,
             $validateResponse,
             'The provider must return validation response.'
         );
+    }
+
+    public function testRedirectToPaymentProviderExceptions(): void
+    {
+        m::mock('overload:'. WebToPay::class)
+            ->shouldReceive('redirectToPayment')
+            ->once()
+            ->withAnyArgs()
+            ->andThrow(new WebToPayException('Some troubles.'));
+
+        $this->redirectResponseHelper->shouldReceive('catchOutputBuffer')
+            ->once()
+            ->andThrow(new WebToPayException('Some troubles.'));
+
+        $this->expectException(ProviderException::class);
+        $this->expectExceptionMessage('Provider thrown exception.');
+        $this->expectExceptionCode(BaseException::E_PROVIDER_ISSUE);
+
+        $request = new PaymentRedirectRequest(
+            1,
+            'pass',
+            'acceptUrl',
+            'cancelUrl',
+            'callbackUrl',
+            new Order(1, 100.0, 'USD')
+        );
+
+        $this->webToPayProvider->redirectToPayment($request);
     }
 
     /**
@@ -198,20 +226,8 @@ class WebToPayProviderTest extends AbstractCase
                 ),
                 'WebToPay static method' => 'getPaymentMethodList',
             ],
-//            [
-//                'WebToPayProvider method' => 'redirectToPayment',
-//                'Request argument' => new PaymentRedirectRequest(
-//                    1,
-//                    'pass',
-//                    'acceptUrl',
-//                    'cancelUrl',
-//                    'callbackUrl',
-//                    new Order(1, 100.0, 'USD')
-//                ),
-//                'WebToPay static method' => 'redirectToPayment',
-//            ],
             [
-                'WebToPayProvider method' => 'getPaymentCallbackValidationData',
+                'WebToPayProvider method' => 'getPaymentCallbackValidatedData',
                 'Request argument' => new PaymentCallbackValidationRequest(
                     1,
                     'pass',
