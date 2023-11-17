@@ -87,7 +87,7 @@ class WebToPayProviderTest extends AbstractCase
             ->convert($providerMethodCountryMock)
             ->andReturn($paymentMethodCountry);
 
-        $collection = $this->webToPayProvider->getPaymentMethodCountries($methodRequest);
+        $collection = $this->webToPayProvider->getPaymentMethods($methodRequest);
 
         $collection->rewind();
         $this->assertEquals(
@@ -215,7 +215,7 @@ class WebToPayProviderTest extends AbstractCase
     {
         return [
             [
-                'WebToPayProvider method' => 'getPaymentMethodCountries',
+                'WebToPayProvider method' => 'getPaymentMethods',
                 'Request argument' => new PaymentMethodsRequest(
                     1,
                     100,

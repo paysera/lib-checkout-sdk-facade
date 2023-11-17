@@ -50,7 +50,7 @@ $request = new PaymentMethodsRequest(
     $order
 );
 
-$collection = $checkoutFacade->getPaymentMethodCountries($request);
+$collection = $checkoutFacade->getPaymentMethods($request);
 ```
 
 ## Use cases

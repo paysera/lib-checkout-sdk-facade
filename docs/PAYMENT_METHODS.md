@@ -26,7 +26,7 @@ $request = new PaymentMethodsRequest(
     $order
 );
 
-$collection = $checkoutFacade->getPaymentMethodCountries($this->request);
+$collection = $checkoutFacade->getPaymentMethods($this->request);
 ```
 
 Method `getPaymentMethodCountries()` returns a [collection](../src/Entity/Collection/PaymentMethodCountryCollection.php) of [objects](../src/Entity/PaymentMethodCountry.php) with all available payment methods grouped by countries.

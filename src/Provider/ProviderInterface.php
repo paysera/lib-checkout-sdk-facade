@@ -18,7 +18,7 @@ interface ProviderInterface
      * @param PaymentMethodsRequest $request
      * @return PaymentMethodCountryCollection<PaymentMethodCountry>
      */
-    public function getPaymentMethodCountries(PaymentMethodsRequest $request): PaymentMethodCountryCollection;
+    public function getPaymentMethods(PaymentMethodsRequest $request): PaymentMethodCountryCollection;
 
     public function getPaymentRedirect(PaymentRedirectRequest $request): PaymentRedirectResponse;
 

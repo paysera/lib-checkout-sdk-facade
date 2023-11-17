@@ -59,12 +59,12 @@ class CheckoutFacadeTest extends AbstractCase
             ->once()
             ->with($request);
 
-        $this->providerMock->shouldReceive('getPaymentMethodCountries')
+        $this->providerMock->shouldReceive('getPaymentMethods')
             ->once()
             ->with($request)
             ->andReturn($collection);
 
-        $resultCollection = $this->facade->getPaymentMethodCountries($request);
+        $resultCollection = $this->facade->getPaymentMethods($request);
 
         $this->assertCount(
             3,

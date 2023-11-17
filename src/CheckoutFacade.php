@@ -32,11 +32,11 @@ final class CheckoutFacade
      * @param PaymentMethodsRequest $request
      * @return PaymentMethodCountryCollection<PaymentMethodCountry>
      */
-    public function getPaymentMethodCountries(PaymentMethodsRequest $request): PaymentMethodCountryCollection
+    public function getPaymentMethods(PaymentMethodsRequest $request): PaymentMethodCountryCollection
     {
         $this->requestValidator->validate($request);
 
-        return $this->provider->getPaymentMethodCountries($request);
+        return $this->provider->getPaymentMethods($request);
     }
 
     public function getPaymentRedirect(PaymentRedirectRequest $request): PaymentRedirectResponse

@@ -49,7 +49,7 @@ class WebToPayProvider implements ProviderInterface
      * @return PaymentMethodCountryCollection<PaymentMethodCountry>
      * @throws ProviderException
      */
-    public function getPaymentMethodCountries(PaymentMethodsRequest $request): PaymentMethodCountryCollection
+    public function getPaymentMethods(PaymentMethodsRequest $request): PaymentMethodCountryCollection
     {
         $countryCollection = new PaymentMethodCountryCollection();
 
