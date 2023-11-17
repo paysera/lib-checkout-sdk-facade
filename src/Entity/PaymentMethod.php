@@ -6,8 +6,10 @@ namespace Paysera\CheckoutSdk\Entity;
 
 use Paysera\CheckoutSdk\Entity\Collection\ItemInterface;
 use Paysera\CheckoutSdk\Entity\Collection\TranslationCollection;
+use Paysera\CheckoutSdk\Service\TranslatableLogoInterface;
+use Paysera\CheckoutSdk\Service\TranslatableTitleInterface;
 
-class PaymentMethod implements ItemInterface
+class PaymentMethod implements ItemInterface, TranslatableTitleInterface, TranslatableLogoInterface
 {
     /**
      * Assigned key for this payment method.
@@ -51,6 +53,11 @@ class PaymentMethod implements ItemInterface
     public function getTitleTranslations(): TranslationCollection
     {
         return $this->titleTranslations;
+    }
+
+    public function getFallbackTitle(): string
+    {
+        return $this->getKey();
     }
 
     /**

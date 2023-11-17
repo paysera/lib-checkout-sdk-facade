@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Paysera\CheckoutSdk\Entity;
+namespace Paysera\CheckoutSdk\Entity\Request;
+
+use Paysera\CheckoutSdk\Entity\RequestInterface;
 
 class PaymentCallbackValidationRequest implements RequestInterface
 {

@@ -6,9 +6,9 @@ namespace Paysera\CheckoutSdk;
 
 use Paysera\CheckoutSdk\Entity\Collection\PaymentMethodCountryCollection;
 use Paysera\CheckoutSdk\Entity\PaymentMethodCountry;
-use Paysera\CheckoutSdk\Entity\PaymentMethodRequest;
-use Paysera\CheckoutSdk\Entity\PaymentRedirectRequest;
-use Paysera\CheckoutSdk\Entity\PaymentCallbackValidationRequest;
+use Paysera\CheckoutSdk\Entity\Request\PaymentMethodsRequest;
+use Paysera\CheckoutSdk\Entity\Request\PaymentRedirectRequest;
+use Paysera\CheckoutSdk\Entity\Request\PaymentCallbackValidationRequest;
 use Paysera\CheckoutSdk\Entity\PaymentCallbackValidationResponse;
 use Paysera\CheckoutSdk\Entity\PaymentRedirectResponse;
 use Paysera\CheckoutSdk\Provider\ProviderInterface;
@@ -29,30 +29,21 @@ final class CheckoutFacade
     }
 
     /**
-     * @param PaymentMethodRequest $request
+     * @param PaymentMethodsRequest $request
      * @return PaymentMethodCountryCollection<PaymentMethodCountry>
      */
-    public function getPaymentMethodCountries(PaymentMethodRequest $request): PaymentMethodCountryCollection
+    public function getPaymentMethodCountries(PaymentMethodsRequest $request): PaymentMethodCountryCollection
     {
         $this->requestValidator->validate($request);
 
-        $paymentMethodCountries = $this->provider->getPaymentMethodCountries($request);
-
-        if (count($request->getSelectedCountries()) > 0) {
-            $paymentMethodCountries = (new PaymentMethodCountryManager())->filterCollectionByCodes(
-                $paymentMethodCountries,
-                $request->getSelectedCountries()
-            );
-        }
-
-        return $paymentMethodCountries;
+        return $this->provider->getPaymentMethodCountries($request);
     }
 
-    public function redirectToPayment(PaymentRedirectRequest $request): PaymentRedirectResponse
+    public function getPaymentRedirect(PaymentRedirectRequest $request): PaymentRedirectResponse
     {
         $this->requestValidator->validate($request);
 
-        return $this->provider->redirectToPayment($request);
+        return $this->provider->getPaymentRedirect($request);
     }
 
     public function getPaymentCallbackValidatedData(

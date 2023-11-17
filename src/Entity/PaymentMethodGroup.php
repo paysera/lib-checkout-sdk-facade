@@ -7,8 +7,9 @@ namespace Paysera\CheckoutSdk\Entity;
 use Paysera\CheckoutSdk\Entity\Collection\ItemInterface;
 use Paysera\CheckoutSdk\Entity\Collection\PaymentMethodCollection;
 use Paysera\CheckoutSdk\Entity\Collection\TranslationCollection;
+use Paysera\CheckoutSdk\Service\TranslatableTitleInterface;
 
-class PaymentMethodGroup implements ItemInterface
+class PaymentMethodGroup implements ItemInterface, TranslatableTitleInterface
 {
     /**
      * Some unique (in the scope of country) key for this group.
@@ -42,6 +43,11 @@ class PaymentMethodGroup implements ItemInterface
     public function getTitleTranslations(): TranslationCollection
     {
         return $this->titleTranslations;
+    }
+
+    public function getFallbackTitle(): string
+    {
+        return $this->getKey();
     }
 
     /**

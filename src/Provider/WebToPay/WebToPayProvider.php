@@ -6,9 +6,9 @@ namespace Paysera\CheckoutSdk\Provider\WebToPay;
 
 use Paysera\CheckoutSdk\Entity\Collection\PaymentMethodCountryCollection;
 use Paysera\CheckoutSdk\Entity\PaymentMethodCountry;
-use Paysera\CheckoutSdk\Entity\PaymentMethodRequest;
-use Paysera\CheckoutSdk\Entity\PaymentRedirectRequest;
-use Paysera\CheckoutSdk\Entity\PaymentCallbackValidationRequest;
+use Paysera\CheckoutSdk\Entity\Request\PaymentMethodsRequest;
+use Paysera\CheckoutSdk\Entity\Request\PaymentRedirectRequest;
+use Paysera\CheckoutSdk\Entity\Request\PaymentCallbackValidationRequest;
 use Paysera\CheckoutSdk\Entity\PaymentCallbackValidationResponse;
 use Paysera\CheckoutSdk\Entity\PaymentRedirectResponse;
 use Paysera\CheckoutSdk\Exception\ProviderException;
@@ -45,24 +45,20 @@ class WebToPayProvider implements ProviderInterface
     }
 
     /**
-     * @param PaymentMethodRequest $request
+     * @param PaymentMethodsRequest $request
      * @return PaymentMethodCountryCollection<PaymentMethodCountry>
      * @throws ProviderException
      */
-    public function getPaymentMethodCountries(PaymentMethodRequest $request): PaymentMethodCountryCollection
+    public function getPaymentMethodCountries(PaymentMethodsRequest $request): PaymentMethodCountryCollection
     {
         $countryCollection = new PaymentMethodCountryCollection();
 
         try {
-            $countryList = WebToPay::getPaymentMethodList(
+            $countries = WebToPay::getPaymentMethodList(
                 $request->getProjectId(),
-                $request->getOrder()->getAmount(),
-                $request->getOrder()->getCurrency()
-            );
-
-            $countries = $countryList->setDefaultLanguage($request->getLanguage())
-                ->getCountries()
-            ;
+                $request->getAmount(),
+                $request->getCurrency()
+            )->getCountries();
         } catch (WebToPayException $exception) {
             throw new ProviderException($exception);
         }
@@ -80,7 +76,7 @@ class WebToPayProvider implements ProviderInterface
      * @throws ProviderException
      * @param PaymentRedirectRequest $request
      */
-    public function redirectToPayment(PaymentRedirectRequest $request): PaymentRedirectResponse
+    public function getPaymentRedirect(PaymentRedirectRequest $request): PaymentRedirectResponse
     {
         $paymentData = $this->paymentRedirectRequestNormalizer->normalize($request);
 

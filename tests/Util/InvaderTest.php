@@ -12,7 +12,7 @@ class InvaderTest extends AbstractCase
 {
     public function testGetProperties(): void
     {
-        $object = new Order(1, 1.0, 'test');
+        $object = new Order(1, 1, 'test');
         $properties = $this->container->get(Invader::class)->getProperties($object);
 
         $this->assertEquals(

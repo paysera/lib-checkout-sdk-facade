@@ -8,9 +8,9 @@ use Mockery as m;
 use Paysera\CheckoutSdk\CheckoutFacade;
 use Paysera\CheckoutSdk\Entity\Collection\PaymentMethodCountryCollection;
 use Paysera\CheckoutSdk\Entity\PaymentMethodCountry;
-use Paysera\CheckoutSdk\Entity\PaymentMethodRequest;
-use Paysera\CheckoutSdk\Entity\PaymentRedirectRequest;
-use Paysera\CheckoutSdk\Entity\PaymentCallbackValidationRequest;
+use Paysera\CheckoutSdk\Entity\Request\PaymentMethodsRequest;
+use Paysera\CheckoutSdk\Entity\Request\PaymentRedirectRequest;
+use Paysera\CheckoutSdk\Entity\Request\PaymentCallbackValidationRequest;
 use Paysera\CheckoutSdk\Entity\PaymentCallbackValidationResponse;
 use Paysera\CheckoutSdk\Provider\ProviderInterface;
 use Paysera\CheckoutSdk\Validator\RequestValidator;
@@ -44,10 +44,7 @@ class CheckoutFacadeTest extends AbstractCase
 
     public function testGetPaymentMethodCountries(): void
     {
-        $request = m::mock(PaymentMethodRequest::class);
-        $request->shouldReceive('getSelectedCountries')
-            ->times(2)
-            ->andReturn(['gb']);
+        $request = m::mock(PaymentMethodsRequest::class);
 
         $paymentMethodCountry1 = new PaymentMethodCountry('gb');
         $paymentMethodCountry2 = new PaymentMethodCountry('lt');
@@ -70,18 +67,13 @@ class CheckoutFacadeTest extends AbstractCase
         $resultCollection = $this->facade->getPaymentMethodCountries($request);
 
         $this->assertCount(
-            1,
+            3,
             $resultCollection,
-            'The facade must return filtered country collection with single item.'
-        );
-        $this->assertEquals(
-            $paymentMethodCountry1,
-            $resultCollection->get(),
-            'The facade must return filtered country collection.'
+            'The facade must return countries collection.'
         );
     }
 
-    public function testRedirectToPayment(): void
+    public function testGetPaymentRedirect(): void
     {
         $request = m::mock(PaymentRedirectRequest::class);
 
@@ -89,11 +81,11 @@ class CheckoutFacadeTest extends AbstractCase
             ->once()
             ->with($request);
 
-        $this->providerMock->shouldReceive('redirectToPayment')
+        $this->providerMock->shouldReceive('getPaymentRedirect')
             ->once()
             ->with($request);
 
-        $this->facade->redirectToPayment($request);
+        $this->facade->getPaymentRedirect($request);
     }
 
     public function testValidatePayment(): void

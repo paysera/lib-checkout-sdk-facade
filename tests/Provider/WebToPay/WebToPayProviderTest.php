@@ -7,9 +7,9 @@ namespace Paysera\CheckoutSdk\Tests\Provider\WebToPay;
 use Mockery as m;
 use Paysera\CheckoutSdk\Entity\Order;
 use Paysera\CheckoutSdk\Entity\PaymentMethodCountry;
-use Paysera\CheckoutSdk\Entity\PaymentMethodRequest;
-use Paysera\CheckoutSdk\Entity\PaymentRedirectRequest;
-use Paysera\CheckoutSdk\Entity\PaymentCallbackValidationRequest;
+use Paysera\CheckoutSdk\Entity\Request\PaymentMethodsRequest;
+use Paysera\CheckoutSdk\Entity\Request\PaymentRedirectRequest;
+use Paysera\CheckoutSdk\Entity\Request\PaymentCallbackValidationRequest;
 use Paysera\CheckoutSdk\Entity\PaymentCallbackValidationResponse;
 use Paysera\CheckoutSdk\Entity\PaymentRedirectResponse;
 use Paysera\CheckoutSdk\Exception\BaseException;
@@ -61,17 +61,14 @@ class WebToPayProviderTest extends AbstractCase
 
     public function testGetPaymentMethodCountries(): void
     {
-        $methodRequest = new PaymentMethodRequest(
+        $methodRequest = new PaymentMethodsRequest(
             1,
-            'en',
-            new Order(1, 100.0, 'USD')
+            100,
+            'USD'
         );
 
         $providerMethodCountryMock = m::mock(WebToPay_PaymentMethodCountry::class);
         $providerMethodListMock = m::mock(WebToPay_PaymentMethodList::class);
-        $providerMethodListMock->expects()
-            ->setDefaultLanguage($methodRequest->getLanguage())
-            ->andReturn($providerMethodListMock);
         $providerMethodListMock->expects()
             ->getCountries()
             ->andReturn([$providerMethodCountryMock]);
@@ -80,8 +77,8 @@ class WebToPayProviderTest extends AbstractCase
             ->expects()
             ->getPaymentMethodList(
                 $methodRequest->getProjectId(),
-                $methodRequest->getOrder()->getAmount(),
-                $methodRequest->getOrder()->getCurrency()
+                $methodRequest->getAmount(),
+                $methodRequest->getCurrency()
             )
             ->andReturn($providerMethodListMock);
 
@@ -100,7 +97,7 @@ class WebToPayProviderTest extends AbstractCase
         );
     }
 
-    public function testRedirectToPaymentWithHeader(): void
+    public function testGetPaymentRedirectWithHeader(): void
     {
         [$redirectRequest, $providerData] = $this->getPaymentRedirectRequestAndProviderData();
 
@@ -114,13 +111,13 @@ class WebToPayProviderTest extends AbstractCase
             ->shouldReceive('removeResponseHeader')
             ->with('Location');
 
-        $response = $this->webToPayProvider->redirectToPayment($redirectRequest);
+        $response = $this->webToPayProvider->getPaymentRedirect($redirectRequest);
 
         $this->assertInstanceOf(PaymentRedirectResponse::class, $response);
         $this->assertEquals('http://example.paysera.test', $response->getRedirectUrl());
     }
 
-    public function testRedirectToPaymentWithScript(): void
+    public function testGetPaymentRedirectWithScript(): void
     {
         [$redirectRequest, $providerData] = $this->getPaymentRedirectRequestAndProviderData();
 
@@ -135,7 +132,7 @@ class WebToPayProviderTest extends AbstractCase
             ->shouldReceive('removeResponseHeader')
             ->with('Location');
 
-        $response = $this->webToPayProvider->redirectToPayment($redirectRequest);
+        $response = $this->webToPayProvider->getPaymentRedirect($redirectRequest);
 
         $this->assertInstanceOf(PaymentRedirectResponse::class, $response);
         $this->assertEquals('http://example.paysera.test?test\'test', $response->getRedirectUrl());
@@ -168,7 +165,7 @@ class WebToPayProviderTest extends AbstractCase
         );
     }
 
-    public function testRedirectToPaymentProviderExceptions(): void
+    public function testGetPaymentRedirectProviderExceptions(): void
     {
         m::mock('overload:'. WebToPay::class)
             ->shouldReceive('redirectToPayment')
@@ -190,10 +187,10 @@ class WebToPayProviderTest extends AbstractCase
             'acceptUrl',
             'cancelUrl',
             'callbackUrl',
-            new Order(1, 100.0, 'USD')
+            new Order(1, 100, 'USD')
         );
 
-        $this->webToPayProvider->redirectToPayment($request);
+        $this->webToPayProvider->getPaymentRedirect($request);
     }
 
     /**
@@ -219,10 +216,10 @@ class WebToPayProviderTest extends AbstractCase
         return [
             [
                 'WebToPayProvider method' => 'getPaymentMethodCountries',
-                'Request argument' => new PaymentMethodRequest(
+                'Request argument' => new PaymentMethodsRequest(
                     1,
-                    'en',
-                    new Order(1, 100.0, 'USD')
+                    100,
+                    'USD'
                 ),
                 'WebToPay static method' => 'getPaymentMethodList',
             ],
@@ -245,7 +242,7 @@ class WebToPayProviderTest extends AbstractCase
     {
         $orderRequest = (new Order(
             1,
-            100.0,
+            100,
             'USD'
         ))->setPaymentFirstName('John')
             ->setPaymentLastName('Doe')

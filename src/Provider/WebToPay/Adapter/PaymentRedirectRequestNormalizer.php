@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Paysera\CheckoutSdk\Provider\WebToPay\Adapter;
 
-use Paysera\CheckoutSdk\Entity\PaymentRedirectRequest;
+use Paysera\CheckoutSdk\Entity\Request\PaymentRedirectRequest;
 
 class PaymentRedirectRequestNormalizer
 {
@@ -14,7 +14,7 @@ class PaymentRedirectRequestNormalizer
             'projectid' => $request->getProjectId(),
             'sign_password' => $request->getProjectPassword(),
             'orderid' => $request->getOrder()->getOrderId(),
-            'amount' => (int) $request->getOrder()->getAmount(),
+            'amount' => $request->getOrder()->getAmount(),
             'currency' => $request->getOrder()->getCurrency(),
             'accepturl' => $request->getAcceptUrl(),
             'cancelurl' => $request->getCancelUrl(),

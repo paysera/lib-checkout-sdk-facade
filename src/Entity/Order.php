@@ -8,7 +8,9 @@ class Order
 {
     private int $orderId;
     private string $currency;
-    private float $amount;
+
+    /** Amount in cents the client has to pay. */
+    private int $amount;
     private ?string $paymentFirstName;
     private ?string $paymentLastName;
     private ?string $paymentEmail;
@@ -18,7 +20,7 @@ class Order
     private ?string $paymentZip;
     private ?string $paymentCountryCode;
 
-    public function __construct(int $orderId, float $amount, string $currency)
+    public function __construct(int $orderId, int $amount, string $currency)
     {
         $this->orderId = $orderId;
         $this->amount = $amount;
@@ -38,7 +40,7 @@ class Order
         return $this->orderId;
     }
 
-    public function getAmount(): float
+    public function getAmount(): int
     {
         return $this->amount;
     }

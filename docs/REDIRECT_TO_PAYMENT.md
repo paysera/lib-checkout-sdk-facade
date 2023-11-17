@@ -2,13 +2,14 @@
 Redirecting to the chosen payment method page.
 
 ## Basic usage
+
 ```php
 <?php
 
 use Paysera\CheckoutSdk\CheckoutFacade;
 use Paysera\CheckoutSdk\CheckoutFacadeFactory;
 use Paysera\CheckoutSdk\Entity\Order;
-use Paysera\CheckoutSdk\Entity\PaymentRedirectRequest;
+use Paysera\CheckoutSdk\Entity\Request\PaymentRedirectRequest;
 
 ...
 
@@ -37,7 +38,7 @@ $redirectRequest = new PaymentRedirectRequest(
 );
 $redirectRequest->setPayment($data['paysera_payment_method']);
 
-$checkoutFacade->redirectToPayment($redirectRequest);
+$checkoutFacade->getPaymentRedirect($redirectRequest);
 ```
 
 Method `redirectToPayment()` makes redirect to the chosen payment method page.

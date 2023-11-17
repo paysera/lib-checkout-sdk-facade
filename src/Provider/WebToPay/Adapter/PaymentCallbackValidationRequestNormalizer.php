@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Paysera\CheckoutSdk\Provider\WebToPay\Adapter;
 
-use Paysera\CheckoutSdk\Entity\PaymentCallbackValidationRequest;
+use Paysera\CheckoutSdk\Entity\Request\PaymentCallbackValidationRequest;
 
 class PaymentCallbackValidationRequestNormalizer
 {

@@ -6,8 +6,8 @@ namespace Paysera\CheckoutSdk\Tests\Validator;
 
 use Mockery as m;
 use Paysera\CheckoutSdk\Entity\Order;
-use Paysera\CheckoutSdk\Entity\PaymentRedirectRequest;
-use Paysera\CheckoutSdk\Entity\PaymentCallbackValidationRequest;
+use Paysera\CheckoutSdk\Entity\Request\PaymentRedirectRequest;
+use Paysera\CheckoutSdk\Entity\Request\PaymentCallbackValidationRequest;
 use Paysera\CheckoutSdk\Entity\RequestInterface;
 use Paysera\CheckoutSdk\Exception\BaseException;
 use Paysera\CheckoutSdk\Exception\InvalidTypeException;
@@ -37,7 +37,7 @@ class PaymentRedirectRequestValidatorTest extends AbstractCase
     /**
      * @dataProvider canValidateRequestsDataProvider
      */
-    public function testConvert(RequestInterface $request, bool $isCompatible): void
+    public function testValidate(RequestInterface $request, bool $isCompatible): void
     {
         if ($isCompatible === false) {
             $this->expectException(InvalidTypeException::class);
@@ -65,7 +65,7 @@ class PaymentRedirectRequestValidatorTest extends AbstractCase
                     'test',
                     'test',
                     'test',
-                    (new Order(1, 100.0, 'USD'))
+                    (new Order(1, 100, 'USD'))
                         ->setPaymentCountryCode('gb')
                 ),
                 true,

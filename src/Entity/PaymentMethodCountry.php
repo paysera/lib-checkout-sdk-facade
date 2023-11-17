@@ -7,8 +7,9 @@ namespace Paysera\CheckoutSdk\Entity;
 use Paysera\CheckoutSdk\Entity\Collection\ItemInterface;
 use Paysera\CheckoutSdk\Entity\Collection\PaymentMethodGroupCollection;
 use Paysera\CheckoutSdk\Entity\Collection\TranslationCollection;
+use Paysera\CheckoutSdk\Service\TranslatableTitleInterface;
 
-class PaymentMethodCountry implements ItemInterface
+class PaymentMethodCountry implements ItemInterface, TranslatableTitleInterface
 {
     /**
      * Current country code (country code ISO2)
@@ -42,6 +43,11 @@ class PaymentMethodCountry implements ItemInterface
     public function getTitleTranslations(): TranslationCollection
     {
         return $this->titleTranslations;
+    }
+
+    public function getFallbackTitle(): string
+    {
+        return $this->getCode();
     }
 
     /**

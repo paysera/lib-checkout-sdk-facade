@@ -6,21 +6,21 @@ namespace Paysera\CheckoutSdk\Provider;
 
 use Paysera\CheckoutSdk\Entity\Collection\PaymentMethodCountryCollection;
 use Paysera\CheckoutSdk\Entity\PaymentMethodCountry;
-use Paysera\CheckoutSdk\Entity\PaymentMethodRequest;
-use Paysera\CheckoutSdk\Entity\PaymentRedirectRequest;
-use Paysera\CheckoutSdk\Entity\PaymentCallbackValidationRequest;
+use Paysera\CheckoutSdk\Entity\Request\PaymentMethodsRequest;
+use Paysera\CheckoutSdk\Entity\Request\PaymentRedirectRequest;
+use Paysera\CheckoutSdk\Entity\Request\PaymentCallbackValidationRequest;
 use Paysera\CheckoutSdk\Entity\PaymentCallbackValidationResponse;
 use Paysera\CheckoutSdk\Entity\PaymentRedirectResponse;
 
 interface ProviderInterface
 {
     /**
-     * @param PaymentMethodRequest $request
+     * @param PaymentMethodsRequest $request
      * @return PaymentMethodCountryCollection<PaymentMethodCountry>
      */
-    public function getPaymentMethodCountries(PaymentMethodRequest $request): PaymentMethodCountryCollection;
+    public function getPaymentMethodCountries(PaymentMethodsRequest $request): PaymentMethodCountryCollection;
 
-    public function redirectToPayment(PaymentRedirectRequest $request): PaymentRedirectResponse;
+    public function getPaymentRedirect(PaymentRedirectRequest $request): PaymentRedirectResponse;
 
     public function getPaymentCallbackValidatedData(
         PaymentCallbackValidationRequest $request

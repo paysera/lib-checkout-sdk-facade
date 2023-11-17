@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Paysera\CheckoutSdk\Tests\Validator;
 
 use Mockery as m;
-use Paysera\CheckoutSdk\Entity\PaymentMethodRequest;
+use Paysera\CheckoutSdk\Entity\Request\PaymentMethodsRequest;
 use Paysera\CheckoutSdk\Tests\AbstractCase;
-use Paysera\CheckoutSdk\Validator\PaymentMethodRequestValidator;
+use Paysera\CheckoutSdk\Validator\PaymentMethodsRequestValidator;
 use Paysera\CheckoutSdk\Validator\PaymentRedirectRequestValidator;
 use Paysera\CheckoutSdk\Validator\RequestValidator;
 
@@ -15,7 +15,7 @@ class RequestValidatorTest extends AbstractCase
 {
     public function testValidate(): void
     {
-        $paymentMethodRequestValidator = m::mock(PaymentMethodRequestValidator::class);
+        $paymentMethodRequestValidator = m::mock(PaymentMethodsRequestValidator::class);
         $paymentMethodRequestValidator->shouldReceive('canValidate')
             ->once()
             ->withAnyArgs()
@@ -35,6 +35,6 @@ class RequestValidatorTest extends AbstractCase
 
         $requestValidator = new RequestValidator($paymentMethodRequestValidator, $paymentRedirectRequestValidator);
 
-        $requestValidator->validate(m::mock(PaymentMethodRequest::class));
+        $requestValidator->validate(m::mock(PaymentMethodsRequest::class));
     }
 }

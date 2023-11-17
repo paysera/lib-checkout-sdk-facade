@@ -8,7 +8,7 @@ Validating payment request.
 
 use Paysera\CheckoutSdk\CheckoutFacade;
 use Paysera\CheckoutSdk\CheckoutFacadeFactory;
-use Paysera\CheckoutSdk\Entity\PaymentCallbackValidationRequest;
+use Paysera\CheckoutSdk\Entity\Request\PaymentCallbackValidationRequest;
 
 ...
 

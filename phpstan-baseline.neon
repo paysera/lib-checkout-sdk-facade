@@ -51,29 +51,19 @@ parameters:
 			path: src/Entity/Collection/TranslationCollection.php
 
 		-
-			message: "#^Method Paysera\\\\CheckoutSdk\\\\Entity\\\\PaymentCallbackValidationRequest\\:\\:getSms\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: "#^Method Paysera\\\\CheckoutSdk\\\\Entity\\\\Request\\\\PaymentCallbackValidationRequest\\:\\:getSms\\(\\) return type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/Entity/PaymentCallbackValidationRequest.php
+			path: src/Entity/Request/PaymentCallbackValidationRequest.php
 
 		-
-			message: "#^Method Paysera\\\\CheckoutSdk\\\\Entity\\\\PaymentCallbackValidationRequest\\:\\:setSms\\(\\) has parameter \\$sms with no value type specified in iterable type array\\.$#"
+			message: "#^Method Paysera\\\\CheckoutSdk\\\\Entity\\\\Request\\\\PaymentCallbackValidationRequest\\:\\:setSms\\(\\) has parameter \\$sms with no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/Entity/PaymentCallbackValidationRequest.php
+			path: src/Entity/Request/PaymentCallbackValidationRequest.php
 
 		-
-			message: "#^Property Paysera\\\\CheckoutSdk\\\\Entity\\\\PaymentCallbackValidationRequest\\:\\:\\$sms type has no value type specified in iterable type array\\.$#"
+			message: "#^Property Paysera\\\\CheckoutSdk\\\\Entity\\\\Request\\\\PaymentCallbackValidationRequest\\:\\:\\$sms type has no value type specified in iterable type array\\.$#"
 			count: 1
-			path: src/Entity/PaymentCallbackValidationRequest.php
-
-		-
-			message: "#^Method Paysera\\\\CheckoutSdk\\\\Entity\\\\PaymentMethodRequest\\:\\:__construct\\(\\) has parameter \\$selectedCountries with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Entity/PaymentMethodRequest.php
-
-		-
-			message: "#^Property Paysera\\\\CheckoutSdk\\\\Entity\\\\PaymentMethodRequest\\:\\:\\$selectedCountries type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: src/Entity/PaymentMethodRequest.php
+			path: src/Entity/Request/PaymentCallbackValidationRequest.php
 
 		-
 			message: "#^Method Paysera\\\\CheckoutSdk\\\\Provider\\\\WebToPay\\\\Adapter\\\\PaymentCallbackValidationRequestNormalizer\\:\\:normalize\\(\\) return type has no value type specified in iterable type array\\.$#"
@@ -109,6 +99,16 @@ parameters:
 			message: "#^Method Paysera\\\\CheckoutSdk\\\\Service\\\\PaymentMethodCountryManager\\:\\:filterCollectionByCodes\\(\\) has parameter \\$selectedCountries with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: src/Service/PaymentMethodCountryManager.php
+
+		-
+			message: "#^Method Paysera\\\\CheckoutSdk\\\\Service\\\\TranslatableLogoInterface\\:\\:getLogos\\(\\) return type with generic class Paysera\\\\CheckoutSdk\\\\Entity\\\\Collection\\\\TranslationCollection does not specify its types\\: Translation$#"
+			count: 1
+			path: src/Service/TranslatableLogoInterface.php
+
+		-
+			message: "#^Method Paysera\\\\CheckoutSdk\\\\Service\\\\TranslatableTitleInterface\\:\\:getTitleTranslations\\(\\) return type with generic class Paysera\\\\CheckoutSdk\\\\Entity\\\\Collection\\\\TranslationCollection does not specify its types\\: Translation$#"
+			count: 1
+			path: src/Service/TranslatableTitleInterface.php
 
 		-
 			message: "#^Method Paysera\\\\CheckoutSdk\\\\Util\\\\Container\\:\\:getDependencies\\(\\) return type has no value type specified in iterable type array\\.$#"

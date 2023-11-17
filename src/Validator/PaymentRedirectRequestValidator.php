@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Paysera\CheckoutSdk\Validator;
 
-use Paysera\CheckoutSdk\Entity\PaymentRedirectRequest;
+use Paysera\CheckoutSdk\Entity\Request\PaymentRedirectRequest;
 use Paysera\CheckoutSdk\Entity\RequestInterface;
 use Paysera\CheckoutSdk\Exception\InvalidTypeException;
 use Paysera\CheckoutSdk\Exception\ValidationException;

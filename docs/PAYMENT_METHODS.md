@@ -2,13 +2,14 @@
 Receiving and working with paysera payment methods.
 
 ## Basic usage
+
 ```php
 <?php
 
 use Paysera\CheckoutSdk\CheckoutFacade;
 use Paysera\CheckoutSdk\CheckoutFacadeFactory;
 use Paysera\CheckoutSdk\Entity\Order;
-use Paysera\CheckoutSdk\Entity\PaymentMethodRequest;
+use Paysera\CheckoutSdk\Entity\Request\PaymentMethodsRequest;
 
 ...
 
@@ -19,7 +20,7 @@ $order = new Order(
     (float) $data['order_amount_in_cents'],
     (string) $data['order_currency_code']
  );
-$request = new PaymentMethodRequest(
+$request = new PaymentMethodsRequest(
     (int) $data['project_id'],
     (string) $data['language'],
     $order
@@ -34,15 +35,16 @@ Method `getPaymentMethodCountries()` returns a [collection](../src/Entity/Collec
 > Returned collection will be filtered by `amount` value by default.
 
 ## Filtering by predefined countries list
+
 ```php
 <?php
 
 use Paysera\CheckoutSdk\CheckoutFacade;
-use Paysera\CheckoutSdk\Entity\PaymentMethodRequest;
+use Paysera\CheckoutSdk\Entity\Request\PaymentMethodsRequest;
 
 ...
 
-$request = new PaymentMethodRequest(
+$request = new PaymentMethodsRequest(
     (int) $data['project_id'],
     (string) $data['language'],
     $order,
@@ -52,11 +54,12 @@ $request = new PaymentMethodRequest(
 $collection = $checkoutFacade->getPaymentMethodCountries($request);
 ```
 ## Iterating collection
+
 ```php
 <?php
 
 use Paysera\CheckoutSdk\CheckoutFacade;
-use Paysera\CheckoutSdk\Entity\PaymentMethodRequest;
+use Paysera\CheckoutSdk\Entity\Request\PaymentMethodsRequest;
 use Paysera\CheckoutSdk\Entity\Collection\PaymentMethodCountryCollection;
 use Paysera\CheckoutSdk\Entity\PaymentMethodCountry;
 

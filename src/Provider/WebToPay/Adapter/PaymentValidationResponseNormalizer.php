@@ -42,7 +42,7 @@ class PaymentValidationResponseNormalizer
     {
         $order = new Order(
             $this->getProviderProperty('orderid', $providerResponse, TypeConverter::INT),
-            $this->getProviderProperty('amount', $providerResponse, TypeConverter::FLOAT),
+            $this->getProviderProperty('amount', $providerResponse, TypeConverter::INT),
             $this->getProviderProperty('currency', $providerResponse),
         );
 

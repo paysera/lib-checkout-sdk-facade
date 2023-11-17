@@ -13,7 +13,7 @@ class RequestValidator
     protected RequestValidatorCollection $requestValidatorCollection;
 
     public function __construct(
-        PaymentMethodRequestValidator $paymentMethodRequestValidator,
+        PaymentMethodsRequestValidator  $paymentMethodRequestValidator,
         PaymentRedirectRequestValidator $paymentRedirectRequestValidator
     ) {
         $this->requestValidatorCollection = new RequestValidatorCollection([
