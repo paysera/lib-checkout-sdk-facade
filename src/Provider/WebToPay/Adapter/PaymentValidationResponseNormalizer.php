@@ -27,7 +27,8 @@ class PaymentValidationResponseNormalizer
             $this->getProviderProperty('status', $providerResponse, TypeConverter::INT),
         );
 
-        return $paymentValidationResponse->setPayment($this->getProviderProperty('payment', $providerResponse))
+        return $paymentValidationResponse
+            ->setPayment($this->getProviderProperty('payment', $providerResponse))
             ->setPaymentText($this->getProviderProperty('paytext', $providerResponse))
             ->setOriginalPaymentText($this->getProviderProperty('original_paytext', $providerResponse))
             ->setVersion($this->getProviderProperty('version', $providerResponse))
@@ -35,6 +36,15 @@ class PaymentValidationResponseNormalizer
             ->setAccount($this->getProviderProperty('account', $providerResponse))
             ->setType($this->getProviderProperty('type', $providerResponse))
             ->setTest($this->getProviderProperty('test', $providerResponse, TypeConverter::BOOL))
+            ->setName($this->getProviderProperty('name', $providerResponse))
+            ->setSurname($this->getProviderProperty('surname', $providerResponse))
+            ->setLanguage($this->getProviderProperty('lang', $providerResponse))
+            ->setCountry($this->getProviderProperty('country', $providerResponse))
+            ->setPaymentCountry($this->getProviderProperty('payment_country', $providerResponse))
+            ->setPayerIpCountry($this->getProviderProperty('payer_ip_country', $providerResponse))
+            ->setPayerCountry($this->getProviderProperty('payer_country', $providerResponse))
+            ->setPaymentAmount($this->getProviderProperty('payamount', $providerResponse, TypeConverter::INT))
+            ->setPaymentCurrency($this->getProviderProperty('paycurrency', $providerResponse))
         ;
     }
 

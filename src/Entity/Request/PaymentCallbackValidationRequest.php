@@ -6,17 +6,35 @@ namespace Paysera\CheckoutSdk\Entity\Request;
 
 use Paysera\CheckoutSdk\Entity\RequestInterface;
 
+/**
+ * @link https://developers.paysera.com/en/checkout/integrations/integration-callback
+ */
 class PaymentCallbackValidationRequest implements RequestInterface
 {
+    /**
+     * Unique project number. Only activated projects can accept payments.
+     */
     private int $projectId;
+
+    /**
+     * Unique project password.
+     */
     private string $projectPassword;
+
+    /**
+     * Encoded parameters from Paysera system.
+     */
     private string $data;
+
+    /**
+     * Sign of data parameter, without using private-public key scheme.
+     */
     private ?string $ss1;
+
+    /**
+     * Sign of data parameter, using RSA private-public key scheme with SHA-1 hashing function.
+     */
     private ?string $ss2;
-    private ?string $type;
-    private ?string $to;
-    private ?string $from;
-    private ?array $sms;
 
     public function __construct(
         int $projectId,
@@ -28,10 +46,6 @@ class PaymentCallbackValidationRequest implements RequestInterface
         $this->data = $data;
         $this->ss1 = null;
         $this->ss2 = null;
-        $this->type = null;
-        $this->to = null;
-        $this->from = null;
-        $this->sms = null;
     }
 
     public function getProjectId(): int
@@ -69,54 +83,6 @@ class PaymentCallbackValidationRequest implements RequestInterface
     public function setSs2(?string $ss2): self
     {
         $this->ss2 = $ss2;
-
-        return $this;
-    }
-
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    public function setType(?string $type): self
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    public function getTo(): ?string
-    {
-        return $this->to;
-    }
-
-    public function setTo(?string $to): self
-    {
-        $this->to = $to;
-
-        return $this;
-    }
-
-    public function getFrom(): ?string
-    {
-        return $this->from;
-    }
-
-    public function setFrom(?string $from): self
-    {
-        $this->from = $from;
-
-        return $this;
-    }
-
-    public function getSms(): ?array
-    {
-        return $this->sms;
-    }
-
-    public function setSms(?array $sms): self
-    {
-        $this->sms = $sms;
 
         return $this;
     }

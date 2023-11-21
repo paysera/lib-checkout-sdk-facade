@@ -13,6 +13,7 @@ use Paysera\CheckoutSdk\Entity\Request\PaymentRedirectRequest;
 use Paysera\CheckoutSdk\Entity\Request\PaymentCallbackValidationRequest;
 use Paysera\CheckoutSdk\Entity\PaymentCallbackValidationResponse;
 use Paysera\CheckoutSdk\Provider\ProviderInterface;
+use Paysera\CheckoutSdk\Validator\PaymentCallbackValidator;
 use Paysera\CheckoutSdk\Validator\RequestValidator;
 
 class CheckoutFacadeTest extends AbstractCase
@@ -26,6 +27,10 @@ class CheckoutFacadeTest extends AbstractCase
      * @var ProviderInterface|null|m\MockInterface
      */
     protected ?ProviderInterface $providerMock = null;
+    /**
+     * @var PaymentCallbackValidator|null|m\MockInterface
+     */
+    protected ?PaymentCallbackValidator $paymentCallbackValidator = null;
 
     protected ?CheckoutFacade $facade = null;
 
@@ -35,10 +40,12 @@ class CheckoutFacadeTest extends AbstractCase
 
         $this->requestValidatorMock = m::mock(RequestValidator::class);
         $this->providerMock = m::mock(ProviderInterface::class);
+        $this->paymentCallbackValidator = m::mock(PaymentCallbackValidator::class);
 
         $this->facade = new CheckoutFacade(
             $this->providerMock,
-            $this->requestValidatorMock
+            $this->requestValidatorMock,
+            $this->paymentCallbackValidator
         );
     }
 
