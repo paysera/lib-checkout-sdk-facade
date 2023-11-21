@@ -66,7 +66,7 @@ class PaymentRedirectRequestValidatorTest extends AbstractCase
                     'test',
                     'test',
                     (new Order(1, 100, 'USD'))
-                        ->setPaymentCountryCode('gb')
+                        ->setPayerCountryCode('gb')
                 ),
                 true,
                 'The entity is compatible for validation.',

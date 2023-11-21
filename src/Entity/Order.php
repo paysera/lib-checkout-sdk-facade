@@ -4,35 +4,93 @@ declare(strict_types=1);
 
 namespace Paysera\CheckoutSdk\Entity;
 
+/**
+ * This entity provides the necessary integration fields for order.
+ * @link https://developers.paysera.com/en/checkout/integrations/integration-specification
+ */
 class Order
 {
+    /**
+     * Order number from your system.
+     */
     private int $orderId;
+
+    /**
+     * Payment currency (i.e. USD, EUR, etc.) you want the client to pay in.
+     * If the selected currency cannot be accepted by a specific payment method,
+     * the system will convert it automatically to the acceptable currency,
+     * according to the currency rate of the day.
+     * Payamount and paycurrency answers will be sent to your website.
+     */
     private string $currency;
 
-    /** Amount in cents the client has to pay. */
+
+    /**
+     * Amount in cents the client has to pay.
+     */
     private int $amount;
-    private ?string $paymentFirstName;
-    private ?string $paymentLastName;
-    private ?string $paymentEmail;
-    private ?string $paymentStreet;
-    private ?string $paymentCity;
-    private ?string $paymentState;
-    private ?string $paymentZip;
-    private ?string $paymentCountryCode;
+
+    /**
+     * Payer's name. Requested in the majority of payment methods. Necessary for certain payment methods.
+     */
+    private ?string $payerFirstName;
+
+    /**
+     * Payer's surname. Requested in the majority of payment methods. Necessary for certain payment methods.
+     */
+    private ?string $payerLastName;
+
+    /**
+     * Payer's email address is necessary.
+     * If the email address is not received, the client will be requested to enter it.
+     * Paysera system will inform the payer about the payment status by this address.
+     */
+    private ?string $payerEmail;
+
+    /**
+     * Payer's address, to which goods will be sent (e.g.: Pilaitės pr. 16). Necessary for certain payment methods.
+     */
+    private ?string $payerStreet;
+
+    /**
+     * Payer's city, to which goods will be sent (e.g.: Vilnius). Necessary for certain payment methods.
+     */
+    private ?string $payerCity;
+
+    /**
+     * Payer's state code (necessary, when buying in the USA). Necessary for certain payment methods.
+     */
+    private ?string $payerState;
+
+    /**
+     * Payer's postal code.
+     * Lithuanian postal codes can be found here:
+     *     @link https://www.post.lt/pasto-kodu-ir-adresu-paieska
+     * Necessary for certain payment methods.
+     */
+    private ?string $payerZip;
+
+    /**
+     * Payer's country code.
+     * The list with country codes can be found here:
+     *     @link https://en.wikipedia.org/wiki/List_of_ISO_country_codes
+     * Necessary for certain payment methods.
+     */
+    private ?string $payerCountryCode;
 
     public function __construct(int $orderId, int $amount, string $currency)
     {
         $this->orderId = $orderId;
         $this->amount = $amount;
         $this->currency = strtoupper($currency);
-        $this->paymentFirstName = null;
-        $this->paymentLastName = null;
-        $this->paymentEmail = null;
-        $this->paymentStreet = null;
-        $this->paymentCity = null;
-        $this->paymentState = null;
-        $this->paymentZip = null;
-        $this->paymentCountryCode = null;
+        $this->payerFirstName = null;
+        $this->payerLastName = null;
+        $this->payerEmail = null;
+        $this->payerStreet = null;
+        $this->payerCity = null;
+        $this->payerState = null;
+        $this->payerZip = null;
+        $this->payerCountryCode = null;
     }
 
     public function getOrderId(): int
@@ -50,98 +108,98 @@ class Order
         return $this->currency;
     }
 
-    public function getPaymentFirstName(): ?string
+    public function getPayerFirstName(): ?string
     {
-        return $this->paymentFirstName;
+        return $this->payerFirstName;
     }
 
-    public function setPaymentFirstName(?string $paymentFirstName): self
+    public function setPayerFirstName(?string $payerFirstName): self
     {
-        $this->paymentFirstName = $paymentFirstName;
+        $this->payerFirstName = $payerFirstName;
 
         return $this;
     }
 
-    public function getPaymentLastName(): ?string
+    public function getPayerLastName(): ?string
     {
-        return $this->paymentLastName;
+        return $this->payerLastName;
     }
 
-    public function setPaymentLastName(?string $paymentLastName): self
+    public function setPayerLastName(?string $payerLastName): self
     {
-        $this->paymentLastName = $paymentLastName;
+        $this->payerLastName = $payerLastName;
 
         return $this;
     }
 
-    public function getPaymentEmail(): ?string
+    public function getPayerEmail(): ?string
     {
-        return $this->paymentEmail;
+        return $this->payerEmail;
     }
 
-    public function setPaymentEmail(?string $paymentEmail): self
+    public function setPayerEmail(?string $payerEmail): self
     {
-        $this->paymentEmail = $paymentEmail;
+        $this->payerEmail = $payerEmail;
 
         return $this;
     }
 
-    public function getPaymentStreet(): ?string
+    public function getPayerStreet(): ?string
     {
-        return $this->paymentStreet;
+        return $this->payerStreet;
     }
 
-    public function setPaymentStreet(?string $paymentStreet): self
+    public function setPayerStreet(?string $payerStreet): self
     {
-        $this->paymentStreet = $paymentStreet;
+        $this->payerStreet = $payerStreet;
 
         return $this;
     }
 
-    public function getPaymentCity(): ?string
+    public function getPayerCity(): ?string
     {
-        return $this->paymentCity;
+        return $this->payerCity;
     }
 
-    public function setPaymentCity(?string $paymentCity): self
+    public function setPayerCity(?string $payerCity): self
     {
-        $this->paymentCity = $paymentCity;
+        $this->payerCity = $payerCity;
 
         return $this;
     }
 
-    public function getPaymentState(): ?string
+    public function getPayerState(): ?string
     {
-        return $this->paymentState;
+        return $this->payerState;
     }
 
-    public function setPaymentState(?string $paymentState): self
+    public function setPayerState(?string $payerState): self
     {
-        $this->paymentState = $paymentState;
+        $this->payerState = $payerState;
 
         return $this;
     }
 
-    public function getPaymentZip(): ?string
+    public function getPayerZip(): ?string
     {
-        return $this->paymentZip;
+        return $this->payerZip;
     }
 
-    public function setPaymentZip(?string $paymentZip): self
+    public function setPayerZip(?string $payerZip): self
     {
-        $this->paymentZip = $paymentZip;
+        $this->payerZip = $payerZip;
 
         return $this;
     }
 
-    public function getPaymentCountryCode(): ?string
+    public function getPayerCountryCode(): ?string
     {
-        return $this->paymentCountryCode;
+        return $this->payerCountryCode;
     }
 
-    public function setPaymentCountryCode(?string $paymentCountryCode): self
+    public function setPayerCountryCode(?string $payerCountryCode): self
     {
-        $this->paymentCountryCode = $paymentCountryCode;
+        $this->payerCountryCode = $payerCountryCode;
 
         return $this;
     }

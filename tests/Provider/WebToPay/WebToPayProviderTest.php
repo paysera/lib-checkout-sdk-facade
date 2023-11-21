@@ -18,6 +18,7 @@ use Paysera\CheckoutSdk\Provider\WebToPay\Adapter\PaymentCallbackValidationReque
 use Paysera\CheckoutSdk\Provider\WebToPay\Adapter\PaymentMethodCountryAdapter;
 use Paysera\CheckoutSdk\Provider\WebToPay\Adapter\PaymentRedirectRequestNormalizer;
 use Paysera\CheckoutSdk\Provider\WebToPay\Adapter\PaymentValidationResponseNormalizer;
+use Paysera\CheckoutSdk\Provider\WebToPay\Helper\ApiVersionHelper;
 use Paysera\CheckoutSdk\Provider\WebToPay\Helper\RedirectToPaymentHelper;
 use Paysera\CheckoutSdk\Provider\WebToPay\WebToPayProvider;
 use Paysera\CheckoutSdk\Tests\AbstractCase;
@@ -37,8 +38,12 @@ class WebToPayProviderTest extends AbstractCase
 
     /** @var PaymentValidationResponseNormalizer|null|m\MockInterface */
     protected ?PaymentValidationResponseNormalizer $paymentValidationResponseNormalizer = null;
+
     /** @var RedirectToPaymentHelper|null|m\MockInterface  */
     protected ?RedirectToPaymentHelper $redirectResponseHelper = null;
+
+    /** @var ApiVersionHelper|null|m\MockInterface  */
+    protected ?ApiVersionHelper $apiVersionHelper = null;
 
     protected ?WebToPayProvider $webToPayProvider = null;
 
@@ -49,11 +54,12 @@ class WebToPayProviderTest extends AbstractCase
         $this->paymentMethodCountryAdapterMock = m::mock(PaymentMethodCountryAdapter::class);
         $this->paymentValidationResponseNormalizer = m::mock(PaymentValidationResponseNormalizer::class);
         $this->redirectResponseHelper = m::mock(RedirectToPaymentHelper::class);
+        $this->apiVersionHelper = m::mock(ApiVersionHelper::class);
 
         $this->webToPayProvider = new WebToPayProvider(
             $this->paymentMethodCountryAdapterMock,
             $this->paymentValidationResponseNormalizer,
-            new PaymentRedirectRequestNormalizer(),
+            new PaymentRedirectRequestNormalizer($this->apiVersionHelper),
             new PaymentCallbackValidationRequestNormalizer(),
             $this->redirectResponseHelper
         );
@@ -105,6 +111,8 @@ class WebToPayProviderTest extends AbstractCase
             ->expects()
             ->redirectToPayment($providerData, false);
 
+        $this->apiVersionHelper->shouldReceive('getApiVersion')
+            ->andReturn('1.6');
         $this->redirectResponseHelper->shouldReceive('catchOutputBuffer')
             ->shouldReceive('getResponseHeaders')
             ->andReturn(['Location: http://example.paysera.test'])
@@ -125,6 +133,8 @@ class WebToPayProviderTest extends AbstractCase
             ->expects()
             ->redirectToPayment($providerData, false);
 
+        $this->apiVersionHelper->shouldReceive('getApiVersion')
+            ->andReturn('1.6');
         $this->redirectResponseHelper->shouldReceive('catchOutputBuffer')
             ->andReturn('<script type="text/javascript">window.location = "' . addslashes('http://example.paysera.test?test\'test') . '";</script>')
             ->shouldReceive('getResponseHeaders')
@@ -173,6 +183,8 @@ class WebToPayProviderTest extends AbstractCase
             ->withAnyArgs()
             ->andThrow(new WebToPayException('Some troubles.'));
 
+        $this->apiVersionHelper->shouldReceive('getApiVersion')
+            ->andReturn('1.6');
         $this->redirectResponseHelper->shouldReceive('catchOutputBuffer')
             ->once()
             ->andThrow(new WebToPayException('Some troubles.'));
@@ -244,13 +256,13 @@ class WebToPayProviderTest extends AbstractCase
             1,
             100,
             'USD'
-        ))->setPaymentFirstName('John')
-            ->setPaymentLastName('Doe')
-            ->setPaymentEmail('john.doe@paysera.net')
-            ->setPaymentStreet('Sun str. 1')
-            ->setPaymentCity('London')
-            ->setPaymentZip('100')
-            ->setPaymentCountryCode('gb');
+        ))->setPayerFirstName('John')
+            ->setPayerLastName('Doe')
+            ->setPayerEmail('john.doe@paysera.net')
+            ->setPayerStreet('Sun str. 1')
+            ->setPayerCity('London')
+            ->setPayerZip('100')
+            ->setPayerCountryCode('gb');
         $redirectRequest = (new PaymentRedirectRequest(
             1,
             'pass',

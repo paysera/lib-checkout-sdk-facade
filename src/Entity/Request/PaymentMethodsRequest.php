@@ -8,10 +8,19 @@ use Paysera\CheckoutSdk\Entity\RequestInterface;
 
 class PaymentMethodsRequest implements RequestInterface
 {
+    /**
+     * Unique project number. Only activated projects can accept payments.
+     */
     private int $projectId;
 
-    /** Amount in cents the client has to pay. */
+    /**
+     * Amount in cents the client has to pay.
+     */
     private int $amount;
+
+    /**
+     * Payment currency (i.e. USD, EUR, etc.)
+     */
     private string $currency;
 
     public function __construct(int $projectId, int $amount, string $currency)

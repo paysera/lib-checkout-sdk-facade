@@ -20,13 +20,13 @@ $order = new Order(
     (float) $data['order_amount_in_cents'],
     (string) $order['order_currency_code']
 );
-$order->setPaymentFirstName($data['order_payment_firstname'])
-    ->setPaymentLastName($data['order_payment_lastname'])
-    ->setPaymentEmail($data['order_payment_email'])
-    ->setPaymentStreet($data['order_payment_address'])
-    ->setPaymentCity($data['order_payment_city'])
-    ->setPaymentZip($data['order_payment_postcode'])
-    ->setPaymentCountryCode($data['order_payment_country'])
+$order->setPayerFirstName($data['order_payment_firstname'])
+    ->setPayerLastName($data['order_payment_lastname'])
+    ->setPayerEmail($data['order_payment_email'])
+    ->setPayerStreet($data['order_payment_address'])
+    ->setPayerCity($data['order_payment_city'])
+    ->setPayerZip($data['order_payment_postcode'])
+    ->setPayerCountryCode($data['order_payment_country'])
 ;
 $redirectRequest = new PaymentRedirectRequest(
     (int) $data['project_id'],

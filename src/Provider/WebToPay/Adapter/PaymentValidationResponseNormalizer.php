@@ -46,14 +46,14 @@ class PaymentValidationResponseNormalizer
             $this->getProviderProperty('currency', $providerResponse),
         );
 
-        return $order->setPaymentFirstName($this->getProviderProperty('p_firstname', $providerResponse))
-            ->setPaymentLastName($this->getProviderProperty('p_lastname', $providerResponse))
-            ->setPaymentEmail($this->getProviderProperty('p_email', $providerResponse))
-            ->setPaymentStreet($this->getProviderProperty('p_street', $providerResponse))
-            ->setPaymentCity($this->getProviderProperty('p_city', $providerResponse))
-            ->setPaymentZip($this->getProviderProperty('p_zip', $providerResponse))
-            ->setPaymentState($this->getProviderProperty('p_state', $providerResponse))
-            ->setPaymentCountryCode($this->getProviderProperty('p_countrycode', $providerResponse))
+        return $order->setPayerFirstName($this->getProviderProperty('p_firstname', $providerResponse))
+            ->setPayerLastName($this->getProviderProperty('p_lastname', $providerResponse))
+            ->setPayerEmail($this->getProviderProperty('p_email', $providerResponse))
+            ->setPayerStreet($this->getProviderProperty('p_street', $providerResponse))
+            ->setPayerCity($this->getProviderProperty('p_city', $providerResponse))
+            ->setPayerZip($this->getProviderProperty('p_zip', $providerResponse))
+            ->setPayerState($this->getProviderProperty('p_state', $providerResponse))
+            ->setPayerCountryCode($this->getProviderProperty('p_countrycode', $providerResponse))
         ;
     }
 

@@ -33,8 +33,8 @@ class PaymentRedirectRequestValidator implements RequestValidatorInterface
             throw new InvalidTypeException(PaymentRedirectRequest::class);
         }
 
-        if ($request->getOrder()->getPaymentCountryCode() !== null) {
-            $this->countryCodeIso2Validator->validate($request->getOrder()->getPaymentCountryCode());
+        if ($request->getOrder()->getPayerCountryCode() !== null) {
+            $this->countryCodeIso2Validator->validate($request->getOrder()->getPayerCountryCode());
         }
     }
 }

@@ -59,6 +59,7 @@ class WebToPayProvider implements ProviderInterface
                 $request->getAmount(),
                 $request->getCurrency()
             )->getCountries();
+            ksort($countries);
         } catch (WebToPayException $exception) {
             throw new ProviderException($exception);
         }
