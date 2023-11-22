@@ -119,10 +119,6 @@ class PaymentCallbackValidationResponse
 
     private ?string $type = null;
 
-    private ?bool $isValid = null;
-
-    private array $errors = [];
-
     public function __construct(int $projectId, Order $order, int $status)
     {
         $this->projectId = $projectId;
@@ -345,30 +341,6 @@ class PaymentCallbackValidationResponse
     public function setPaymentCurrency(?string $paymentCurrency): self
     {
         $this->paymentCurrency = $paymentCurrency;
-
-        return $this;
-    }
-
-    public function isValid(): ?bool
-    {
-        return $this->isValid;
-    }
-
-    public function setIsValid(?bool $isValid): self
-    {
-        $this->isValid = $isValid;
-
-        return $this;
-    }
-
-    public function getErrors(): array
-    {
-        return $this->errors;
-    }
-
-    public function setErrors(array $errors): self
-    {
-        $this->errors = $errors;
 
         return $this;
     }

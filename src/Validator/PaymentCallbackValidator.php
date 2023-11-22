@@ -6,18 +6,15 @@ namespace Paysera\CheckoutSdk\Validator;
 
 use Paysera\CheckoutSdk\Entity\Order;
 use Paysera\CheckoutSdk\Entity\PaymentCallbackValidationResponse;
+use Paysera\CheckoutSdk\Exception\CallbackValidationException;
 use Paysera\CheckoutSdk\Service\PaymentStatus;
 
 class PaymentCallbackValidator
 {
-    public function validate(
-        PaymentCallbackValidationResponse $response,
-        Order $order
-    ): PaymentCallbackValidationResponse {
-        $errors = $response->getErrors();
-
+    public function validate(PaymentCallbackValidationResponse $response, Order $order): void
+    {
         if ($response->getStatus() !== PaymentStatus::SUCCESS) {
-            $errors[] = "Payment status `{$response->getStatus()}` is not successful.";
+            throw new CallbackValidationException("Payment status `{$response->getStatus()}` is not successful.");
         }
 
         if (
@@ -25,28 +22,28 @@ class PaymentCallbackValidator
             || $response->getOrder()->getCurrency() !== $order->getCurrency()
         ) {
             if ($response->getPaymentAmount() === null) {
-                $errors[] = 'Wrong pay amount: '
+                throw new CallbackValidationException(
+                    'Wrong pay amount: '
                     . $response->getOrder()->getAmount() / 100
                     . $response->getOrder()->getCurrency()
                     . ', expected: '
                     . $order->getAmount() / 100
                     . $order->getCurrency()
-                ;
-            } elseif (
+                );
+            }
+            if (
                 $response->getPaymentAmount() !== $order->getAmount()
                 || $response->getPaymentCurrency() !== $order->getCurrency()
             ) {
-                $errors[] = 'Wrong pay amount: '
+                throw new CallbackValidationException(
+                    'Wrong pay amount: '
                     . $response->getPaymentAmount() / 100
                     . $response->getPaymentCurrency()
                     . ', expected: '
                     . $order->getAmount() / 100
                     . $order->getCurrency()
-                ;
+                );
             }
         }
-
-        return $response->setErrors($errors)
-            ->setIsValid(empty($errors));
     }
 }

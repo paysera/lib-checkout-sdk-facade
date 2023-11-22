@@ -27,10 +27,6 @@ class CheckoutFacadeTest extends AbstractCase
      * @var ProviderInterface|null|m\MockInterface
      */
     protected ?ProviderInterface $providerMock = null;
-    /**
-     * @var PaymentCallbackValidator|null|m\MockInterface
-     */
-    protected ?PaymentCallbackValidator $paymentCallbackValidator = null;
 
     protected ?CheckoutFacade $facade = null;
 
@@ -40,12 +36,10 @@ class CheckoutFacadeTest extends AbstractCase
 
         $this->requestValidatorMock = m::mock(RequestValidator::class);
         $this->providerMock = m::mock(ProviderInterface::class);
-        $this->paymentCallbackValidator = m::mock(PaymentCallbackValidator::class);
 
         $this->facade = new CheckoutFacade(
             $this->providerMock,
-            $this->requestValidatorMock,
-            $this->paymentCallbackValidator
+            $this->requestValidatorMock
         );
     }
 

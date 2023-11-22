@@ -6,7 +6,6 @@ namespace Paysera\CheckoutSdk;
 
 use Paysera\CheckoutSdk\Provider\WebToPay\WebToPayProvider;
 use Paysera\CheckoutSdk\Util\Container;
-use Paysera\CheckoutSdk\Validator\PaymentCallbackValidator;
 use Paysera\CheckoutSdk\Validator\RequestValidator;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -23,8 +22,7 @@ class CheckoutFacadeFactory
 
         return new CheckoutFacade(
             $container->get(WebToPayProvider::class),
-            $container->get(RequestValidator::class),
-            $container->get(PaymentCallbackValidator::class)
+            $container->get(RequestValidator::class)
         );
     }
 }

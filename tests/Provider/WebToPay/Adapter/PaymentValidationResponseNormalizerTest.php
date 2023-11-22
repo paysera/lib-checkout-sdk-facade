@@ -67,8 +67,6 @@ class PaymentValidationResponseNormalizerTest extends AbstractCase
                 'payerCountry' => null,
                 'paymentAmount' => 1000,
                 'paymentCurrency' => 'USD',
-                'isValid' => null,
-                'errors' => [],
             ],
             $responseProperties,
             'The response properties values must be equal to the data set.'
