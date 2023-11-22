@@ -136,7 +136,7 @@ class CheckoutFacadeTest extends AbstractCase
                     1,
                     new Order(1, 1, 'EUR'),
                     PaymentStatus::NOT_EXECUTED
-                )
+                ),
             ],
             'response_payment_status_is_' . PaymentStatus::SUCCESS => [
                 true,
@@ -145,7 +145,7 @@ class CheckoutFacadeTest extends AbstractCase
                     1,
                     new Order(1, 1, 'EUR'),
                     PaymentStatus::SUCCESS
-                )
+                ),
             ],
             'response_payment_status_is_' . PaymentStatus::ACCEPTED => [
                 false,
@@ -154,7 +154,7 @@ class CheckoutFacadeTest extends AbstractCase
                     1,
                     new Order(1, 1, 'EUR'),
                     PaymentStatus::ACCEPTED
-                )
+                ),
             ],
             'response_payment_status_is_' . PaymentStatus::ADDITIONAL_INFORMATION => [
                 false,
@@ -163,7 +163,7 @@ class CheckoutFacadeTest extends AbstractCase
                     1,
                     new Order(1, 1, 'EUR'),
                     PaymentStatus::ADDITIONAL_INFORMATION
-                )
+                ),
             ],
             'response_payment_status_is_' . PaymentStatus::EXECUTED_WITHOUT_CONFIRMATION => [
                 false,
@@ -172,7 +172,7 @@ class CheckoutFacadeTest extends AbstractCase
                     1,
                     new Order(1, 1, 'EUR'),
                     PaymentStatus::EXECUTED_WITHOUT_CONFIRMATION
-                )
+                ),
             ],
             'merchant_order_is_equal_to_response_payment_data' => [
                 true,
@@ -181,7 +181,7 @@ class CheckoutFacadeTest extends AbstractCase
                     1,
                     new Order(1, 10, 'USD'),
                     PaymentStatus::SUCCESS
-                ))->setPaymentAmount(1)->setPaymentCurrency('EUR')
+                ))->setPaymentAmount(1)->setPaymentCurrency('EUR'),
             ],
             'merchant_order_is_not_equal_to_response_order_data' => [
                 false,
@@ -190,7 +190,7 @@ class CheckoutFacadeTest extends AbstractCase
                     1,
                     new Order(1, 10, 'USD'),
                     PaymentStatus::SUCCESS
-                )
+                ),
             ],
         ];
     }
