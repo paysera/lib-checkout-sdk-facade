@@ -7,13 +7,14 @@ namespace Paysera\CheckoutSdk\Tests;
 use Mockery as m;
 use Paysera\CheckoutSdk\CheckoutFacade;
 use Paysera\CheckoutSdk\Entity\Collection\PaymentMethodCountryCollection;
+use Paysera\CheckoutSdk\Entity\Order;
 use Paysera\CheckoutSdk\Entity\PaymentMethodCountry;
 use Paysera\CheckoutSdk\Entity\Request\PaymentMethodsRequest;
 use Paysera\CheckoutSdk\Entity\Request\PaymentRedirectRequest;
 use Paysera\CheckoutSdk\Entity\Request\PaymentCallbackValidationRequest;
 use Paysera\CheckoutSdk\Entity\PaymentCallbackValidationResponse;
 use Paysera\CheckoutSdk\Provider\ProviderInterface;
-use Paysera\CheckoutSdk\Validator\PaymentCallbackValidator;
+use Paysera\CheckoutSdk\Service\PaymentStatus;
 use Paysera\CheckoutSdk\Validator\RequestValidator;
 
 class CheckoutFacadeTest extends AbstractCase
@@ -108,5 +109,89 @@ class CheckoutFacadeTest extends AbstractCase
             $this->facade->getPaymentCallbackValidatedData($request),
             'The facade must return validation response.'
         );
+    }
+
+    /**
+     * @dataProvider isMerchantOrderPaidDataProvider
+     */
+    public function testIsMerchantOrderPaid(
+        bool $expected,
+        Order $merchantOrder,
+        PaymentCallbackValidationResponse $callbackResponse
+    ): void {
+        $this->assertEquals(
+            $expected,
+            $this->facade->isMerchantOrderPaid($callbackResponse, $merchantOrder),
+            'The values must be equal.'
+        );
+    }
+
+    public function isMerchantOrderPaidDataProvider(): array
+    {
+        return [
+            'response_payment_status_is_' . PaymentStatus::NOT_EXECUTED => [
+                false,
+                new Order(1, 1, 'EUR'),
+                new PaymentCallbackValidationResponse(
+                    1,
+                    new Order(1, 1, 'EUR'),
+                    PaymentStatus::NOT_EXECUTED
+                )
+            ],
+            'response_payment_status_is_' . PaymentStatus::SUCCESS => [
+                true,
+                new Order(1, 1, 'EUR'),
+                new PaymentCallbackValidationResponse(
+                    1,
+                    new Order(1, 1, 'EUR'),
+                    PaymentStatus::SUCCESS
+                )
+            ],
+            'response_payment_status_is_' . PaymentStatus::ACCEPTED => [
+                false,
+                new Order(1, 1, 'EUR'),
+                new PaymentCallbackValidationResponse(
+                    1,
+                    new Order(1, 1, 'EUR'),
+                    PaymentStatus::ACCEPTED
+                )
+            ],
+            'response_payment_status_is_' . PaymentStatus::ADDITIONAL_INFORMATION => [
+                false,
+                new Order(1, 1, 'EUR'),
+                new PaymentCallbackValidationResponse(
+                    1,
+                    new Order(1, 1, 'EUR'),
+                    PaymentStatus::ADDITIONAL_INFORMATION
+                )
+            ],
+            'response_payment_status_is_' . PaymentStatus::EXECUTED_WITHOUT_CONFIRMATION => [
+                false,
+                new Order(1, 1, 'EUR'),
+                new PaymentCallbackValidationResponse(
+                    1,
+                    new Order(1, 1, 'EUR'),
+                    PaymentStatus::EXECUTED_WITHOUT_CONFIRMATION
+                )
+            ],
+            'merchant_order_is_equal_to_response_payment_data' => [
+                true,
+                new Order(1, 1, 'EUR'),
+                (new PaymentCallbackValidationResponse(
+                    1,
+                    new Order(1, 10, 'USD'),
+                    PaymentStatus::SUCCESS
+                ))->setPaymentAmount(1)->setPaymentCurrency('EUR')
+            ],
+            'merchant_order_is_not_equal_to_response_order_data' => [
+                false,
+                new Order(1, 1, 'EUR'),
+                new PaymentCallbackValidationResponse(
+                    1,
+                    new Order(1, 10, 'USD'),
+                    PaymentStatus::SUCCESS
+                )
+            ],
+        ];
     }
 }
