@@ -16,7 +16,7 @@ use Paysera\CheckoutSdk\Provider\ProviderInterface;
 use Paysera\CheckoutSdk\Service\PaymentStatus;
 use Paysera\CheckoutSdk\Validator\RequestValidator;
 
-final class CheckoutFacade
+class CheckoutFacade
 {
     private ProviderInterface $provider;
     private RequestValidator $requestValidator;
