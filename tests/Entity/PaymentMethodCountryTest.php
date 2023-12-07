@@ -13,7 +13,7 @@ class PaymentMethodCountryTest extends AbstractCase
 {
     public function testIsEmpty(): void
     {
-        $paymentMethodCountry = new PaymentMethodCountry('gb', 'en');
+        $paymentMethodCountry = new PaymentMethodCountry('gb');
 
         $this->assertTrue(
             $paymentMethodCountry->isEmpty(),
@@ -24,6 +24,17 @@ class PaymentMethodCountryTest extends AbstractCase
         $this->assertFalse(
             $paymentMethodCountry->isEmpty(),
             'Entity with groups must be not empty.'
+        );
+    }
+
+    public function testGetFallbackTitle(): void
+    {
+        $paymentMethodCountry = new PaymentMethodCountry('gb');
+
+        $this->assertEquals(
+            'gb',
+            $paymentMethodCountry->getFallbackTitle(),
+            'Fallback title must be equal to country code.'
         );
     }
 }

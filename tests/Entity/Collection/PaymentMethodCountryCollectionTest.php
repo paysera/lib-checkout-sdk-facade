@@ -57,6 +57,22 @@ class PaymentMethodCountryCollectionTest extends AbstractCase
         );
     }
 
+    public function testAppendInvalidType(): void
+    {
+        $collection = new PaymentMethodCountryCollection();
+
+        $this->expectException(InvalidTypeException::class);
+
+        $collection->append(m::mock(PaymentMethodGroup::class));
+    }
+
+    public function testKey(): void
+    {
+        $collection = new PaymentMethodCountryCollection();
+
+        $this->assertEquals(0, $collection->key(), 'The default collection key must return.');
+    }
+
     public function testCurrent(): void
     {
         $collection = new PaymentMethodCountryCollection([m::mock(PaymentMethodCountry::class)]);

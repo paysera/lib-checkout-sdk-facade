@@ -70,13 +70,7 @@ class CheckoutFacade
         $callbackPaymentAmount = $callbackResponse->getPaymentAmount();
         $callbackPaymentCurrency = $callbackResponse->getPaymentCurrency();
 
-        return !(
-            ($callbackAmount !== $merchantAmount || $callbackCurrency !== $merchantCurrency)
-            && (
-                $callbackPaymentAmount === null
-                || $callbackPaymentAmount !== $merchantAmount
-                || $callbackPaymentCurrency !== $merchantCurrency
-            )
-        );
+        return ($callbackAmount === $merchantAmount && $callbackCurrency === $merchantCurrency)
+            || ($callbackPaymentAmount === $merchantAmount && $callbackPaymentCurrency === $merchantCurrency);
     }
 }

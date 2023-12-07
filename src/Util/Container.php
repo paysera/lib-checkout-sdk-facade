@@ -13,6 +13,7 @@ use Psr\Container\NotFoundExceptionInterface;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionNamedType;
+use ReflectionParameter;
 
 class Container implements ContainerInterface
 {
@@ -93,7 +94,7 @@ class Container implements ContainerInterface
     }
 
     /**
-     * @param \ReflectionParameter[] $constructorParameters
+     * @param ReflectionParameter[] $constructorParameters
      * @return array
      * @throws ContainerException
      * @throws ContainerExceptionInterface

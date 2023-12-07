@@ -13,5 +13,4 @@ abstract class BaseException extends Exception
     public const E_PROVIDER_ISSUE = 3;
     public const E_CONTAINER = 4;
     public const E_CONTAINER_NOT_FOUND = 5;
-    public const E_CALLBACK_VALIDATION = 6;
 }

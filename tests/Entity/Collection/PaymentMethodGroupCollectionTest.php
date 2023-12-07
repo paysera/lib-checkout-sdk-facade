@@ -6,6 +6,7 @@ namespace Paysera\CheckoutSdk\Tests\Entity\Collection;
 
 use Mockery as m;
 use Paysera\CheckoutSdk\Entity\Collection\PaymentMethodGroupCollection;
+use Paysera\CheckoutSdk\Entity\PaymentMethod;
 use Paysera\CheckoutSdk\Entity\PaymentMethodCountry;
 use Paysera\CheckoutSdk\Entity\PaymentMethodGroup;
 use Paysera\CheckoutSdk\Exception\BaseException;
@@ -55,6 +56,22 @@ class PaymentMethodGroupCollectionTest extends AbstractCase
             $collection,
             'The collection must be not empty after the item append.'
         );
+    }
+
+    public function testAppendInvalidType(): void
+    {
+        $collection = new PaymentMethodGroupCollection();
+
+        $this->expectException(InvalidTypeException::class);
+
+        $collection->append(m::mock(PaymentMethod::class));
+    }
+
+    public function testKey(): void
+    {
+        $collection = new PaymentMethodGroupCollection();
+
+        $this->assertEquals(0, $collection->key(), 'The default collection key must return.');
     }
 
     public function testCurrent(): void

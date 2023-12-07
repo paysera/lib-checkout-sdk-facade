@@ -13,7 +13,7 @@ class PaymentMethodGroupTest extends AbstractCase
 {
     public function testIsEmpty(): void
     {
-        $paymentMethodGroup = new PaymentMethodGroup('key', 'en');
+        $paymentMethodGroup = new PaymentMethodGroup('key');
 
         $this->assertTrue(
             $paymentMethodGroup->isEmpty(),
@@ -24,6 +24,17 @@ class PaymentMethodGroupTest extends AbstractCase
         $this->assertFalse(
             $paymentMethodGroup->isEmpty(),
             'Entity with payment methods must be not empty.'
+        );
+    }
+
+    public function testGetFallbackTitle(): void
+    {
+        $paymentMethodGroup = new PaymentMethodGroup('key');
+
+        $this->assertEquals(
+            'key',
+            $paymentMethodGroup->getFallbackTitle(),
+            'Fallback title must be equal to group key.'
         );
     }
 }

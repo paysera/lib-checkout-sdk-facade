@@ -11,6 +11,7 @@ class PaymentValidationResponseNormalizerTest extends AbstractCase
 {
     public function testDenormalize(): void
     {
+        /** @var PaymentValidationResponseNormalizer $normalizer */
         $normalizer = $this->container->get(PaymentValidationResponseNormalizer::class);
         $providerData = [
             'projectid' => '111',
@@ -43,9 +44,6 @@ class PaymentValidationResponseNormalizerTest extends AbstractCase
 
         $paymentValidationResponse = $normalizer->denormalize($providerData);
 
-        $responseProperties = $this->getObjectProperties($paymentValidationResponse);
-        unset($responseProperties['order']);
-
         $this->assertEquals(
             [
                 'projectId' => 111,
@@ -68,11 +66,31 @@ class PaymentValidationResponseNormalizerTest extends AbstractCase
                 'paymentAmount' => 1000,
                 'paymentCurrency' => 'USD',
             ],
-            $responseProperties,
+            [
+                'projectId' => $paymentValidationResponse->getProjectId(),
+                'status' => $paymentValidationResponse->getStatus(),
+                'payment' => $paymentValidationResponse->getPayment(),
+                'originalPaymentText' => $paymentValidationResponse->getOriginalPaymentText(),
+                'paymentText' => $paymentValidationResponse->getPaymentText(),
+                'test' => $paymentValidationResponse->isTest(),
+                'version' => $paymentValidationResponse->getVersion(),
+                'requestId' => $paymentValidationResponse->getRequestId(),
+                'account' => $paymentValidationResponse->getAccount(),
+                'type' => $paymentValidationResponse->getType(),
+                'language' => $paymentValidationResponse->getLanguage(),
+                'country' => $paymentValidationResponse->getCountry(),
+                'name' => $paymentValidationResponse->getName(),
+                'surname' => $paymentValidationResponse->getSurname(),
+                'paymentCountry' => $paymentValidationResponse->getPaymentCountry(),
+                'payerIpCountry' => $paymentValidationResponse->getPayerIpCountry(),
+                'payerCountry' => $paymentValidationResponse->getPayerCountry(),
+                'paymentAmount' => $paymentValidationResponse->getPaymentAmount(),
+                'paymentCurrency' => $paymentValidationResponse->getPaymentCurrency(),
+            ],
             'The response properties values must be equal to the data set.'
         );
 
-        $orderProperties = $this->getObjectProperties($paymentValidationResponse->getOrder());
+        $order = $paymentValidationResponse->getOrder();
 
         $this->assertEquals(
             [
@@ -88,7 +106,19 @@ class PaymentValidationResponseNormalizerTest extends AbstractCase
                 'payerZip' => '100',
                 'payerCountryCode' => 'gb',
             ],
-            $orderProperties,
+            [
+                'orderId' => $order->getOrderId(),
+                'currency' => $order->getCurrency(),
+                'amount' => $order->getAmount(),
+                'payerFirstName' => $order->getPayerFirstName(),
+                'payerLastName' => $order->getPayerLastName(),
+                'payerEmail' => $order->getPayerEmail(),
+                'payerStreet' => $order->getPayerStreet(),
+                'payerCity' => $order->getPayerCity(),
+                'payerState' => $order->getPayerState(),
+                'payerZip' => $order->getPayerZip(),
+                'payerCountryCode' => $order->getPayerCountryCode(),
+            ],
             'The response order properties values must be equal to the data set.'
         );
     }

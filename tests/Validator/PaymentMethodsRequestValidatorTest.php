@@ -4,16 +4,12 @@ declare(strict_types=1);
 
 namespace Paysera\CheckoutSdk\Tests\Validator;
 
-use Mockery as m;
-use Paysera\CheckoutSdk\Entity\Order;
 use Paysera\CheckoutSdk\Entity\Request\PaymentMethodsRequest;
 use Paysera\CheckoutSdk\Entity\Request\PaymentCallbackValidationRequest;
 use Paysera\CheckoutSdk\Entity\RequestInterface;
-use Paysera\CheckoutSdk\Exception\BaseException;
 use Paysera\CheckoutSdk\Exception\InvalidTypeException;
 use Paysera\CheckoutSdk\Exception\ValidationException;
 use Paysera\CheckoutSdk\Tests\AbstractCase;
-use Paysera\CheckoutSdk\Validator\CountryCodeIso2Validator;
 use Paysera\CheckoutSdk\Validator\PaymentMethodsRequestValidator;
 
 class PaymentMethodsRequestValidatorTest extends AbstractCase
@@ -42,7 +38,16 @@ class PaymentMethodsRequestValidatorTest extends AbstractCase
     {
         $this->expectException(ValidationException::class);
 
-        $this->container->build(PaymentMethodsRequestValidator::class)->validate($request);
+        $this->validator->validate($request);
+    }
+
+    public function testValidateException(): void
+    {
+        $this->expectException(InvalidTypeException::class);
+        $expectedClass = PaymentMethodsRequest::class;
+        $this->expectExceptionMessage("Value must be of type `$expectedClass`.");
+
+        $this->validator->validate($this->createMock(RequestInterface::class));
     }
 
     public function canValidateRequestsDataProvider(): array

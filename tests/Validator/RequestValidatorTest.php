@@ -37,4 +37,23 @@ class RequestValidatorTest extends AbstractCase
 
         $requestValidator->validate(m::mock(PaymentMethodsRequest::class));
     }
+
+    public function testCanValidate(): void
+    {
+        $paymentMethodRequestValidator = m::mock(PaymentMethodsRequestValidator::class);
+        $paymentMethodRequestValidator->shouldReceive('canValidate')
+            ->once()
+            ->withAnyArgs()
+            ->andReturn(true);
+
+        $paymentRedirectRequestValidator = m::mock(PaymentRedirectRequestValidator::class);
+        $paymentRedirectRequestValidator->shouldReceive('canValidate')
+            ->once()
+            ->withAnyArgs()
+            ->andReturn(false);
+
+        $requestValidator = new RequestValidator($paymentMethodRequestValidator, $paymentRedirectRequestValidator);
+
+        $requestValidator->canValidate(m::mock(PaymentMethodsRequest::class));
+    }
 }

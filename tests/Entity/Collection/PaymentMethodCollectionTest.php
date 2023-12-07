@@ -57,6 +57,22 @@ class PaymentMethodCollectionTest extends AbstractCase
         );
     }
 
+    public function testAppendInvalidType(): void
+    {
+        $collection = new PaymentMethodCollection();
+
+        $this->expectException(InvalidTypeException::class);
+
+        $collection->append(m::mock(PaymentMethodGroup::class));
+    }
+
+    public function testKey(): void
+    {
+        $collection = new PaymentMethodCollection();
+
+        $this->assertEquals(0, $collection->key(), 'The default collection key must return.');
+    }
+
     public function testCurrent(): void
     {
         $collection = new PaymentMethodCollection([m::mock(PaymentMethod::class)]);

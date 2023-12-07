@@ -129,7 +129,7 @@ class CheckoutFacadeTest extends AbstractCase
     public function isMerchantOrderPaidDataProvider(): array
     {
         return [
-            'response_payment_status_is_' . PaymentStatus::NOT_EXECUTED => [
+            'response_payment_status_is_not_executed' => [
                 false,
                 new Order(1, 1, 'EUR'),
                 new PaymentCallbackValidationResponse(
@@ -138,7 +138,7 @@ class CheckoutFacadeTest extends AbstractCase
                     PaymentStatus::NOT_EXECUTED
                 ),
             ],
-            'response_payment_status_is_' . PaymentStatus::SUCCESS => [
+            'response_payment_status_is_success' => [
                 true,
                 new Order(1, 1, 'EUR'),
                 new PaymentCallbackValidationResponse(
@@ -147,7 +147,7 @@ class CheckoutFacadeTest extends AbstractCase
                     PaymentStatus::SUCCESS
                 ),
             ],
-            'response_payment_status_is_' . PaymentStatus::ACCEPTED => [
+            'response_payment_status_is_accepted' => [
                 false,
                 new Order(1, 1, 'EUR'),
                 new PaymentCallbackValidationResponse(
@@ -156,7 +156,7 @@ class CheckoutFacadeTest extends AbstractCase
                     PaymentStatus::ACCEPTED
                 ),
             ],
-            'response_payment_status_is_' . PaymentStatus::ADDITIONAL_INFORMATION => [
+            'response_payment_status_is_additional_information' => [
                 false,
                 new Order(1, 1, 'EUR'),
                 new PaymentCallbackValidationResponse(
@@ -165,7 +165,7 @@ class CheckoutFacadeTest extends AbstractCase
                     PaymentStatus::ADDITIONAL_INFORMATION
                 ),
             ],
-            'response_payment_status_is_' . PaymentStatus::EXECUTED_WITHOUT_CONFIRMATION => [
+            'response_payment_status_is_executed_without_confirmation' => [
                 false,
                 new Order(1, 1, 'EUR'),
                 new PaymentCallbackValidationResponse(
