@@ -49,6 +49,10 @@ class PaymentRedirectRequestNormalizerTest extends AbstractCase
                 'test' => 1,
                 'buyer_consent' => 1,
                 'time_limit' => 'limit',
+                'php_version' => phpversion(),
+                'plugin_name' => 'plugin',
+                'plugin_version' => '1',
+                'cms_version' => '2',
             ],
             $data
         );
@@ -68,12 +72,18 @@ class PaymentRedirectRequestNormalizerTest extends AbstractCase
     {
         $request = $this->getRequest()
             ->setPaymentText(null)
-            ->setCountry(null);
+            ->setCountry(null)
+            ->setPluginName(null)
+            ->setPluginVersion(null)
+            ->setCmsVersion(null);
 
         $data = $this->normalizer->normalize($request);
 
         $this->assertArrayNotHasKey('paytext', $data);
         $this->assertArrayNotHasKey('country', $data);
+        $this->assertArrayNotHasKey('plugin_name', $data);
+        $this->assertArrayNotHasKey('plugin_version', $data);
+        $this->assertArrayNotHasKey('cms_version', $data);
     }
 
     protected function getRequest(): PaymentRedirectRequest
@@ -103,7 +113,10 @@ class PaymentRedirectRequestNormalizerTest extends AbstractCase
             ->setPaymentText('payment text')
             ->setTest(true)
             ->setBuyerConsent(true)
-            ->setTimeLimit('limit');
+            ->setTimeLimit('limit')
+            ->setPluginName('plugin')
+            ->setPluginVersion('1')
+            ->setCmsVersion('2');
 
         return $request;
     }

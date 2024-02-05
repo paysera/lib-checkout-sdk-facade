@@ -252,6 +252,7 @@ class WebToPayProviderTest extends AbstractCase
             'p_countrycode' => 'gb',
             'test' => 1,
             'buyer_consent' => 0,
+            'php_version' => phpversion(),
         ];
 
         return [$redirectRequest, $providerData];

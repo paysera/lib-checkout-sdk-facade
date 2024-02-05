@@ -99,6 +99,21 @@ class PaymentRedirectRequest implements RequestInterface
      */
     private ?string $timeLimit;
 
+    /**
+     * This parameter indicates the Paysera plugin name that is initiating the request.
+     */
+    private ?string $pluginName;
+
+    /**
+     * This parameter indicates the version of the Paysera plugin that is initiating the request.
+     */
+    private ?string $pluginVersion;
+
+    /**
+     * The parameter indicates the version of the CMS that is initiating the request.
+     */
+    private ?string $cmsVersion;
+
     private Order $order;
 
     public function __construct(
@@ -123,6 +138,9 @@ class PaymentRedirectRequest implements RequestInterface
         $this->test = false;
         $this->buyerConsent = false;
         $this->timeLimit = null;
+        $this->pluginName = null;
+        $this->pluginVersion = null;
+        $this->cmsVersion = null;
     }
 
     public function getProjectId(): int
@@ -253,5 +271,41 @@ class PaymentRedirectRequest implements RequestInterface
     public function getOrder(): Order
     {
         return $this->order;
+    }
+
+    public function getPluginName(): ?string
+    {
+        return $this->pluginName;
+    }
+
+    public function setPluginName(?string $pluginName): self
+    {
+        $this->pluginName = $pluginName;
+
+        return $this;
+    }
+
+    public function getPluginVersion(): ?string
+    {
+        return $this->pluginVersion;
+    }
+
+    public function setPluginVersion(?string $pluginVersion): self
+    {
+        $this->pluginVersion = $pluginVersion;
+
+        return $this;
+    }
+
+    public function getCmsVersion(): ?string
+    {
+        return $this->cmsVersion;
+    }
+
+    public function setCmsVersion(?string $cmsVersion): self
+    {
+        $this->cmsVersion = $cmsVersion;
+
+        return $this;
     }
 }
