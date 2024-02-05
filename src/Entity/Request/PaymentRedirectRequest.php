@@ -138,6 +138,9 @@ class PaymentRedirectRequest implements RequestInterface
         $this->test = false;
         $this->buyerConsent = false;
         $this->timeLimit = null;
+        $this->pluginName = null;
+        $this->pluginVersion = null;
+        $this->cmsVersion = null;
     }
 
     public function getProjectId(): int
