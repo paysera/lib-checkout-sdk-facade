@@ -34,6 +34,10 @@ class PaymentRedirectRequestNormalizer
             'test' => (int) $request->getTest(),
             'buyer_consent' => (int) $request->getBuyerConsent(),
             'time_limit' => $request->getTimeLimit(),
+            'plugin_name' => $request->getPluginName(),
+            'plugin_version' => $request->getPluginVersion(),
+            'cms_version' => $request->getCmsVersion(),
+            'php_version' => phpversion(),
         ];
 
         return array_filter($paymentData, static fn ($value) => $value !== null);
