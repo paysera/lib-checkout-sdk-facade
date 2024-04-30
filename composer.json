@@ -22,7 +22,7 @@
     "require": {
         "php": ">=7.4",
         "psr/container": "^2.0",
-        "webtopay/libwebtopay": "^2.0"
+        "webtopay/libwebtopay": "dev-master"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.38",
@@ -47,6 +47,11 @@
             "phpstan/extension-installer": true
         }
     },
-    "prefer-stable": true,
-    "minimum-stability": "stable"
+    "minimum-stability": "dev",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:oleksandr-gribiennikov-paysera/lib-webtopay.git"
+        }
+    ]
 }
