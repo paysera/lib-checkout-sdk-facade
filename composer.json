@@ -48,5 +48,11 @@
         }
     },
     "prefer-stable": true,
-    "minimum-stability": "stable"
+    "minimum-stability": "stable",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:oleksandr-gribiennikov-paysera/lib-webtopay.git"
+        }
+    ]
 }
