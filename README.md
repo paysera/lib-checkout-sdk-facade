@@ -30,3 +30,9 @@ While in under developing:
 - [Redirect url receiving](docs/REDIRECT.md)
 - [Callback validated data receiving](docs/VALIDATED_DATA.md)
 - [Check merchant oder is paid](docs/MERCHANT_ORDER.md)
+
+
+## Run tests
+```
+$ bash run_tests.sh
+```

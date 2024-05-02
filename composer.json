@@ -22,7 +22,7 @@
     "require": {
         "php": ">=7.4",
         "psr/container": "^2.0",
-        "webtopay/libwebtopay": "^2.0"
+        "webtopay/libwebtopay": "^3.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.38",
@@ -37,8 +37,8 @@
         "analyse": "vendor/bin/phpstan analyse",
         "baseline": "vendor/bin/phpstan analyse --generate-baseline --allow-empty-baseline",
         "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes",
-        "test": "vendor/bin/phpunit --do-not-cache-result",
-        "test-coverage": "vendor/bin/phpunit --do-not-cache-result --coverage-html coverage",
+        "phpunit": "php ./vendor/bin/phpunit --do-not-cache-result",
+        "test-coverage": "php ./vendor/bin/phpunit --do-not-cache-result --coverage-html coverage",
         "php-cs-fixer": "vendor/bin/php-cs-fixer"
     },
     "config": {
