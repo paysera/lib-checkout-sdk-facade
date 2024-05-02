@@ -22,7 +22,7 @@
     "require": {
         "php": ">=7.4",
         "psr/container": "^2.0",
-        "webtopay/libwebtopay": "dev-master"
+        "webtopay/libwebtopay": "^3.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.38",
