@@ -37,8 +37,8 @@
         "analyse": "vendor/bin/phpstan analyse",
         "baseline": "vendor/bin/phpstan analyse --generate-baseline --allow-empty-baseline",
         "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes",
-        "test": "vendor/bin/phpunit --do-not-cache-result",
-        "test-coverage": "vendor/bin/phpunit --do-not-cache-result --coverage-html coverage",
+        "phpunit": "php ./vendor/bin/phpunit --do-not-cache-result",
+        "test-coverage": "php ./vendor/bin/phpunit --do-not-cache-result --coverage-html coverage",
         "php-cs-fixer": "vendor/bin/php-cs-fixer"
     },
     "config": {
@@ -48,11 +48,5 @@
         }
     },
     "prefer-stable": true,
-    "minimum-stability": "stable",
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "git@github.com:oleksandr-gribiennikov-paysera/lib-webtopay.git"
-        }
-    ]
+    "minimum-stability": "stable"
 }
