@@ -10,7 +10,7 @@ use Paysera\CheckoutSdk\Tests\AbstractCase;
 class PaymentRedirectResponseTest extends AbstractCase
 {
     protected const TEST_URL = 'http://example.paysera.test';
-    protected const TEST_DATA = 'qweertrtytyutyu';
+    protected const TEST_DATA = 'test_data';
 
     public function testGetRedirectUrl(): void
     {
