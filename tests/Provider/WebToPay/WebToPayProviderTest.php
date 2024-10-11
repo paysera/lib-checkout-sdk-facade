@@ -22,6 +22,7 @@ use Paysera\CheckoutSdk\Provider\WebToPay\WebToPayProvider;
 use Paysera\CheckoutSdk\Tests\AbstractCase;
 use WebToPay;
 use WebToPay_Factory;
+use WebToPay_UrlBuilder;
 use WebToPay_PaymentMethodCountry;
 use WebToPay_PaymentMethodList;
 use WebToPay_RequestBuilder;
@@ -99,19 +100,29 @@ class WebToPayProviderTest extends AbstractCase
         [$redirectRequest, $providerData] = $this->getPaymentRedirectRequestAndProviderData();
 
         $builder = m::mock(WebToPay_RequestBuilder::class)
-            ->shouldReceive('buildRequestUrlFromData')
+            ->shouldReceive('buildRequest')
             ->with($providerData)
+            ->andReturn(['data' => 'test_data'])
+            ->getMock();
+
+        $factory = m::mock('overload:'. WebToPay_Factory::class);
+
+        $factory->shouldReceive('getRequestBuilder')
+            ->andReturn($builder);
+
+        $urlBuilder = m::mock(WebToPay_UrlBuilder::class)
+            ->shouldReceive('buildForRequest')
             ->andReturn('http://example.paysera.test')
             ->getMock();
 
-        m::mock('overload:'. WebToPay_Factory::class)
-            ->shouldReceive('getRequestBuilder')
-            ->andReturn($builder);
+        $factory->shouldReceive('getUrlBuilder')
+            ->andReturn($urlBuilder);
 
         $response = $this->webToPayProvider->getPaymentRedirect($redirectRequest);
 
         $this->assertInstanceOf(PaymentRedirectResponse::class, $response);
         $this->assertEquals('http://example.paysera.test', $response->getRedirectUrl());
+        $this->assertEquals('test_data', $response->getData());
     }
 
     public function testGetPaymentCallbackValidatedData(): void

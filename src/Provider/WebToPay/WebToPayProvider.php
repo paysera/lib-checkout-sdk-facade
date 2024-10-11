@@ -77,16 +77,18 @@ class WebToPayProvider implements ProviderInterface
         $paymentData = $this->paymentRedirectRequestNormalizer->normalize($request);
 
         try {
-            $builder = (new WebToPay_Factory(
+            $factory = new WebToPay_Factory(
                 [
                     'projectId' => $request->getProjectId(),
                     'password' => $request->getProjectPassword(),
                 ]
-            ))->getRequestBuilder();
+            );
+            $builder = $factory->getRequestBuilder();
 
-            $redirectUrl = $builder->buildRequestUrlFromData($paymentData);
+            $redirectRequest = $builder->buildRequest($paymentData);
+            $redirectUrl = $factory->getUrlBuilder()->buildForRequest($redirectRequest);
 
-            return new PaymentRedirectResponse($redirectUrl);
+            return new PaymentRedirectResponse($redirectUrl, $redirectRequest['data']);
         } catch (WebToPayException $exception) {
             throw new ProviderException($exception);
         }
