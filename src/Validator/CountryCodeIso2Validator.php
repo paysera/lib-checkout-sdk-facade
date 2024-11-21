@@ -127,6 +127,8 @@ class CountryCodeIso2Validator
         'KI' => 'Kiribati',
         'KP' => 'Korea',
         'KR' => 'Korea',
+        'KO' => 'Kosovo',
+        'XK' => 'Kosovo',
         'KW' => 'Kuwait',
         'KG' => 'Kyrgyz Republic',
         'LA' => 'Lao',
