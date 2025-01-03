@@ -10,6 +10,10 @@ class ProviderException extends BaseException
 {
     public function __construct(Throwable $previous)
     {
-        parent::__construct('Provider thrown exception.', static::E_PROVIDER_ISSUE, $previous);
+        parent::__construct(
+            sprintf('Provider thrown exception in %s:%s', $previous->getFile(), $previous->getLine()),
+            static::E_PROVIDER_ISSUE,
+            $previous
+        );
     }
 }

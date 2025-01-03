@@ -161,7 +161,7 @@ class WebToPayProviderTest extends AbstractCase
             ->andThrow(new WebToPayException('Some troubles.'));
 
         $this->expectException(ProviderException::class);
-        $this->expectExceptionMessage('Provider thrown exception.');
+        $this->expectExceptionMessageMatches('/Provider thrown exception in .*/');
         $this->expectExceptionCode(BaseException::E_PROVIDER_ISSUE);
 
         $request = new PaymentRedirectRequest(
@@ -188,7 +188,7 @@ class WebToPayProviderTest extends AbstractCase
             ->andThrow(new WebToPayException('Some troubles.'));
 
         $this->expectException(ProviderException::class);
-        $this->expectExceptionMessage('Provider thrown exception.');
+        $this->expectExceptionMessageMatches('/Provider thrown exception in .*/');
         $this->expectExceptionCode(BaseException::E_PROVIDER_ISSUE);
 
         $this->webToPayProvider->{$method}($request);
