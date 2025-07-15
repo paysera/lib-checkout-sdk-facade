@@ -14,6 +14,7 @@ class PaymentCallbackValidationRequestNormalizer
             'data' => $request->getData(),
             'ss1' => $request->getSs1(),
             'ss2' => $request->getSs2(),
+            'ss3' => $request->getSs3(),
         ];
 
         return array_filter($validatePaymentData, static fn ($value) => $value !== null);
