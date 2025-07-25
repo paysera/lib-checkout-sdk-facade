@@ -28,6 +28,7 @@ class PaymentCallbackValidationRequestNormalizerTest extends AbstractCase
                 'data' => 'data',
                 'ss1' => 'ss1',
                 'ss2' => 'ss2',
+                'ss3' => 'ss3',
             ],
             $data
         );
@@ -36,7 +37,8 @@ class PaymentCallbackValidationRequestNormalizerTest extends AbstractCase
     public function testNormalizeWithEmptyFields(): void
     {
         $request = $this->getRequest()
-            ->setSs2(null);
+            ->setSs2(null)
+            ->setSs3(null);
 
         $data = $this->normalizer->normalize($request);
 
@@ -54,6 +56,7 @@ class PaymentCallbackValidationRequestNormalizerTest extends AbstractCase
         $request = new PaymentCallbackValidationRequest(1, 'password', 'data');
 
         return $request->setSs1('ss1')
-            ->setSs2('ss2');
+            ->setSs2('ss2')
+            ->setSs3('ss3');
     }
 }

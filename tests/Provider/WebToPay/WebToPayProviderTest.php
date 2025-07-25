@@ -281,12 +281,14 @@ class WebToPayProviderTest extends AbstractCase
         ))
             ->setSs1('test ss1')
             ->setSs2('test ss2')
+            ->setSs3('test ss3')
         ;
 
         $providerData = [
             'data' => 'test data',
             'ss1' => 'test ss1',
             'ss2' => 'test ss2',
+            'ss3' => 'test ss3',
         ];
 
         return [$validationRequest, $providerData];

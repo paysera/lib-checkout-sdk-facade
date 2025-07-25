@@ -14,12 +14,12 @@ While in under developing:
 {
     "require": {
         "php": ">=7.4",
-        "paysera/lib-checkout-sdk-facade": "^0.1",
+        "paysera/lib-checkout-sdk-facade": "^0.2",
     },
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/enigma-tm/lib-checkout-sdk-facade"
+            "url": "https://github.com/paysera/lib-checkout-sdk-facade.git"
         }
     ]
 }
