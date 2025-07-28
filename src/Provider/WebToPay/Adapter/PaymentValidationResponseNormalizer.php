@@ -45,6 +45,8 @@ class PaymentValidationResponseNormalizer
             ->setPayerCountry($this->getProviderProperty('payer_country', $providerResponse))
             ->setPaymentAmount($this->getProviderProperty('payamount', $providerResponse, TypeConverter::INT))
             ->setPaymentCurrency($this->getProviderProperty('paycurrency', $providerResponse))
+            ->setRefundAmount($this->getProviderProperty('refund_amount', $providerResponse, TypeConverter::INT))
+            ->setRefundCurrency($this->getProviderProperty('refund_currency', $providerResponse))
         ;
     }
 
