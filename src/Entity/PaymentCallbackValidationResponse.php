@@ -87,7 +87,7 @@ class PaymentCallbackValidationResponse
     private ?string $paymentCurrency = null;
 
     /**
-     * Amount of the refund in cents. It can differ, if it was converted to another currency.
+     * Amount of the refund. It can differ, if it was converted to another currency.
      */
     private ?int $refundAmount = null;
     /**
@@ -109,6 +109,7 @@ class PaymentCallbackValidationResponse
      */
     private ?string $account = null;
     private ?string $type = null;
+    private ?string $refundTimestamp = null;
 
     public function __construct(int $projectId, Order $order, int $status)
     {
@@ -340,4 +341,16 @@ class PaymentCallbackValidationResponse
         $this->refundCurrency = $refundCurrency;
         return $this;
     }
+
+    public function getRefundTimestamp(): ?string
+    {
+        return $this->refundTimestamp;
+    }
+
+    public function setRefundTimestamp(?string $timestamp): self
+    {
+        $this->refundTimestamp = $timestamp;
+        return $this;
+    }
+
 }
