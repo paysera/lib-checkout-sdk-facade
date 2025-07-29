@@ -36,6 +36,11 @@ class PaymentCallbackValidationRequest implements RequestInterface
      */
     private ?string $ss2;
 
+    /**
+     * Sign of data parameter, using RSA private-public key scheme with SHA-256 hashing function.
+     */
+    private ?string $ss3;
+
     public function __construct(
         int $projectId,
         string $projectPassword,
@@ -46,6 +51,7 @@ class PaymentCallbackValidationRequest implements RequestInterface
         $this->data = $data;
         $this->ss1 = null;
         $this->ss2 = null;
+        $this->ss3 = null;
     }
 
     public function getProjectId(): int
@@ -83,6 +89,18 @@ class PaymentCallbackValidationRequest implements RequestInterface
     public function setSs2(?string $ss2): self
     {
         $this->ss2 = $ss2;
+
+        return $this;
+    }
+
+    public function getSs3(): ?string
+    {
+        return $this->ss3;
+    }
+
+    public function setSs3(?string $ss3): self
+    {
+        $this->ss3 = $ss3;
 
         return $this;
     }

@@ -26,7 +26,8 @@ $paymentValidationRequest = new PaymentCallbackValidationRequest(
     (string) $data['payment_request_data']
 );
 $paymentValidationRequest->setSs1($data['payment_request_ss1'])
-    ->setSs2($data['payment_request_ss2']);
+    ->setSs2($data['payment_request_ss2'])
+    ->setSs3($data['payment_request_ss3']);
 
 $response = $checkoutFacade->getPaymentCallbackValidatedData($paymentValidationRequest);
 $isPaid = $checkoutFacade->isMerchantOrderPaid($response, $merchantOrder);
