@@ -67,7 +67,7 @@ class PaymentCallbackValidationResponse
      * The parameter, which allows to test the connection.
      * The payment is not executed, but the result is returned immediately, as if the payment has been made.
      */
-    private bool $test = \false;
+    private bool $test = false;
 
     /**
      * Country of the payment method.
