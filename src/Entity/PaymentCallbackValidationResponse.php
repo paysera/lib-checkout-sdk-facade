@@ -161,6 +161,7 @@ class PaymentCallbackValidationResponse
     public function setPayment(?string $payment): self
     {
         $this->payment = $payment;
+
         return $this;
     }
 
@@ -172,6 +173,7 @@ class PaymentCallbackValidationResponse
     public function setOriginalPaymentText(?string $originalPaymentText): self
     {
         $this->originalPaymentText = $originalPaymentText;
+
         return $this;
     }
 
@@ -183,6 +185,7 @@ class PaymentCallbackValidationResponse
     public function setPaymentText(?string $paymentText): self
     {
         $this->paymentText = $paymentText;
+
         return $this;
     }
 
@@ -194,6 +197,7 @@ class PaymentCallbackValidationResponse
     public function setTest(?bool $test): self
     {
         $this->test = (bool)$test;
+
         return $this;
     }
 
@@ -205,6 +209,7 @@ class PaymentCallbackValidationResponse
     public function setVersion(?string $version): self
     {
         $this->version = $version;
+
         return $this;
     }
 
@@ -216,6 +221,7 @@ class PaymentCallbackValidationResponse
     public function setRequestId(?string $requestId): self
     {
         $this->requestId = $requestId;
+
         return $this;
     }
 
@@ -227,6 +233,7 @@ class PaymentCallbackValidationResponse
     public function setAccount(?string $account): self
     {
         $this->account = $account;
+
         return $this;
     }
 
@@ -238,6 +245,7 @@ class PaymentCallbackValidationResponse
     public function setType(?string $type): self
     {
         $this->type = $type;
+
         return $this;
     }
 
@@ -249,6 +257,7 @@ class PaymentCallbackValidationResponse
     public function setLanguage(?string $language): self
     {
         $this->language = $language;
+
         return $this;
     }
 
@@ -260,6 +269,7 @@ class PaymentCallbackValidationResponse
     public function setCountry(?string $country): self
     {
         $this->country = $country;
+
         return $this;
     }
 
@@ -271,6 +281,7 @@ class PaymentCallbackValidationResponse
     public function setName(?string $name): self
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -282,6 +293,7 @@ class PaymentCallbackValidationResponse
     public function setSurname(?string $surname): self
     {
         $this->surname = $surname;
+
         return $this;
     }
 
@@ -293,6 +305,7 @@ class PaymentCallbackValidationResponse
     public function setPaymentCountry(?string $paymentCountry): self
     {
         $this->paymentCountry = $paymentCountry;
+
         return $this;
     }
 
@@ -304,6 +317,7 @@ class PaymentCallbackValidationResponse
     public function setPayerIpCountry(?string $payerIpCountry): self
     {
         $this->payerIpCountry = $payerIpCountry;
+
         return $this;
     }
 
@@ -315,6 +329,7 @@ class PaymentCallbackValidationResponse
     public function setPayerCountry(?string $payerCountry): self
     {
         $this->payerCountry = $payerCountry;
+
         return $this;
     }
 
@@ -326,6 +341,7 @@ class PaymentCallbackValidationResponse
     public function setPaymentAmount(?int $paymentAmount): self
     {
         $this->paymentAmount = $paymentAmount;
+
         return $this;
     }
 
@@ -337,6 +353,7 @@ class PaymentCallbackValidationResponse
     public function setPaymentCurrency(?string $paymentCurrency): self
     {
         $this->paymentCurrency = $paymentCurrency;
+
         return $this;
     }
 
@@ -348,6 +365,7 @@ class PaymentCallbackValidationResponse
     public function setRefundAmount(?int $refundAmount): self
     {
         $this->refundAmount = $refundAmount;
+
         return $this;
     }
 
@@ -359,6 +377,7 @@ class PaymentCallbackValidationResponse
     public function setRefundCurrency(?string $refundCurrency): self
     {
         $this->refundCurrency = $refundCurrency;
+
         return $this;
     }
 
@@ -370,6 +389,7 @@ class PaymentCallbackValidationResponse
     public function setRefundTimestamp(?string $timestamp): self
     {
         $this->refundTimestamp = $timestamp;
+
         return $this;
     }
 
