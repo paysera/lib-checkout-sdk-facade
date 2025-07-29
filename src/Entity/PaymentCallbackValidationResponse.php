@@ -13,6 +13,7 @@ class PaymentCallbackValidationResponse
      * Unique project number. Only activated projects can accept payments.
      */
     private int $projectId;
+
     private Order $order;
     /**
      * Payment status:
@@ -23,12 +24,14 @@ class PaymentCallbackValidationResponse
      *     4 - Payment was executed, but confirmation about received funds in bank won't be sent.
      */
     private int $status;
+
     /**
      * It is possible to indicate the user language (ISO 639-2/B: LIT, RUS, ENG, etc.).
      * If Paysera does not support the selected language, the system will automatically choose a language
      * according to the IP address or ENG language by default.
      */
     private ?string $language = null;
+
     /**
      * Payment type.
      * If provided, the payment will be made by the specified method (for example by using the specified bank).
@@ -36,50 +39,61 @@ class PaymentCallbackValidationResponse
      * You can get payment types in real time by using this library.
      */
     private ?string $payment = null;
+
     /**
      * Payer's country (LT, EE, LV, GB, PL, DE).
      * All possible types of payment in that country are immediately indicated to the payer, after selecting a country.
      */
     private ?string $country = null;
+
     private ?string $originalPaymentText = null;
+
     /**
      * Payment purpose visible when making the payment.
      */
     private ?string $paymentText = null;
+
     /**
      * Payer's name received from the payment system. Sent only if the payment system provides such.
      */
     private ?string $name = null;
+
     /**
      * Payer's surname received from the payment system. Sent only if the payment system provides such.
      */
     private ?string $surname = null;
+
     /**
      * The parameter, which allows to test the connection.
      * The payment is not executed, but the result is returned immediately, as if the payment has been made.
      */
     private bool $test = \false;
+
     /**
      * Country of the payment method.
      * If the payment method is available in more than one country (international) – the parameter is not sent.
      * The country is provided in the two-character (ISO 3166-1 alpha-2) format, e.g.: LT, PL, RU, EE.
      */
     private ?string $paymentCountry = null;
+
     /**
      * Country of the payer established by the IP address of the payer.
      * The country is provided in two-character (ISO 3166-1 alpha-2) format, e.g.: LT, PL, RU, EE.
      */
     private ?string $payerIpCountry = null;
+
     /**
      * Country of the payer established by the country of the payment method,
      * and if the payment method is international – by the IP address of the payer.
      * The country is provided in the two-character (ISO 3166-1 alpha-2) format, e.g.: LT, PL, RU, EE.
      */
     private ?string $payerCountry = null;
+
     /**
      * Amount of the transfer in cents. It can differ, if it was converted to another currency.
      */
     private ?int $paymentAmount = null;
+
     /**
      * The transferred payment currency (i.e. USD, EUR, etc.).
      * It can differ from the one you requested, if the currency could not be accepted by the selected payment method.
@@ -90,20 +104,24 @@ class PaymentCallbackValidationResponse
      * Amount of the refund. It can differ, if it was converted to another currency.
      */
     private ?int $refundAmount = null;
+
     /**
      * The transferred payment currency (i.e. USD, EUR, etc.).
      * It can differ from the one you requested, if the currency could not be accepted by the selected payment method.
      */
     private ?string $refundCurrency = null;
+
     /**
      * A version number of Paysera system specification (API).
      */
     private ?string $version = null;
+
     /**
      * It is a request number, which we receive when the user presses on the logo of the bank.
      * We transfer this request number to the link provided in the "callbackurl" field.
      */
     private ?string $requestId = null;
+
     /**
      * Account number from which payment has been made.
      */
