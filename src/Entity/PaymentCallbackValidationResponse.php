@@ -15,6 +15,7 @@ class PaymentCallbackValidationResponse
     private int $projectId;
 
     private Order $order;
+
     /**
      * Payment status:
      *     0 - Payment has not been executed
