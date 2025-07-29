@@ -126,7 +126,9 @@ class PaymentCallbackValidationResponse
      * Account number from which payment has been made.
      */
     private ?string $account = null;
+
     private ?string $type = null;
+
     private ?string $refundTimestamp = null;
 
     public function __construct(int $projectId, Order $order, int $status)
