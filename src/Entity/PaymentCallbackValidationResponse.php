@@ -196,7 +196,7 @@ class PaymentCallbackValidationResponse
 
     public function setTest(?bool $test): self
     {
-        $this->test = (bool)$test;
+        $this->test = (bool) $test;
 
         return $this;
     }
