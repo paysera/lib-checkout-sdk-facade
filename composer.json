@@ -1,6 +1,5 @@
 {
     "name": "paysera/lib-checkout-sdk-facade",
-    "version": "0.2.6",
     "description": "PHP checkout SDK facade for Paysera payment gateway integration",
     "type": "library",
     "license": "LGPL-3.0-or-later",
