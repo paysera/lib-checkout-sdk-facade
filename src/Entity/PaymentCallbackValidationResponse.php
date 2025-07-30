@@ -23,6 +23,7 @@ class PaymentCallbackValidationResponse
      *     2 - Payment order accepted, but not yet executed
      *     3 - Additional payment information
      *     4 - Payment was executed, but confirmation about received funds in bank won't be sent.
+     *     5 - Payment was refunded
      */
     private int $status;
 
