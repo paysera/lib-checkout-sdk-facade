@@ -354,7 +354,7 @@ class PaymentCallbackValidationResponse
         return $this->refund;
     }
 
-    public function setRefund(Refund $refund): self
+    public function setRefund(?Refund $refund): self
     {
         $this->refund = $refund;
 
