@@ -47,6 +47,8 @@ class PaymentValidationResponseNormalizer
             ->setPaymentCurrency($this->getProviderProperty('paycurrency', $providerResponse))
             ->setRefundAmount($this->getProviderProperty('refund_amount', $providerResponse, TypeConverter::INT))
             ->setRefundCurrency($this->getProviderProperty('refund_currency', $providerResponse))
+            ->setRefundCommissionAmount($this->getProviderProperty('refund_commission_amount', $providerResponse))
+            ->setRefundCommissionCurrency($this->getProviderProperty('refund_commission_currency', $providerResponse))
             ->setRefundTimestamp($this->getProviderProperty('refund_timestamp', $providerResponse))
         ;
     }

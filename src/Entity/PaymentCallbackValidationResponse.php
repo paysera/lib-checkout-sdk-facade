@@ -113,6 +113,17 @@ class PaymentCallbackValidationResponse
     private ?string $refundCurrency = null;
 
     /**
+     * Amount of the refund commission. It can differ, if it was converted to another currency.
+     */
+    private ?int $refundCommissionAmount = null;
+
+    /**
+     * The currency of the refund commission (i.e. USD, EUR, etc.).
+     * It can differ from the one you requested, if the currency could not be accepted by the selected payment method.
+     */
+    private ?string $refundCommissionCurrency = null;
+
+    /**
      * A version number of Paysera system specification (API).
      */
     private ?string $version = null;
@@ -378,6 +389,30 @@ class PaymentCallbackValidationResponse
     public function setRefundCurrency(?string $refundCurrency): self
     {
         $this->refundCurrency = $refundCurrency;
+
+        return $this;
+    }
+
+    public function getRefundCommissionAmount(): ?int
+    {
+        return $this->refundCommissionAmount;
+    }
+
+    public function setRefundCommissionAmount(?int $refundCommissionAmount): self
+    {
+        $this->refundCommissionAmount = $refundCommissionAmount;
+
+        return $this;
+    }
+
+    public function getRefundCommissionCurrency(): ?string
+    {
+        return $this->refundCommissionCurrency;
+    }
+
+    public function setRefundCommissionCurrency(?string $refundCommissionCurrency): self
+    {
+        $this->refundCommissionCurrency = $refundCommissionCurrency;
 
         return $this;
     }
