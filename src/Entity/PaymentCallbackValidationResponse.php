@@ -394,12 +394,12 @@ class PaymentCallbackValidationResponse
         return $this;
     }
 
-    public function getRefundCommissionAmount(): ?int
+    public function getRefundCommissionAmount(): ?string
     {
         return $this->refundCommissionAmount;
     }
 
-    public function setRefundCommissionAmount(?int $refundCommissionAmount): self
+    public function setRefundCommissionAmount(?string $refundCommissionAmount): self
     {
         $this->refundCommissionAmount = $refundCommissionAmount;
 
