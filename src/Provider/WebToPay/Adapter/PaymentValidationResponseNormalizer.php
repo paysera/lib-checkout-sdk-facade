@@ -6,6 +6,7 @@ namespace Paysera\CheckoutSdk\Provider\WebToPay\Adapter;
 
 use Paysera\CheckoutSdk\Entity\Order;
 use Paysera\CheckoutSdk\Entity\PaymentCallbackValidationResponse;
+use Paysera\CheckoutSdk\Entity\Refund;
 use Paysera\CheckoutSdk\Util\TypeConverter;
 
 class PaymentValidationResponseNormalizer
@@ -45,12 +46,22 @@ class PaymentValidationResponseNormalizer
             ->setPayerCountry($this->getProviderProperty('payer_country', $providerResponse))
             ->setPaymentAmount($this->getProviderProperty('payamount', $providerResponse, TypeConverter::INT))
             ->setPaymentCurrency($this->getProviderProperty('paycurrency', $providerResponse))
-            ->setRefundAmount($this->getProviderProperty('refund_amount', $providerResponse, TypeConverter::INT))
-            ->setRefundCurrency($this->getProviderProperty('refund_currency', $providerResponse))
-            ->setRefundCommissionAmount($this->getProviderProperty('refund_commission_amount', $providerResponse))
-            ->setRefundCommissionCurrency($this->getProviderProperty('refund_commission_currency', $providerResponse))
-            ->setRefundTimestamp($this->getProviderProperty('refund_timestamp', $providerResponse))
+            ->setRefund($this->getRefundFromProviderResponse($providerResponse))
         ;
+    }
+
+    protected function getRefundFromProviderResponse(array $providerResponse): ?Refund
+    {
+        if (!isset($providerResponse['refund'])) {
+            return null;
+        }
+        return new Refund(
+            $this->getProviderProperty('refund_amount', $providerResponse),
+            $this->getProviderProperty('refund_currency', $providerResponse),
+            $this->getProviderProperty('refund_commission_amount', $providerResponse),
+            $this->getProviderProperty('refund_commission_currency', $providerResponse),
+            $this->getProviderProperty('refund_timestamp', $providerResponse),
+        );
     }
 
     protected function getOrderFromProviderResponse(array $providerResponse): Order

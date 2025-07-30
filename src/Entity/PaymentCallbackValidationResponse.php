@@ -15,6 +15,7 @@ class PaymentCallbackValidationResponse
     private int $projectId;
 
     private Order $order;
+    private ?Refund $refund;
 
     /**
      * Payment status:
@@ -101,28 +102,6 @@ class PaymentCallbackValidationResponse
      * It can differ from the one you requested, if the currency could not be accepted by the selected payment method.
      */
     private ?string $paymentCurrency = null;
-
-    /**
-     * Amount of the refund. It can differ, if it was converted to another currency.
-     */
-    private ?int $refundAmount = null;
-
-    /**
-     * The transferred payment currency (i.e. USD, EUR, etc.).
-     * It can differ from the one you requested, if the currency could not be accepted by the selected payment method.
-     */
-    private ?string $refundCurrency = null;
-
-    /**
-     * Amount of the refund commission. It can differ, if it was converted to another currency.
-     */
-    private ?string $refundCommissionAmount = null;
-
-    /**
-     * The currency of the refund commission (i.e. USD, EUR, etc.).
-     * It can differ from the one you requested, if the currency could not be accepted by the selected payment method.
-     */
-    private ?string $refundCommissionCurrency = null;
 
     /**
      * A version number of Paysera system specification (API).
@@ -370,64 +349,15 @@ class PaymentCallbackValidationResponse
         return $this;
     }
 
-    public function getRefundAmount(): ?int
+    public function getRefund(): ?Refund
     {
-        return $this->refundAmount;
+        return $this->refund;
     }
 
-    public function setRefundAmount(?int $refundAmount): self
+    public function setRefund(Refund $refund): self
     {
-        $this->refundAmount = $refundAmount;
+        $this->refund = $refund;
 
         return $this;
     }
-
-    public function getRefundCurrency(): ?string
-    {
-        return $this->refundCurrency;
-    }
-
-    public function setRefundCurrency(?string $refundCurrency): self
-    {
-        $this->refundCurrency = $refundCurrency;
-
-        return $this;
-    }
-
-    public function getRefundCommissionAmount(): ?string
-    {
-        return $this->refundCommissionAmount;
-    }
-
-    public function setRefundCommissionAmount(?string $refundCommissionAmount): self
-    {
-        $this->refundCommissionAmount = $refundCommissionAmount;
-
-        return $this;
-    }
-
-    public function getRefundCommissionCurrency(): ?string
-    {
-        return $this->refundCommissionCurrency;
-    }
-
-    public function setRefundCommissionCurrency(?string $refundCommissionCurrency): self
-    {
-        $this->refundCommissionCurrency = $refundCommissionCurrency;
-
-        return $this;
-    }
-
-    public function getRefundTimestamp(): ?string
-    {
-        return $this->refundTimestamp;
-    }
-
-    public function setRefundTimestamp(?string $timestamp): self
-    {
-        $this->refundTimestamp = $timestamp;
-
-        return $this;
-    }
-
 }
