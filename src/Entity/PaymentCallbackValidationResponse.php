@@ -116,7 +116,7 @@ class PaymentCallbackValidationResponse
     /**
      * Amount of the refund commission. It can differ, if it was converted to another currency.
      */
-    private ?int $refundCommissionAmount = null;
+    private ?string $refundCommissionAmount = null;
 
     /**
      * The currency of the refund commission (i.e. USD, EUR, etc.).
