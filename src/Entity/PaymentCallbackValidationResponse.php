@@ -121,7 +121,6 @@ class PaymentCallbackValidationResponse
 
     private ?string $type = null;
 
-
     public function __construct(int $projectId, Order $order, int $status)
     {
         $this->projectId = $projectId;
