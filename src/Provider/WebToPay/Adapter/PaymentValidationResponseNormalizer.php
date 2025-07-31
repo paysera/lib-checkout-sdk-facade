@@ -18,6 +18,9 @@ class PaymentValidationResponseNormalizer
         $this->typeConverter = $typeConverter;
     }
 
+    /**
+     * @param array<string, mixed> $providerResponse
+     */
     public function denormalize(array $providerResponse): PaymentCallbackValidationResponse
     {
         $order = $this->getOrderFromProviderResponse($providerResponse);
