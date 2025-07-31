@@ -53,6 +53,9 @@ class PaymentValidationResponseNormalizer
         ;
     }
 
+    /**
+     * @param array<string, mixed> $providerResponse
+     */
     protected function getRefundFromProviderResponse(array $providerResponse): ?Refund
     {
         if (!isset($providerResponse['refund_timestamp'])) {
@@ -67,6 +70,9 @@ class PaymentValidationResponseNormalizer
         );
     }
 
+    /**
+     * @param array<string, mixed> $providerResponse
+     */
     protected function getOrderFromProviderResponse(array $providerResponse): Order
     {
         $order = new Order(
@@ -86,6 +92,10 @@ class PaymentValidationResponseNormalizer
         ;
     }
 
+    /**
+     * @param array<string, mixed> $providerResponse
+     * @return mixed
+     */
     protected function getProviderProperty(
         string $propertyName,
         array $providerResponse,
