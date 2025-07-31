@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3fce2f4d5f73824e31c3bffb373306eb",
+    "content-hash": "9de225760389c8cf643c447ba8f20f5c",
     "packages": [
         {
             "name": "psr/container",
@@ -61,16 +61,16 @@
         },
         {
             "name": "webtopay/libwebtopay",
-            "version": "3.1.3",
+            "version": "3.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paysera/lib-webtopay.git",
-                "reference": "d13120ecc58baff56778390f3285b9c8585d3202"
+                "reference": "48345be17ab99bba1580ad7768eee013047e3f23"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paysera/lib-webtopay/zipball/d13120ecc58baff56778390f3285b9c8585d3202",
-                "reference": "d13120ecc58baff56778390f3285b9c8585d3202",
+                "url": "https://api.github.com/repos/paysera/lib-webtopay/zipball/48345be17ab99bba1580ad7768eee013047e3f23",
+                "reference": "48345be17ab99bba1580ad7768eee013047e3f23",
                 "shasum": ""
             },
             "require": {
@@ -110,9 +110,9 @@
             "description": "PHP Library for Paysera payment gateway integration",
             "support": {
                 "issues": "https://github.com/paysera/lib-webtopay/issues",
-                "source": "https://github.com/paysera/lib-webtopay/tree/3.1.3"
+                "source": "https://github.com/paysera/lib-webtopay/tree/3.1.4"
             },
-            "time": "2025-07-09T09:57:32+00:00"
+            "time": "2025-07-31T11:01:17+00:00"
         }
     ],
     "packages-dev": [

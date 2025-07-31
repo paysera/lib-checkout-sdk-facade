@@ -122,4 +122,56 @@ class PaymentValidationResponseNormalizerTest extends AbstractCase
             'The response order properties values must be equal to the data set.'
         );
     }
+
+    public function testDenormalizeWithRefund(): void
+    {
+        /** @var PaymentValidationResponseNormalizer $normalizer */
+        $normalizer = $this->container->get(PaymentValidationResponseNormalizer::class);
+
+        $providerData = [
+            'projectid' => '111',
+            'status' => '5',
+            'payment' => 'payment',
+            'version' => 'version',
+            'original_paytext' => 'originalPaymentText',
+            'paytext' => 'paymentText',
+            'country' => 'lt',
+            'requestid' => 'requestId',
+            'name' => 'name',
+            'surename' => 'sureName',
+            'payamount' => '1000',
+            'paycurrency' => 'USD',
+            'account' => 'account',
+            'type' => 'type',
+            'test' => '0',
+            'orderid' => '1',
+            'amount' => '1000',
+            'currency' => 'USD',
+            'p_firstname' => 'John',
+            'p_lastname' => 'Doe',
+            'p_email' => 'john.doe@paysera.net',
+            'p_street' => 'Sun str. 41',
+            'p_city' => 'London',
+            'p_zip' => '100',
+            'p_countrycode' => 'gb',
+            'p_state' => 'Some state',
+            // Refund data
+            'refund_timestamp' => '1722454093',
+            'refund_amount' => '500',
+            'refund_currency' => 'USD',
+            'refund_commission_amount' => '10',
+            'refund_commission_currency' => 'USD',
+        ];
+
+        $response = $normalizer->denormalize($providerData);
+        $refund = $response->getRefund();
+
+        $this->assertNotNull($refund, 'Refund must be present when refund_timestamp is set');
+        $this->assertSame('500', $refund->getRefundAmount());
+        $this->assertSame('USD', $refund->getRefundCurrency());
+        $this->assertSame('10', $refund->getRefundCommissionAmount());
+        $this->assertSame('USD', $refund->getRefundCommissionCurrency());
+        $this->assertSame(1722454093, $refund->getRefundTimestamp());
+        $this->assertSame(5, $response->getStatus());
+    }
 }

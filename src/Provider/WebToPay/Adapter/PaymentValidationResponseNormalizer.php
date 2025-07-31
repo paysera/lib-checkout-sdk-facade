@@ -6,6 +6,7 @@ namespace Paysera\CheckoutSdk\Provider\WebToPay\Adapter;
 
 use Paysera\CheckoutSdk\Entity\Order;
 use Paysera\CheckoutSdk\Entity\PaymentCallbackValidationResponse;
+use Paysera\CheckoutSdk\Entity\Refund;
 use Paysera\CheckoutSdk\Util\TypeConverter;
 
 class PaymentValidationResponseNormalizer
@@ -45,7 +46,22 @@ class PaymentValidationResponseNormalizer
             ->setPayerCountry($this->getProviderProperty('payer_country', $providerResponse))
             ->setPaymentAmount($this->getProviderProperty('payamount', $providerResponse, TypeConverter::INT))
             ->setPaymentCurrency($this->getProviderProperty('paycurrency', $providerResponse))
+            ->setRefund($this->getRefundFromProviderResponse($providerResponse))
         ;
+    }
+
+    protected function getRefundFromProviderResponse(array $providerResponse): ?Refund
+    {
+        if (!isset($providerResponse['refund_timestamp'])) {
+            return null;
+        }
+        return new Refund(
+            $this->getProviderProperty('refund_amount', $providerResponse),
+            $this->getProviderProperty('refund_currency', $providerResponse),
+            $this->getProviderProperty('refund_commission_amount', $providerResponse),
+            $this->getProviderProperty('refund_commission_currency', $providerResponse),
+            $this->getProviderProperty('refund_timestamp', $providerResponse, TypeConverter::INT),
+        );
     }
 
     protected function getOrderFromProviderResponse(array $providerResponse): Order

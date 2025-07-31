@@ -15,6 +15,7 @@ class PaymentCallbackValidationResponse
     private int $projectId;
 
     private Order $order;
+    private ?Refund $refund;
 
     /**
      * Payment status:
@@ -23,6 +24,7 @@ class PaymentCallbackValidationResponse
      *     2 - Payment order accepted, but not yet executed
      *     3 - Additional payment information
      *     4 - Payment was executed, but confirmation about received funds in bank won't be sent.
+     *     5 - Payment was refunded
      */
     private int $status;
 
@@ -118,6 +120,8 @@ class PaymentCallbackValidationResponse
     private ?string $account = null;
 
     private ?string $type = null;
+
+    private ?string $refundTimestamp = null;
 
     public function __construct(int $projectId, Order $order, int $status)
     {
@@ -341,6 +345,18 @@ class PaymentCallbackValidationResponse
     public function setPaymentCurrency(?string $paymentCurrency): self
     {
         $this->paymentCurrency = $paymentCurrency;
+
+        return $this;
+    }
+
+    public function getRefund(): ?Refund
+    {
+        return $this->refund;
+    }
+
+    public function setRefund(?Refund $refund): self
+    {
+        $this->refund = $refund;
 
         return $this;
     }
